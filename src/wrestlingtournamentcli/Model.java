@@ -16,6 +16,8 @@ import java.util.Scanner;
 
 /**
  * @author Jared Murphy https://github.com/murphman29
+ * @author Harold Farmer farmer.79@wright.edu 2020
+ * @author Stan Hostetler hostetler.17@wright.edu 2020
  *
  * ==Model==
  *
@@ -49,7 +51,7 @@ public class Model {
     private static int matches;
 
     public Model() {
-        this.teamList = new ArrayList();
+        this.teamList = new ArrayList<Team>();
         this.wrestlerList = new ArrayList();
         this.bracketList = new ArrayList();
         this.matchBank = new ArrayList();
@@ -58,11 +60,11 @@ public class Model {
         matches = 0;
     }
 
-    public static void generateTournament() {
+    public static int generateTournament() {
         if (wrestlerList.size() == 0 || teamList.size() == 1) {
             System.out.println("Error: No Wrestlers or Teams Found");
             System.out.println("Please add wrestlers/teams before generating a tournament.");
-            return;
+            return 0;
         }else if(bracketList.size() != 0){
             System.out.println("Are you sure you want to restart this tournament?\ny=yes n=abort");
             Scanner s = new Scanner(System.in);
@@ -70,7 +72,7 @@ public class Model {
                 System.out.println("Clearing old tournament and making another...");
             }else{
                 System.out.println("Operation aborted.");
-                return;
+                return 1;
             }
                
             bracketList.clear();
@@ -96,6 +98,7 @@ public class Model {
         if (temp.size() != 0) {
             bracketList.add(new Bracket(temp));
         }
+        return 2;
     }
     
     public static void advanceTournament(){
@@ -305,7 +308,7 @@ public class Model {
         throw new NotFoundException(alias);
     }
 
-    public static void importWrestlersFromText(String filePath) {
+    public static int importWrestlersFromText(String filePath) {
         File file;
         Scanner s = null;
         int importCount = 0;
@@ -314,7 +317,7 @@ public class Model {
             s = new Scanner(file);
         } catch (Exception e) {
             System.out.println("The file could not be found/opened.");
-            return;
+            return 1;
         }
         while (s.hasNextLine()) {
             try {
@@ -327,21 +330,28 @@ public class Model {
             }
         }
         System.out.println("Successfully imported " + importCount + " wrestlers.");
+		return 0;
     }
 
-    public static void importTeamsFromText(String filePath) {
+    public static int importTeamsFromText(String filePath) {  
+    	
+    	System.out.print("this is file " + filePath + "\n");
         File file;
         Scanner s = null;
+      
         int importCount = 0;
         try {
             file = new File(filePath);
             s = new Scanner(file);
+            
         } catch (Exception e) {
             System.out.println("The file could not be found/opened.");
-            return;
+            return importCount;
         }
         while (s.hasNextLine()) {
+        	
             try {
+            	
                 Team t = null;
                 String line = s.nextLine();
                 Scanner ls = new Scanner(line);
@@ -352,7 +362,7 @@ public class Model {
                         token += ls.next();
                         if (token.charAt(token.length() - 1) == ',') {
                             tokens.add(token.substring(0, token.length() - 1));
-                            token = "";
+                            token = "";System.out.println("in");
                             break;
                         } else {
                             token += " ";
@@ -364,13 +374,15 @@ public class Model {
                 } else {
                     t = new Team(tokens.get(0), tokens.get(1), tokens.get(2));
                 }
+                
                 teamList.add(t);
                 importCount++;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
-        System.out.println("Successfully imported " + importCount + " teams.");
+        return importCount;
+        
     }
 
     private static Wrestler wrestlerFactory(String wrestlerInfo) throws Exception {
@@ -392,20 +404,22 @@ public class Model {
         }
     }
 
-    public static void printWrestlers() {
+    public static ArrayList<Wrestler> printWrestlers() {
         Collections.sort(wrestlerList);
         System.out.println("List of Wrestlers: ");
         for (int i = 0; i != wrestlerList.size(); i++) {
             System.out.println(wrestlerList.get(i));
         }
+        return wrestlerList;
     }
 
-    public static void printTeams() {
+    public static ArrayList<Team> printTeams() {
         Collections.sort(teamList);
         System.out.println("List of Teams: ");
         for (int i = 0; i != teamList.size(); i++) {
-            System.out.println(teamList.get(i));
+           System.out.println(teamList.get(i));
         }
+        return teamList;
     }
 
     public static void printWrestlerInformation(String alias) {
