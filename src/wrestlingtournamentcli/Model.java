@@ -217,6 +217,14 @@ public class Model {
         return matches;
     }
     
+    public static int getCurrentMatchID() {
+    	return currentMatchID;
+    }
+
+    public static void setCurrentMatchID() {
+    	currentMatchID += 1;
+    }
+    
     public static void updateMatch(int matchID, String winningColor, int greenPoints, int redPoints, int fallType, String fallTime){
         int[] location = matchBank.get(matchID-1).getLocation();
         bracketList.get(location[0]).updateMatch(location[1],location[2],winningColor, greenPoints, redPoints, fallType, fallTime);
