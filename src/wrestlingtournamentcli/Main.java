@@ -13,7 +13,13 @@ public class Main {
     Model m = new Model();
     Scanner s = new Scanner(System.in);
     System.out.println("Welcome to the Murphy Wrestling Tournament Manager. For available commands, please type 'help'");
+    //System.out.println("This is the Murphy Version of the project!!");
+    //Model.importTeamsFromText("teams.txt");//import teams
+    //Model.importWrestlersFromText("wrestlers.txt");//import wrestlers
+    //Model.generateTournament();//start
+    
     while(true){
+    	
     System.out.println("\nInput your next command!");
     String input = s.nextLine();
     try{
@@ -40,9 +46,9 @@ public class Main {
                     case "SAVE":
                         Model.saveTournament();
                         return;
-                    case "ADVANCE":
-                        Model.advanceTournament();
-                        return;
+                    //case "ADVANCE":
+                        //Model.advanceTournament();
+                        //return;
                     case "START":
                         Model.generateTournament();
                         return;
@@ -87,8 +93,10 @@ public class Main {
                         Model.setTournamentName(args.get(1));
                         return;
                 }
-            case 7:
-                Model.updateMatch(Integer.parseInt(args.get(1)), args.get(2),Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), Integer.parseInt(args.get(5)), args.get(6));
+            case 6: //case 7, update match. NOTE: CHANGED FROM 7 TO 6
+                
+            	Model.updateMatch(args.get(1),Integer.parseInt(args.get(2)), Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), args.get(5));
+            	//To remove some of the possibility of error I have taken away the matchID parameter
                 System.out.println("Match Updated!");
                 return;
             default:
@@ -109,7 +117,7 @@ public class Main {
                 + "HELP //Display list of available commands\n"
                 + "LOAD TournamentName //Loads all files associated with this tournament name\n"
                 + "SAVE TournamentName //Saves all information associated with this tournament to files with tournamentName\n"
-                + "NAME TournamentName //Changes the tournament's name"
+                + "NAME TournamentName //Changes the tournament's name\n"
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
