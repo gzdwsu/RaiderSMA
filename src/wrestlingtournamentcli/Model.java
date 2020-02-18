@@ -225,9 +225,14 @@ public class Model {
     	currentMatchID += 1;
     }
     
-    public static void updateMatch(int matchID, String winningColor, int greenPoints, int redPoints, int fallType, String fallTime){
-        int[] location = matchBank.get(matchID-1).getLocation();
+    public static void updateMatch(String winningColor, int greenPoints, int redPoints, int fallType, String fallTime){ 
+    	
+        int[] location = matchBank.get(currentMatchID).getLocation();
+
+        matchBank.get(currentMatchID).matchInRound++;//increment both match in round and round number
+        //matchBank.get(currentMatchID).roundNumber++;
         bracketList.get(location[0]).updateMatch(location[1],location[2],winningColor, greenPoints, redPoints, fallType, fallTime);
+        advanceTournament();//added a call to advance tournament. this should be done automatically for every match updated 
     }
 
     //Takes in a wrestler's name and returns a nine character username
