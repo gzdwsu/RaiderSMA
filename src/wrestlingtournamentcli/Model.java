@@ -47,6 +47,7 @@ public class Model {
     private static ArrayList<Bracket> bracketList;
     private static ArrayList<MatchRecord> matchBank;
     private static int matches;
+    private static int currentMatchID = 0;
 
     public Model() {
         this.teamList = new ArrayList();
