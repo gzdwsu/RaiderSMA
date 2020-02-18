@@ -104,7 +104,6 @@ public class Bracket implements Serializable {
 						return;
 					}
 				}
-				
 			}
 		}
     }
