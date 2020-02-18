@@ -85,7 +85,7 @@ public class Bracket implements Serializable {
         bracket.add(orgTemp);
     }
     
-public void nextRound(){//this function progresses the tournament by ensuring the matches are over and allowing the program to go on to the next bracket when needed
+    public void nextRound(){//this function progresses the tournament by ensuring the matches are over and allowing the program to go on to the next bracket when needed
     	
 		for(int j = 0; j < bracket.get(0).size(); j++) { //enter a for loop to iterate over the match objects in bracket
 			if(bracket.get(0).get(j).isComplete()) {//if the current object returns true for isComplete() then it has been updated and should be checked to see if it meets the rounds required
@@ -107,8 +107,6 @@ public void nextRound(){//this function progresses the tournament by ensuring th
 				
 			}
 		}
-
-
     }
     
     public void updateMatch(int roundID, int pos, String winningColor, int greenPoints, int redPoints, int fallType, String fallTime){
