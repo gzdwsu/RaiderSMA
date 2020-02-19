@@ -83,6 +83,9 @@ public class Main {
                     case "VIEW-WRESTLER":
                         Model.printWrestlerInformation(args.get(1));
                         return;
+                    case "COMPARE-WRESTLERS":
+                    	Model.compareWrestlersInformation(args.get(1));
+                    	return;
                     case "NAME":
                         Model.setTournamentName(args.get(1));
                         return;
@@ -113,6 +116,7 @@ public class Main {
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
+                + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
                 + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n");
                 }
 }
