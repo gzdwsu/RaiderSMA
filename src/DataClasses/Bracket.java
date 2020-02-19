@@ -99,7 +99,6 @@ public class Bracket implements Serializable {
 					}
 				}else {
 					if(bracket.get(0).get(bracket.get(0).size() - 1).getRound() == roundsNeeded) {//Model.getCurrentMatchID() <--previous second parameter. all matches have been completed
-						//System.out.println("Match: " + bracket.get(0).get(bracket.get(0).size() - 1).getRedWrestler() + " VS " + bracket.get(0).get(bracket.get(0).size() - 1).getGreenWrestler());
 						Model.setCurrentMatchID();//increment CurrentMatchID
 						return;
 					}
