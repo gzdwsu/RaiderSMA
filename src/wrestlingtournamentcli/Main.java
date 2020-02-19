@@ -13,10 +13,6 @@ public class Main {
     Model m = new Model();
     Scanner s = new Scanner(System.in);
     System.out.println("Welcome to the Murphy Wrestling Tournament Manager. For available commands, please type 'help'");
-    //System.out.println("This is the Murphy Version of the project!!");
-    //Model.importTeamsFromText("teams.txt");//import teams
-    //Model.importWrestlersFromText("wrestlers.txt");//import wrestlers
-    //Model.generateTournament();//start
     
     while(true){
     	
@@ -46,9 +42,6 @@ public class Main {
                     case "SAVE":
                         Model.saveTournament();
                         return;
-                    //case "ADVANCE":
-                        //Model.advanceTournament();
-                        //return;
                     case "START":
                         Model.generateTournament();
                         return;
@@ -110,7 +103,6 @@ public class Main {
         System.out.println("List of Commands and their parameters:\n"
                 + "Command Parameter1 Parameter2 Parameter 3...\n"
                 + "SAVE //Saves the tournament under the current name\n"
-                + "ADVANCE //Makes the next round's matches\n"
                 + "START //Makes brackets from the existing wrestlers\n"
                 + "VIEW-TEAMS //Displays each team's information\n"
                 + "VIEW-WRESTLERS //Displays wrestlers, organizerd by weight class\n"
@@ -121,6 +113,6 @@ public class Main {
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
-                + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n");
+                + "UPDATE-MATCH winningColor greenPoints redPoints fallType(int) fallTime\n");
                 }
 }
