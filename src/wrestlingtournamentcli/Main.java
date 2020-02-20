@@ -11,6 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
     Model m = new Model();
+    Race race = new Race();
     Scanner s = new Scanner(System.in);
     System.out.println("Welcome to the Murphy Wrestling Tournament Manager. For available commands, please type 'help'");
     while(true){
@@ -55,6 +56,9 @@ public class Main {
                     case "HELP":
                         printHelp();
                         return;
+                    case "RACE":
+                    	Race.printMenu();
+                    	return;
                     default:
                         throw new BadCommandException();
                 }
@@ -86,7 +90,33 @@ public class Main {
                     case "NAME":
                         Model.setTournamentName(args.get(1));
                         return;
+                    case "RACE":
+                    	switch(args.get(1).toUpperCase()) {
+	                    	case "LISTRACERS":
+	                    		Race.listRacers();
+	                    		return;
+	                    	case "START":
+	                    		Race.start();
+	                    		return;
+	                    	case "STATUS":
+	                    		Race.getStatus();
+	                    		return;
+                    	}
                 }
+            case 3:
+            	switch(args.get(0)){
+	            	case "RACE":
+	            		switch(args.get(1).toUpperCase()) {
+	            			case "LAPCOMPLETED":
+	            				Race.lapCompleted(Integer.parseInt(args.get(2)));
+	            				return;
+	            			case "LAPS":
+	            				Race.setLapsTotal(Integer.parseInt(args.get(2)));
+	            				return;
+	            		}
+	            }
+            case 5:
+            	Race.addRacer(args.get(2), args.get(3), Integer.parseInt(args.get(4)));
             case 7:
                 Model.updateMatch(Integer.parseInt(args.get(1)), args.get(2),Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), Integer.parseInt(args.get(5)), args.get(6));
                 System.out.println("Match Updated!");
@@ -109,10 +139,11 @@ public class Main {
                 + "HELP //Display list of available commands\n"
                 + "LOAD TournamentName //Loads all files associated with this tournament name\n"
                 + "SAVE TournamentName //Saves all information associated with this tournament to files with tournamentName\n"
-                + "NAME TournamentName //Changes the tournament's name"
+                + "NAME TournamentName //Changes the tournament's name\n"
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
-                + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n");
+                + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
+                + "RACE //View Race commands\n");
                 }
 }
