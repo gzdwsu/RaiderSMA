@@ -1,0 +1,163 @@
+==Wrestler implements Comparable==
+
+	=Member Variables=
+	-lastName:String
+	-firstName:String
+	-userName:String //length 9
+	-team:Team
+	-weightClass:WeightClass
+	-grade:int
+	-tournamentWinCount:int
+	-tournamentMatchCount:int
+	-totalWinCount
+	-totalMatchCount
+
+	=Methods=
+	+Wrestler(firstName, lastName, teamAlias, grade, totalWinCount, totalMatchCount)
+	+void:setLastName(String ln)
+	+void:setFirstName(String fn)
+	+void:setTeam(Team team)
+	+void:setGrade(int grade)
+	+void:setWins(int wins)
+	+String:getLastName()
+	+String:getFirstName()
+	+String:getUserName()
+	+void:addWin()
+	+void:addMatch()
+	+String:toString()
+	-String:findUserName(String firstName, String lastName)
+	+String:compareTo(Object o) //Sort by WeightClass -> Seed
+
+//SEEDING/////////
+    Returning champions at the same weight class are given top seed.
+    Head-to-head: If wrestler "A" has already defeated wrestler "B" sometime in the past, wrestler "A" can be considered for higher seed than wrestler "B."
+    Common opponents: If "A" has defeated "B," and "B" has defeated "C," then "A" can be considered for higher seed than "C."
+    Previous tournament placements and overall record.
+    Coaches vote.
+    Qualifying tournament performance: For example, in West Virginia High School wrestling, the regional tournament is the qualifying tournament for the state tournament. Results of the regional tournament determine the seeding for the state tournament. In the first round of the state tournament , regional champs are always paired with regional 4th place finishers from another region, and regional runners-up are always paired with regional 3rd place finishers from another region. 
+
+==Match implements Comparable==
+
+	//Fall Types and their values 
+	1. Pin Fall (6 Points)
+	2. Technical Fall (5 Points)
+	3. Major Decision (4 Points)
+	4. Decision (3 Points)
+	5. Disqualification (DQ) (6 Points)
+	6. Default by Injury (6 Points)
+	7. Forfeit or BYE (6 Points) 
+	8. ERROR
+	
+	=Member Variables=
+	-matchID:int
+	-greenWrestler:String //Will be regarded as Wrestler One
+	-redWrestler:String //Will be regarded as Wrestler Two
+	-matNumber:int 
+	-fallType:int //Before being placed into the match details, it will be converted from a String to an integer. pin = 6, tech = 5, major decision = 4, decision = 3, BYE = 1
+	-fallTime:String
+	-winningColor:String //GREEN or RED
+	-redPoints:int
+	-greenPoints:int
+	-complete:boolean
+	-round:int
+
+	=Methods=
+	+void:Wrestler(int matchID, String a, String b, int matID)
+	+void:Wrestler(int matchID, String a, String b)
+	+void:setMatID(int matID)
+	+Wrestler:getWinner()
+	+String:getGreenWrestler()
+	+String:getRedWrestler()
+	+void:updateMatch(int fallType, String winningColor)
+	+void:updateMatch(int fallType, String winningColor, int greenPoints, int redPoints)
+	+void:updateMatch(int fallType, String winningColor, int greenPoints, int redPoints, String fallTime)
+	+boolean:isComplete()
+	+int:getRound()
+	+int:getFallType()
+	+String:getFallTime()
+	+String:getWinningColor()
+	+int:getGreenPoints()
+	+int:getRedPoints()
+	+String:toString()
+	+int:CompareTo(Object o) //Sort by matchID
+
+
+==WeightClass implements Comparable==
+
+	=Member Variables=
+	-int:maxWeight
+
+	=Methods=
+	+void:WeightClass(int maxWeight)
+	+int:getWeightClass()
+	-int:compareTo(Object o)//Sort by maxWeight.
+
+==Team implements Comparable==
+
+	=Member Variables=
+	-teamName:String
+	-teamInitials:String
+	-teamMascot:String
+	-teamScore:int
+	
+	=Methods=
+	+void:Team(String teamName, String teamInitials)
+	+void:Team(String teamName, String teamInitials, String teamMascot)
+	+String:getTeamName()
+	+String:getInitials()
+	+String:getTeamMascot()
+	+int:getTeamScore()
+	+void:addTeamScore(int score)
+	+void:removeTeamScore(int score)
+	+int:compareTo(Object o)//Sort by teamScore, then alphabetically.
+
+
+==Bracket==//Pick up here
+
+	=Member Variables=
+	-roundThreeTwo:Match[16]
+	-roundOneSix:Match[8]
+	-roundZeroEight:Match[4]
+	-roundZeroFour:Match[2]
+	-roundZeroTwo:Match[1]
+	-winner:Wrestler
+	-roundsNeeded:int
+	-weightClass:WeightClass
+	-primary:boolean //Primary or Consolation bracket
+	
+	=Methods=
+	+void:Bracket(ArrayList<Wrestler>, WeightClass, boolean)
+	+ArrayList<Match>:makeMatches(int round)
+	+void:advanceWrestler(int round, int matchID, String winningColor)
+	+void:printBracket()
+
+==Model==
+
+	=Member Variables=
+	-wrestlers:ArrayList<Wrestler>
+	-CreatedMatches:ArrayList<Match>
+	-MatchesInProgress:ArrayList<Match>
+	-FinishedMatches:ArrayList<Match>
+	-weightClasses:ArrayList<WeightClass>
+	-tournamentRound:int
+	-numberOfMats:int
+	-matchesByMat:ArrayList<ArrayList<Match>>
+	
+	=Methods=
+	+ArrayList<Match>:getMatchesByRound(int round)
+	+ArrayList<Match>:getMatchesByWrestler(String wrestlerName)
+	+ArrayList<Match>:getMatchesByWrestler(Wrestler wrestler)
+	+void:importWrestlersFromText(String filePath)
+	+void:importWrestlersFromExcel(String filePath)
+	-Wrestler:wrestlerFactory(String wrestlerInfo)
+	+void:importTeamsFromText(String filePath)
+	+void:importTeamsFromExcel(String filePath)
+	-String:separateArgumentsFromString(String largeString)
+	+void:initializeWeightClasses()
+	+int[matNumber]:getMatchesByMat()
+	+int:getLeastUsedMat()
+	
+
+	
+	
+

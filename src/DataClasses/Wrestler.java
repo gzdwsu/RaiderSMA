@@ -6,7 +6,6 @@ import wrestlingtournamentcli.*;
 /**
  * @author Jared Murphy https://github.com/murphman29
  * 
- * 
  * Edited 02/12/2020
  * Editor: James Wright https://github.com/JamesKillmonger
  * Edited the Following: getLongString() and added comment explanation
