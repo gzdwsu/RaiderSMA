@@ -54,7 +54,6 @@ public class Model {
         this.wrestlerList = new ArrayList();
         this.bracketList = new ArrayList();
         this.matchBank = new ArrayList();
-        this.teamList.add(new Team("BYE", "", ""));
         initializeWeightClasses();
         matches = 0;
         
@@ -396,17 +395,29 @@ public class Model {
 
     public static void printWrestlers() {
         Collections.sort(wrestlerList);
+        if (wrestlerList.size() == 0) {
+        	System.out.println("Error: There is no Wrestler exist");
+        }
+        else {
         System.out.println("List of Wrestlers: ");
         for (int i = 0; i != wrestlerList.size(); i++) {
             System.out.println(wrestlerList.get(i));
+        }
         }
     }
 
     public static void printTeams() {
         Collections.sort(teamList);
+        if (teamList.size() == 0) {
+        	System.out.println("Error: There is no team exist");
+        }
+        else {
+        	
+        
         System.out.println("List of Teams: ");
         for (int i = 0; i != teamList.size(); i++) {
             System.out.println(teamList.get(i));
+        }
         }
     }
 
