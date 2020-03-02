@@ -13,6 +13,7 @@ import wrestlingtournamentcli.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import loggingFunctions.*;
 
 /**
  * @author Jared Murphy https://github.com/murphman29
@@ -56,6 +57,7 @@ public class Model {
         this.teamList.add(new Team("BYE", "", ""));
         initializeWeightClasses();
         matches = 0;
+        
     }
 
     public static void generateTournament() {
