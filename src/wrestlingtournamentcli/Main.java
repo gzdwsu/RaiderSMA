@@ -55,7 +55,8 @@ public static void main(String[] args) {
             log.writeErrorLog(e.getMessage());
             log.writeErrorStack(e);
         }
-        
+        }
+   }
         
    
    public static void soccerMenu() { 
