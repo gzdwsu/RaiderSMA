@@ -183,41 +183,41 @@ public class Match implements Comparable, Serializable{
     //I have Removed the if and else statements and created the apporpriate code to work with switch cases instead
     //Lines 185 to 221 as of 3/12/2020
     private int StringToFallType(String s) {
-    s = s.toUpperCase();
-    String[] values = {"TECH", "MAJ", "DEC", "DIS", "DQ", "DEF", "INJ", "FOR", "BYE"};
-    String match = "default";
-    //the faster the match is found the better
-    for (int i=0; i<values.length; i++){
-        if(s.contains(values[i])){
+        s = s.toUpperCase();
+        String[] values = {"TECH", "MAJ", "DEC", "DIS", "DQ", "DEF", "INJ", "FOR", "BYE"};
+        String match = "default";
+        //the faster the match is found the better
+        for (int i=0; i<values.length; i++){
+            if(s.contains(values[i])){
             match = values[i];
             break;
+            }
         }
-    }
-    switch (match){
-        case "TECH":
-            return 2;
-        case "MAJ":
-            return 3;
-        case "DEC":
-            return 4;
-        case "DIS":
-            return 5;
-        case "DQ":
-            return 5;
-        case "DEF":
-            return 6;
-        case "INJ":
-            return 6;
-        case "FOR":
-            return 7;
-        case "BYE":
-            return 7;
-        default: {
-            Exception e = new IncorrectFormatException(s);
-            System.out.println(e.getMessage());
-            return 8;
+        switch (match){
+            case "TECH":
+                return 2;
+            case "MAJ":
+                return 3;
+            case "DEC":
+                return 4;
+            case "DIS":
+                return 5;
+            case "DQ":
+                return 5;
+            case "DEF":
+                return 6;
+            case "INJ":
+                return 6;
+            case "FOR":
+                return 7;
+            case "BYE":
+                return 7;
+            default: {
+                Exception e = new IncorrectFormatException(s);
+                System.out.println(e.getMessage());
+                return 8;
+            }
         }
-    }
     }
 
     private String getFallType () {
