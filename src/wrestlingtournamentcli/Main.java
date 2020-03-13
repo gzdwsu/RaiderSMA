@@ -1,4 +1,3 @@
-
 package wrestlingtournamentcli;
 import DataClasses.*;
 import javafx.scene.control.ListView;
@@ -29,16 +28,14 @@ import loggingFunctions.*;
 
 public class Main extends Application{
   static Error_Reporting log = new Error_Reporting();
-	
 
-public class Main {
-    
-    
+
+
 
     public static void main(String[] args) {
     	 Model m = new Model();
     	launch(args);
-    
+
    // Model m = new Model();
     Scanner s = new Scanner(System.in);
 
@@ -61,9 +58,9 @@ public class Main {
         log.writeErrorStack(e);
     }
     }
-    
+
     }
-    
+
     public static void processInput(ArrayList<String> args) throws Exception{
     args.set(0, args.get(0).toUpperCase());
     switch(args.size()){
@@ -149,9 +146,9 @@ public class Main {
             default:
                 printHelp();
                 return;
-                
+
     }}
-    
+
 
     public static void printHelp(){
         System.out.println("List of Commands and their parameters:\n"
@@ -184,15 +181,15 @@ public class Main {
 		Button save = new Button();
 		Button start = new Button();
 		TextField saveTournament = new TextField();
-		
+
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
 		TextField importWrestlerField = new TextField ();
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
 		// create buttons/textfields for view of team and wrestlers
-		
-		
+
+
 		importTeams.setMinWidth(110);
 		importWrestlers.setMinWidth(110);
 		viewTeams.setMinWidth(110);
@@ -202,7 +199,7 @@ public class Main {
 		start.setMinWidth(110);
 		save.setText("Save");
 		start.setText("Start");
-		
+
 		importTeams.setText("Import Teams");
 		importWrestlers.setText("Import Wrestlers");
 		viewTeams.setText("View Teams");
@@ -224,17 +221,17 @@ public class Main {
 		layout.add(saveTournament, 1, 5);
 		layout.add(start, 0, 6);
 		viewTeams.setOnAction(e -> {
-			
+
 			ArrayList<Team> show = Model.printTeams();
 			for(int i = 0; i < show.size(); i++) {
 				listView.getItems().add(show.get(i));
 			}
-			
+
 		    return;
 		});
-		
+
 		viewWrestlers.setOnAction(e -> {
-			
+
 			ArrayList<Wrestler> wrestlerList = Model.printWrestlers();
 			/*for(int i = 0; i < wrestlerListshow.size(); i++) {
 				listView.getItems().add(wrestlerListshow.get(i));
@@ -242,12 +239,12 @@ public class Main {
 			for(int i = 0; i < wrestlerList.size(); i++) {
 				wrestlerView.getItems().add(wrestlerList.get(i));
 			}
-			
+
 		    return;
 		});
-		
+
 		importTeams.setOnAction(e -> {
-		
+
 			FileChooser fc = new FileChooser();
 			File seletedFile = fc.showOpenDialog(null);
 			if(seletedFile != null) {
@@ -269,15 +266,15 @@ public class Main {
 					 teamsAlert.show();
 					 return;
 				 }
-					 
-				
+
+
 			}
 			else {
 				System.out.println("Err");
 			}
 		});
-		
-		
+
+
 		importWrestlers.setOnAction(e -> {
 			FileChooser fc = new FileChooser();
 			File seletedFile = fc.showOpenDialog(null);
@@ -300,15 +297,15 @@ public class Main {
 					 wrestlerAlert.show();
 					 return;
 				 }
-					 
-				
+
+
 			}
 			else {
 				System.out.println("Err");
 			}
 		});
-		
-		
+
+
 		save.setOnAction(e -> {
 			String textbox = saveTournament.getText();
 			if(textbox.equals("Name of Tournament")) {
@@ -318,7 +315,7 @@ public class Main {
 				Model.saveTournament(textbox);
 			}
 		});
-		
+
 		start.setOnAction(e -> {
 			int check = Model.generateTournament();
 			if(check == 0) {
@@ -343,16 +340,16 @@ public class Main {
 				return;
 			}
 		});
-		
+
 		mainMenu.getChildren().addAll(layout);
 		viewList.prefWidth(100);
 		viewList.getChildren().addAll(listView,wrestlerView);
 		root.setLeft(mainMenu);
 		root.setCenter(viewList);
-		
+
 		stage.setScene(new Scene(root, 700, 700));
-		
+
 		stage.show();
-		
+
 	}
 }
