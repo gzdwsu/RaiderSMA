@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Scanner;
 
 /**
+ * @author Cody Francis
  * @author Jared Murphy https://github.com/murphman29
  * 
  * 
@@ -65,18 +66,29 @@ public class Model {
     private static ArrayList<Integer> weightClasses;
     private static ArrayList<Bracket> bracketList;
     private static ArrayList<MatchRecord> matchBank;
+    private static ArrayList<SoccerPlayer> soccerPlayerList;
     private static int matches;
 
-    
-    /*******************   Constructor   *****************************/
-    public Model() {
-        this.teamList = new ArrayList();
-        this.wrestlerList = new ArrayList();
-        this.bracketList = new ArrayList();
-        this.matchBank = new ArrayList();
-        this.teamList.add(new Team("BYE", "", ""));
-        initializeWeightClasses();
-        matches = 0;
+
+
+    public Model(String sport) {
+ 
+    	if(sport.contentEquals("wrestling")) {
+	    	this.teamList = new ArrayList();
+	        this.wrestlerList = new ArrayList();
+	        this.bracketList = new ArrayList();
+	        this.matchBank = new ArrayList();
+	        this.teamList.add(new Team("BYE", "", ""));
+	        initializeWeightClasses();
+	        matches = 0;
+    	}
+    	else if(sport.contentEquals("soccer")) {
+    		this.teamList = new ArrayList();
+            this.soccerPlayerList= new ArrayList();
+            this.teamList.add(new Team("BYE", "", ""));
+    	}
+    	
+    	
     }
 
     
@@ -501,6 +513,20 @@ public class Model {
         //Throw an exception if the requested alias wrestler is not found
         throw new NotFoundException(alias);
     }
+    
+    public static SoccerPlayer soccerPlayerLookup(String alias) throws NotFoundException {
+        alias = alias.toUpperCase();
+        for (SoccerPlayer w : soccerPlayerList) {
+            if (w.getLastName().contains(alias)) {
+                return w;
+            } else if (w.getFirstName().contains(alias)) {
+                return w;
+            } else if (w.getUserName().contains(alias)) {
+                return w;
+            }
+        }
+        throw new NotFoundException(alias);
+    }
 
     
     
@@ -543,6 +569,30 @@ public class Model {
             }
         }
         System.out.println("Successfully imported " + importCount + " wrestlers.");
+    }
+    
+    public static void importSoccerPlayersFromText(String filePath) {
+        File file;
+        Scanner s = null;
+        int importCount = 0;
+        try {
+            file = new File(filePath);
+            s = new Scanner(file);
+        } catch (Exception e) {
+            System.out.println("The file could not be found/opened.");
+            return;
+        }
+        while (s.hasNextLine()) {
+            try {
+                String line = s.nextLine();
+                SoccerPlayer w = soccerPlayerFactory(line);
+                soccerPlayerList.add(w);
+                importCount++;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        System.out.println("Successfully imported " + importCount + " soccer players.");
     }
 
     
@@ -654,6 +704,25 @@ public class Model {
             throw new IncorrectFormatException(wrestlerInfo);
         }
     }
+    
+    private static SoccerPlayer soccerPlayerFactory(String soccerPlayerInfo) throws Exception {
+        try {
+            Scanner s = new Scanner(soccerPlayerInfo);
+            String fn = s.next();
+            String ln = s.next();
+            String teamAlias = s.next();
+            String position = s.next();
+            double gpg = s.nextDouble();
+            double apg = s.nextDouble();
+            double save = s.nextDouble();
+            SoccerPlayer w = new SoccerPlayer(fn, ln, teamAlias, position, gpg, apg, save);
+            return w;
+        } catch (NotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new IncorrectFormatException(soccerPlayerInfo);
+        }
+    }
 
     
     
@@ -668,6 +737,13 @@ public class Model {
         System.out.println("List of Wrestlers: ");
         for (int i = 0; i != wrestlerList.size(); i++) {
             System.out.println(wrestlerList.get(i));
+        }
+    }
+    
+    public static void printSoccerPlayers() {
+        System.out.println("List of Soccer Players: ");
+        for (int i = 0; i != soccerPlayerList.size(); i++) {
+            System.out.println(soccerPlayerList.get(i));
         }
     }
 
@@ -708,6 +784,17 @@ public class Model {
             System.out.println(e.getMessage());
         }
     }
+
+    public static void printSoccerPlayerInformation(String alias) {
+        try {
+            SoccerPlayer w = soccerPlayerLookup(alias);
+            int pos = soccerPlayerList.indexOf(w);
+            String rs = soccerPlayerList.get(pos).getLongString();
+            System.out.println(rs);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
     
     public static void compareWrestlersInformation(String alias) {
     	try {
@@ -726,8 +813,9 @@ public class Model {
     		
     	} catch (Exception e) {
     		System.out.println(e.getMessage());
-    	}
+
     }
+    	}
 
     
     

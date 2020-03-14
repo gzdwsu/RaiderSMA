@@ -1,4 +1,5 @@
 
+
 package wrestlingtournamentcli;
 import DataClasses.*;
 import java.util.ArrayList;
@@ -247,3 +248,4 @@ public class Main {
                 + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n");
                 }
 }
+
