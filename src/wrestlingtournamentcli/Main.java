@@ -1,24 +1,23 @@
 
 
 package wrestlingtournamentcli;
-
+import DataClasses.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import loggingFunctions.*;
 
 /**
- * 
- * @author Cody Francis
  * @author Jared Murphy
- * 
+ * @author Cody Francis
  */
 public class Main {
-
-static Error_Reporting log = new Error_Reporting();
-public static void main(String[] args) {
-	Scanner s = new Scanner(System.in);
-  log.createLogFiles();
-	System.out.println("Please enter the sport you would like to manage(wrestling/soccer):");
+    static Error_Reporting log = new Error_Reporting();
+    
+    public static void main(String[] args) {
+    
+    Scanner s = new Scanner(System.in);
+    log.createLogFiles(); 
+    System.out.println("Please enter the sport you would like to manage(wrestling/soccer):");
 	while(true) {
 	String sportSelection = s.nextLine();
 	switch(sportSelection.toLowerCase()) {
@@ -35,9 +34,10 @@ public static void main(String[] args) {
 				}
 
     }
+        
     }
-
-   public static void wrestlingMenu() {
+    
+     public static void wrestlingMenu() {
 	    Scanner s = new Scanner(System.in);
     	System.out.println("Welcome to the Murphy Wrestling Tournament Manager. For available commands, please type 'help'");
         while(true){
@@ -58,9 +58,9 @@ public static void main(String[] args) {
         }
         }
    }
-        
-   
-   public static void soccerMenu() { 
+    
+    
+     public static void soccerMenu() { 
 	   Scanner s = new Scanner(System.in);
    	   System.out.println("Welcome to the Murphy Soccer Player Manager. For available commands, please type 'help'");
        while(true){
@@ -81,7 +81,7 @@ public static void main(String[] args) {
 	   
    }
     
-   public static void processInputSoccer(ArrayList<String> args) throws Exception{
+    public static void processInputSoccer(ArrayList<String> args) throws Exception{
    args.set(0, args.get(0).toUpperCase());
    switch(args.size()){
            case 0:
@@ -129,7 +129,8 @@ public static void main(String[] args) {
    }
    
 } 
-   public static void printHelpSoccer(){
+    
+      public static void printHelpSoccer(){
        System.out.println("List of Commands and their parameters:\n"
                + "Command Parameter1 Parameter2 Parameter 3...\n"
                + "VIEW-TEAMS //Displays each team's information\n"
@@ -140,7 +141,8 @@ public static void main(String[] args) {
                + "VIEW-SOCCER-PLAYER SoccerPlayerName //Looks for the soccer player and prints his/her information\n"
                );
                }
-   
+    
+    
     public static void processInput(ArrayList<String> args) throws Exception{
     args.set(0, args.get(0).toUpperCase());
     switch(args.size()){
@@ -207,12 +209,13 @@ public static void main(String[] args) {
                     	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.printWrestlerInformation(args.get(1));
                         return;
+                    case "COMPARE-WRESTLERS":
+                    	Model.compareWrestlersInformation(args.get(1));
+                    	return;
                     case "NAME":
                     	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.setTournamentName(args.get(1));
                         return;
-				default:
-					break;
                 }
             case 7:
             	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1)+ " "+ args.get(2)+ " "+ args.get(3)+ " "+ args.get(4)+ " "+ args.get(5)+ " "+ args.get(6));
@@ -233,16 +236,16 @@ public static void main(String[] args) {
                 + "ADVANCE //Makes the next round's matches\n"
                 + "START //Makes brackets from the existing wrestlers\n"
                 + "VIEW-TEAMS //Displays each team's information\n"
-                + "VIEW-WRESTLERS //Displays wrestlers, organized by weight class\n"
+                + "VIEW-WRESTLERS //Displays wrestlers, organizerd by weight class\n"
                 + "HELP //Display list of available commands\n"
                 + "LOAD TournamentName //Loads all files associated with this tournament name\n"
                 + "SAVE TournamentName //Saves all information associated with this tournament to files with tournamentName\n"
-                + "NAME TournamentName //Changes the tournament's name\n"
+                + "NAME TournamentName //Changes the tournament's name"
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
+                + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
                 + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n");
                 }
-   
 }
 
