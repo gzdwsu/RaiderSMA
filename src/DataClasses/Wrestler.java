@@ -5,6 +5,12 @@ import wrestlingtournamentcli.*;
 
 /**
  * @author Jared Murphy https://github.com/murphman29
+ * 
+ * Edited 02/12/2020
+ * Editor: James Wright https://github.com/JamesKillmonger
+ * Edited the Following: getLongString() and added comment explanation
+ * 
+ * 
  */
 public class Wrestler implements Comparable, Serializable{
 
@@ -95,33 +101,43 @@ public class Wrestler implements Comparable, Serializable{
     }
     
     public void addMatch(boolean win){
-    totalMatchCount++;
-    tournamentMatchCount++;
-    if(win){
-    totalWinCount++;
-    tournamentWinCount++;
+	    totalMatchCount++;
+	    tournamentMatchCount++;
+	    if(win){
+	    totalWinCount++;
+	    tournamentWinCount++;
+	    }
     }
-    }
-
-    public String getLongString(){
-    String rs = "";
-    rs += "Name: " + lastName + ", " + firstName + "\n";
-    rs += "Username: " + userName + "\n";
-    rs += "Weight Class: " + weightClass + "\n";
-    rs += "Team: " + team.getTeamName() + "\n";
-    rs += "Grade: " + grade + "\n";
-    rs += "Seed: " + seed + "\n";
-    rs += "Rating: " + rating + "\n";
+    
+    
+    //String by itself whenever operated on adds a copy of its self to the string pool thus wasting tons of memory
+    //if performing frequent operations on strings thus I used string buffer which modifies the exact string in 
+    //its according memory location which is the solution to the object churning problem
+    //This required rs to be changed to stringBuffer in printWrestlerInformation method in Model.java as well
+    public StringBuffer getLongString(){
+    StringBuffer rs = new StringBuffer();
+    rs.append( "Name: " + lastName + ", " + firstName + "\n");
+    rs.append("Username: " + userName + "\n");
+    rs.append("Weight Class: " + weightClass + "\n");
+    rs.append("Team: " + team.getTeamName() + "\n");
+    rs.append("Grade: " + grade + "\n");
+    rs.append("Seed: " + seed + "\n");
+    rs.append("Rating: " + rating + "\n");
     if(totalMatchCount != 0){
-    rs += "YTD Record:\n\t" + "Wins: " + totalWinCount + "\n\tMatches: " + totalMatchCount + "\n\tW/L Ratio: " + ((double)totalWinCount/(double)totalMatchCount) + "\n";
+    	rs.append("YTD Record:\n\t" + "Wins: " + totalWinCount + "\n\tMatches: " + totalMatchCount + "\n\tW/L Ratio: " + ((double)totalWinCount/(double)totalMatchCount) + "\n");
     }
     if(tournamentMatchCount != 0){
-    rs += "Tournament Record:\n\t" + "Wins: " + tournamentWinCount + "\n\tMatches: " + tournamentMatchCount + "\n\tW/L Ratio: " + (tournamentWinCount/tournamentMatchCount) + "\n";
+    	rs.append("Tournament Record:\n\t" + "Wins: " + tournamentWinCount + "\n\tMatches: " + tournamentMatchCount + "\n\tW/L Ratio: " + (tournamentWinCount/tournamentMatchCount) + "\n");
     }
     return rs;
     }
+    
+    
+    
+    
     @Override
     public String toString() {
+    	//This must return a string so can't use string buffer here, recommended fix for later developers
         return lastName + ", " + firstName + "\t(" + userName + ")\tClass: " + weightClass + "\tTeam: " + team.getTeamName();
     }
     

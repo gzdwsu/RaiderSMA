@@ -3,16 +3,20 @@ package wrestlingtournamentcli;
 import DataClasses.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import loggingFunctions.*;
 
 /**
  * @author Jared Murphy
  */
 public class Main {
-
+    static Error_Reporting log = new Error_Reporting();
+    
     public static void main(String[] args) {
     Model m = new Model();
     Race race = new Race();
     Scanner s = new Scanner(System.in);
+
+    log.createLogFiles();
     System.out.println("Welcome to the Murphy Wrestling Tournament Manager. For available commands, please type 'help'");
     while(true){
     System.out.println("\nInput your next command!");
@@ -27,6 +31,8 @@ public class Main {
     }catch(Exception e){
         System.out.println("Sorry! The command '" + input + "' either wasn't recognized or experienced an error.");
         System.out.println(e.getMessage());
+        log.writeErrorLog(e.getMessage());
+        log.writeErrorStack(e);
     }
     }
     }
@@ -39,21 +45,27 @@ public class Main {
             case 1: //Single-Command expressions
                 switch(args.get(0)){
                     case "SAVE":
+                    	log.writeActionlog("Command Entered: " +args.get(0));
                         Model.saveTournament();
                         return;
                     case "ADVANCE":
+                    	log.writeActionlog("Command Entered: " +args.get(0));
                         Model.advanceTournament();
                         return;
                     case "START":
+                    	log.writeActionlog("Command Entered: " +args.get(0));
                         Model.generateTournament();
                         return;
                     case "VIEW-TEAMS":
+                    	log.writeActionlog("Command Entered: " +args.get(0));
                         Model.printTeams();
                         return;
                     case "VIEW-WRESTLERS":
+                    	log.writeActionlog("Command Entered: " +args.get(0));
                         Model.printWrestlers();
                         return;
                     case "HELP":
+                    	log.writeActionlog("Command Entered: " +args.get(0));
                         printHelp();
                         return;
                     case "RACE":
@@ -65,29 +77,40 @@ public class Main {
             case 2: //Command-Param Expressions
                 switch(args.get(0)){
                     case "LOAD":
+                    	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.loadTournament(args.get(1));
                         return;
                     case "SAVE":
+                    	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.saveTournament(args.get(1));
                         return;
                     case "IMPORT-TEAMS":
                         if(args.get(1).substring(args.get(1).length()-4).equals(".txt")){
+                        log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.importTeamsFromText(args.get(1));
                         }else{
                         System.out.println("Error: Not a supported file extension.");
+                        log.writeErrorLog("Error: Not a supported file extension.");
                         }
                         return;
                     case "IMPORT-WRESTLERS":
                         if(args.get(1).substring(args.get(1).length()-4).equals(".txt")){
+                        log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.importWrestlersFromText(args.get(1));
                         }else{
                         System.out.println("Error: Not a supported file extension.");
+                        log.writeErrorLog("Error: Not a supported file extension.");
                         }
                         return;
                     case "VIEW-WRESTLER":
+                    	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.printWrestlerInformation(args.get(1));
                         return;
+                    case "COMPARE-WRESTLERS":
+                    	Model.compareWrestlersInformation(args.get(1));
+                    	return;
                     case "NAME":
+                    	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.setTournamentName(args.get(1));
                         return;
                     case "RACE":
@@ -126,6 +149,7 @@ public class Main {
 		            	return;
             	}
             case 7:
+            	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1)+ " "+ args.get(2)+ " "+ args.get(3)+ " "+ args.get(4)+ " "+ args.get(5)+ " "+ args.get(6));
                 Model.updateMatch(Integer.parseInt(args.get(1)), args.get(2),Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), Integer.parseInt(args.get(5)), args.get(6));
                 System.out.println("Match Updated!");
                 return;
@@ -149,8 +173,8 @@ public class Main {
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
-                + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
                 + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
+                + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
                 + "RACE //View Race commands\n");
-                }
+    }
 }
