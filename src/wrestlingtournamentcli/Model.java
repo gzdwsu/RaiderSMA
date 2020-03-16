@@ -710,6 +710,26 @@ public class Model {
             System.out.println(e.getMessage());
         }
     }
+    
+    public static void compareWrestlersInformation(String alias) {
+    	try {
+    		String[] tempArray;
+    		tempArray = alias.split(",");
+    		Wrestler w1 = wrestlerLookup(tempArray[0]);
+    		Wrestler w2 = wrestlerLookup(tempArray[1]);
+    		
+    		System.out.println("\n\t" + "Guide: " + w1.getFirstName() + " || " + w2.getFirstName());
+    		System.out.println("Name: " + w1.getLastName() + ", " + w1.getFirstName() + " || " +  w2.getLastName() + ", " + w2.getFirstName());
+    		System.out.println("Username: " + w1.getUserName() + " || " +  w2.getUserName());
+    		System.out.println("Weight Class: " + w1.getWeightClass() + " || " +  w2.getWeightClass());
+    		System.out.println("Team Name: " + w1.getTeamID() + " || " +  w2.getTeamID());
+    		System.out.println("Seed: " + w1.getSeed() + " || " +  w2.getSeed());
+    		System.out.println("Rating: " + w1.getRating() + " || " +  w2.getRating() + "\n");
+    		
+    	} catch (Exception e) {
+    		System.out.println(e.getMessage());
+    	}
+    }
 
     
     

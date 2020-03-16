@@ -17,9 +17,7 @@ public class Main {
 
     log.createLogFiles();
     System.out.println("Welcome to the Murphy Wrestling Tournament Manager. For available commands, please type 'help'");
-    
     while(true){
-    	
     System.out.println("\nInput your next command!");
     String input = s.nextLine();
     try{
@@ -104,16 +102,17 @@ public class Main {
                     	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.printWrestlerInformation(args.get(1));
                         return;
+                    case "COMPARE-WRESTLERS":
+                    	Model.compareWrestlersInformation(args.get(1));
+                    	return;
                     case "NAME":
                     	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.setTournamentName(args.get(1));
                         return;
                 }
-
-            case 6: //case 7, update match. NOTE: CHANGED FROM 7 TO 6
+            case 6:
               log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1)+ " "+ args.get(2)+ " "+ args.get(3)+ " "+ args.get(4)+ " "+ args.get(5));
             	Model.updateMatch(args.get(1),Integer.parseInt(args.get(2)), Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), args.get(5));
-            	//To remove some of the possibility of error I have taken away the matchID parameter
                 System.out.println("Match Updated!");
                 return;
             default:
@@ -127,6 +126,7 @@ public class Main {
         System.out.println("List of Commands and their parameters:\n"
                 + "Command Parameter1 Parameter2 Parameter 3...\n"
                 + "SAVE //Saves the tournament under the current name\n"
+                + "ADVANCE //Makes the next round's matches\n"
                 + "START //Makes brackets from the existing wrestlers\n"
                 + "VIEW-TEAMS //Displays each team's information\n"
                 + "VIEW-WRESTLERS //Displays wrestlers, organizerd by weight class\n"
@@ -137,6 +137,7 @@ public class Main {
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
-                + "UPDATE-MATCH winningColor greenPoints redPoints fallType(int) fallTime\n");
+                + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
+                + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n");
                 }
 }
