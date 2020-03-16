@@ -116,7 +116,15 @@ public class Main {
 	            		}
 	            }
             case 5:
-            	Race.addRacer(args.get(2), args.get(3), Integer.parseInt(args.get(4)));
+            	switch(args.get(0)) {
+	            	case "RACE":
+		            	switch(args.get(1).toUpperCase()) {
+		            		case "ADDRACER":
+			            		Race.addRacer(args.get(2), args.get(3), Integer.parseInt(args.get(4)));
+			            		return;
+		            	}
+		            	return;
+            	}
             case 7:
                 Model.updateMatch(Integer.parseInt(args.get(1)), args.get(2),Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), Integer.parseInt(args.get(5)), args.get(6));
                 System.out.println("Match Updated!");
@@ -124,9 +132,7 @@ public class Main {
             default:
                 printHelp();
                 return;
-                
     }
-    
 }
     public static void printHelp(){
         System.out.println("List of Commands and their parameters:\n"
@@ -144,6 +150,7 @@ public class Main {
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
                 + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
+                + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
                 + "RACE //View Race commands\n");
                 }
 }
