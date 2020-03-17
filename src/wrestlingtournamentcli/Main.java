@@ -10,10 +10,9 @@ import loggingFunctions.*;
  */
 public class Main {
     static Error_Reporting log = new Error_Reporting();
-    
+
     public static void main(String[] args) {
     Model m = new Model();
-    Race race = new Race();
     Scanner s = new Scanner(System.in);
 
     log.createLogFiles();
@@ -36,7 +35,7 @@ public class Main {
     }
     }
     }
-    
+
     public static void processInput(ArrayList<String> args) throws Exception{
     args.set(0, args.get(0).toUpperCase());
     switch(args.size()){
@@ -156,7 +155,9 @@ public class Main {
             default:
                 printHelp();
                 return;
+
     }
+
 }
     public static void printHelp(){
         System.out.println("List of Commands and their parameters:\n"
@@ -169,12 +170,12 @@ public class Main {
                 + "HELP //Display list of available commands\n"
                 + "LOAD TournamentName //Loads all files associated with this tournament name\n"
                 + "SAVE TournamentName //Saves all information associated with this tournament to files with tournamentName\n"
-                + "NAME TournamentName //Changes the tournament's name\n"
+                + "NAME TournamentName //Changes the tournament's name"
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
                 + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
                 + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
                 + "RACE //View Race commands\n");
-    }
+                }
 }
