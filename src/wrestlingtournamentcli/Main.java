@@ -26,34 +26,140 @@ import javafx.stage.Stage;
 
 /**
  * @author Jared Murphy
+ * @author Cody Francis
  */
 public class Main extends Application{
     static Error_Reporting log = new Error_Reporting();
     
     public static void main(String[] args) {
-    Model m = new Model();
+    
+    Model m = new Model("wrestling");
     Scanner s = new Scanner(System.in);
     log.createLogFiles();
     launch(args);
-    System.out.println("Welcome to the Murphy Wrestling Tournament Manager. For available commands, please type 'help'");
-    while(true){
-    System.out.println("\nInput your next command!");
-    String input = s.nextLine();
-    try{
-    ArrayList<String> arguments = new ArrayList();
-    Scanner argScanner = new Scanner(input);
-    while(argScanner.hasNext()){
-        arguments.add(argScanner.next());
+    
+    System.out.println("Please enter the sport you would like to manage(wrestling/soccer):");
+	while(true) {
+	String sportSelection = s.nextLine();
+	switch(sportSelection.toLowerCase()) {
+	case "wrestling":
+		Model wrestlerModel = new Model("wrestling");
+		wrestlingMenu();
+		break;
+    case "soccer":
+    	Model soccerModel = new Model("soccer");
+    	soccerMenu();
+    	break;
+    default:	
+    	System.out.println("Incorrect input. Please enter wrestling/soccer");   
+				}
+
     }
-    processInput(arguments);
-    }catch(Exception e){
-        System.out.println("Sorry! The command '" + input + "' either wasn't recognized or experienced an error.");
-        System.out.println(e.getMessage());
-        log.writeErrorLog(e.getMessage());
-        log.writeErrorStack(e);
     }
+    public static void wrestlingMenu() {
+    	Scanner s = new Scanner(System.in);
+    	System.out.println("Welcome to the Murphy Wrestling Tournament Manager. For available commands, please type 'help'");
+	    while(true){
+	    System.out.println("\nInput your next command!");
+	    String input = s.nextLine();
+	    try{
+	    ArrayList<String> arguments = new ArrayList();
+	    Scanner argScanner = new Scanner(input);
+	    while(argScanner.hasNext()){
+	        arguments.add(argScanner.next());
+	    }
+	    processInput(arguments);
+	    }catch(Exception e){
+	        System.out.println("Sorry! The command '" + input + "' either wasn't recognized or experienced an error.");
+	        System.out.println(e.getMessage());
+	        log.writeErrorLog(e.getMessage());
+	        log.writeErrorStack(e);
+	    }
+	    }
     }
-    }
+   
+    public static void soccerMenu() { 
+	   Scanner s = new Scanner(System.in);
+  	   System.out.println("Welcome to the Murphy Soccer Player Manager. For available commands, please type 'help'");
+      while(true){
+      System.out.println("\nInput your next command!");
+      String input = s.nextLine();
+      try{
+      ArrayList<String> arguments = new ArrayList();
+      Scanner argScanner = new Scanner(input);
+      while(argScanner.hasNext()){
+          arguments.add(argScanner.next());
+      }
+      processInputSoccer(arguments);
+      }catch(Exception e){
+          System.out.println("Sorry! The command '" + input + "' either wasn't recognized or experienced an error.");
+          System.out.println(e.getMessage());
+      }
+      }
+
+  }
+    
+    public static void processInputSoccer(ArrayList<String> args) throws Exception{
+    	   args.set(0, args.get(0).toUpperCase());
+    	   switch(args.size()){
+    	           case 0:
+    	               throw new BadCommandException();
+    	           case 1: //Single-Command expressions
+    	               switch(args.get(0)){
+    	                   case "VIEW-TEAMS":
+    	                       Model.printTeams();
+    	                       return;
+    	                   case "VIEW-SOCCER-PLAYERS":
+    	                       Model.printSoccerPlayers();
+    	                       return;
+    	                   case "HELP":
+    	                       printHelpSoccer();
+    	                       return;
+    	                   default:
+    	                       throw new BadCommandException();
+    	               }
+    	           case 2: //Command-Param Expressions
+    	               switch(args.get(0)){
+    	                   case "IMPORT-TEAMS":
+    	                       if(args.get(1).substring(args.get(1).length()-4).equals(".txt")){
+    	                       Model.importTeamsFromText(args.get(1));
+    	                       }else{
+    	                       System.out.println("Error: Not a supported file extension.");
+    	                       }
+    	                       return;
+    	                   case "IMPORT-SOCCER-PLAYERS":
+    	                       if(args.get(1).substring(args.get(1).length()-4).equals(".txt")){
+    	                       Model.importSoccerPlayersFromText(args.get(1));
+    	                       }else{
+    	                       System.out.println("Error: Not a supported file extension.");
+    	                       }
+    	                       return;
+    	                   case "VIEW-SOCCER-PLAYER":
+    	                       Model.printSoccerPlayerInformation(args.get(1));
+    	                       return;
+    					default:
+    						break;
+    	               }
+    	           default:
+    	               printHelpSoccer();
+    	               return;
+
+    	   }
+
+    	}
+    
+    
+    public static void printHelpSoccer(){
+        System.out.println("List of Commands and their parameters:\n"
+                + "Command Parameter1 Parameter2 Parameter 3...\n"
+                + "VIEW-TEAMS //Displays each team's information\n"
+                + "VIEW-SOCCER-PLAYERS //Displays soccer players\n"
+                + "HELP //Display list of available commands\n"
+                + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
+                + "IMPORT-SOCCER-PLAYERS FileName //Parses the provided file for Soccer objects\n"
+                + "VIEW-SOCCER-PLAYER SoccerPlayerName //Looks for the soccer player and prints his/her information\n"
+                );
+                }
     
     public static void processInput(ArrayList<String> args) throws Exception{
     args.set(0, args.get(0).toUpperCase());
