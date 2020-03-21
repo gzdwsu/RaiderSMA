@@ -100,15 +100,16 @@ public class Model {
     
     
     
-   /** Other Methods **/
+   /** Other Methods 
+ * @return **/
     //Tournament Generator
-    public static void generateTournament() {
+    public static int generateTournament() {
     	
     	//Returns to caller if no Wrestlers exist, or there exists only 1 team (not enough for a tournament)
         if (wrestlerList.size() == 0 || teamList.size() == 1) {
             System.out.println("Error: No Wrestlers or Teams Found");
             System.out.println("Please add wrestlers/teams before generating a tournament.");
-            return;  
+            return 0;  
         }
         
         //Bracket has elements in it, so a current Tournament is in program, asks if user wishes to clear or abort
@@ -124,7 +125,7 @@ public class Model {
             //Do not clear current bracket
             else{
                 System.out.println("Operation aborted.");
-                return;
+                return 1;
             }
                
             bracketList.clear();
@@ -155,6 +156,7 @@ public class Model {
         if (temp.size() != 0) {
             bracketList.add(new Bracket(temp));
         }
+		return 2;
     }
     
     
@@ -510,7 +512,7 @@ public class Model {
     
     
     //Import Wrestlers From Text Method
-    public static void importWrestlersFromText(String filePath) {
+    public static int importWrestlersFromText(String filePath) {
     	
         File file;				//File object which will use the filepath string
         Scanner s = null;		//Scanner for reading file
@@ -522,7 +524,7 @@ public class Model {
             s = new Scanner(file);
         } catch (Exception e) {
             System.out.println("The file could not be found/opened.");
-            return;
+            return 0;
         }
         
         //While the Scanner is reading each line...
@@ -545,6 +547,7 @@ public class Model {
             }
         }
         System.out.println("Successfully imported " + importCount + " wrestlers.");
+		return 1;
     }
 
     
@@ -661,7 +664,7 @@ public class Model {
     
     
     //Print Wrestlers Function
-    public static void printWrestlers() {
+    public static ArrayList<Wrestler> printWrestlers() {
     	
     	//Sort the wrestlers
         Collections.sort(wrestlerList);
@@ -671,13 +674,14 @@ public class Model {
         for (int i = 0; i != wrestlerList.size(); i++) {
             System.out.println(wrestlerList.get(i));
         }
+		return wrestlerList;
     }
 
     
     
     
     
-    public static void printTeams() {
+    public static ArrayList<Team> printTeams() {
     	
     	//Sort the teams
         Collections.sort(teamList);
@@ -687,6 +691,7 @@ public class Model {
         for (int i = 0; i != teamList.size(); i++) {
             System.out.println(teamList.get(i));
         }
+		return teamList;
     }
 
     
