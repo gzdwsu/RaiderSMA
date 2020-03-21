@@ -235,9 +235,9 @@ public class Main extends Application{
                         Model.setTournamentName(args.get(1));
                         return;
                 }
-            case 7:
-            	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1)+ " "+ args.get(2)+ " "+ args.get(3)+ " "+ args.get(4)+ " "+ args.get(5)+ " "+ args.get(6));
-                Model.updateMatch(Integer.parseInt(args.get(1)), args.get(2),Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), Integer.parseInt(args.get(5)), args.get(6));
+            case 6:
+              log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1)+ " "+ args.get(2)+ " "+ args.get(3)+ " "+ args.get(4)+ " "+ args.get(5));
+            	Model.updateMatch(args.get(1),Integer.parseInt(args.get(2)), Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), args.get(5));
                 System.out.println("Match Updated!");
                 return;
             default:
@@ -258,12 +258,12 @@ public class Main extends Application{
                 + "HELP //Display list of available commands\n"
                 + "LOAD TournamentName //Loads all files associated with this tournament name\n"
                 + "SAVE TournamentName //Saves all information associated with this tournament to files with tournamentName\n"
-                + "NAME TournamentName //Changes the tournament's name"
+                + "NAME TournamentName //Changes the tournament's name\n"
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
                 + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
-                + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n");
+                + "UPDATE-MATCH winningColor greenPoints redPoints fallType(int) fallTime\n");
                 }
 
 	@Override
