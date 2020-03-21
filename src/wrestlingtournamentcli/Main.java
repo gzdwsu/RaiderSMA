@@ -86,6 +86,9 @@ public class Main extends Application{
                     	log.writeActionlog("Command Entered: " +args.get(0));
                         printHelp();
                         return;
+                    case "RACE":
+                    	Race.printMenu();
+                    	return;
                     default:
                         throw new BadCommandException();
                 }
@@ -128,7 +131,41 @@ public class Main extends Application{
                     	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.setTournamentName(args.get(1));
                         return;
+                    case "RACE":
+                    	switch(args.get(1).toUpperCase()) {
+	                    	case "LISTRACERS":
+	                    		Race.listRacers();
+	                    		return;
+	                    	case "START":
+	                    		Race.start();
+	                    		return;
+	                    	case "STATUS":
+	                    		Race.getStatus();
+	                    		return;
+                    	}
                 }
+            case 3:
+            	switch(args.get(0)){
+	            	case "RACE":
+	            		switch(args.get(1).toUpperCase()) {
+	            			case "LAPCOMPLETED":
+	            				Race.lapCompleted(Integer.parseInt(args.get(2)));
+	            				return;
+	            			case "LAPS":
+	            				Race.setLapsTotal(Integer.parseInt(args.get(2)));
+	            				return;
+	            		}
+	            }
+            case 5:
+            	switch(args.get(0)) {
+	            	case "RACE":
+		            	switch(args.get(1).toUpperCase()) {
+		            		case "ADDRACER":
+			            		Race.addRacer(args.get(2), args.get(3), Integer.parseInt(args.get(4)));
+			            		return;
+		            	}
+		            	return;
+            	}
             case 7:
             	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1)+ " "+ args.get(2)+ " "+ args.get(3)+ " "+ args.get(4)+ " "+ args.get(5)+ " "+ args.get(6));
                 Model.updateMatch(Integer.parseInt(args.get(1)), args.get(2),Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), Integer.parseInt(args.get(5)), args.get(6));
@@ -157,8 +194,10 @@ public class Main extends Application{
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
                 + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
-                + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n");
+                + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
+                + "RACE //View Race commands\n");
                 }
+}
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -173,15 +212,15 @@ public class Main extends Application{
 		Button save = new Button();
 		Button start = new Button();
 		TextField saveTournament = new TextField();
-
+		
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
 		TextField importWrestlerField = new TextField ();
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
 		// create buttons/textfields for view of team and wrestlers
-
-
+		
+		
 		importTeams.setMinWidth(110);
 		importWrestlers.setMinWidth(110);
 		viewTeams.setMinWidth(110);
@@ -191,7 +230,7 @@ public class Main extends Application{
 		start.setMinWidth(110);
 		save.setText("Save");
 		start.setText("Start");
-
+		
 		importTeams.setText("Import Teams");
 		importWrestlers.setText("Import Wrestlers");
 		viewTeams.setText("View Teams");
@@ -213,17 +252,17 @@ public class Main extends Application{
 		layout.add(saveTournament, 1, 5);
 		layout.add(start, 0, 6);
 		viewTeams.setOnAction(e -> {
-
+			
 			ArrayList<Team> show = Model.printTeams();
 			for(int i = 0; i < show.size(); i++) {
 				listView.getItems().add(show.get(i));
 			}
-
+			
 		    return;
 		});
-
+		
 		viewWrestlers.setOnAction(e -> {
-
+			
 			ArrayList<Wrestler> wrestlerList = Model.printWrestlers();
 			/*for(int i = 0; i < wrestlerListshow.size(); i++) {
 				listView.getItems().add(wrestlerListshow.get(i));
@@ -231,12 +270,12 @@ public class Main extends Application{
 			for(int i = 0; i < wrestlerList.size(); i++) {
 				wrestlerView.getItems().add(wrestlerList.get(i));
 			}
-
+			
 		    return;
 		});
-
+		
 		importTeams.setOnAction(e -> {
-
+		
 			FileChooser fc = new FileChooser();
 			File seletedFile = fc.showOpenDialog(null);
 			if(seletedFile != null) {
@@ -258,15 +297,15 @@ public class Main extends Application{
 					 teamsAlert.show();
 					 return;
 				 }
-
-
+					 
+				
 			}
 			else {
 				System.out.println("Err");
 			}
 		});
-
-
+		
+		
 		importWrestlers.setOnAction(e -> {
 			FileChooser fc = new FileChooser();
 			File seletedFile = fc.showOpenDialog(null);
@@ -289,15 +328,15 @@ public class Main extends Application{
 					 wrestlerAlert.show();
 					 return;
 				 }
-
-
+					 
+				
 			}
 			else {
 				System.out.println("Err");
 			}
 		});
-
-
+		
+		
 		save.setOnAction(e -> {
 			String textbox = saveTournament.getText();
 			if(textbox.equals("Name of Tournament")) {
@@ -307,7 +346,7 @@ public class Main extends Application{
 				Model.saveTournament(textbox);
 			}
 		});
-
+		
 		start.setOnAction(e -> {
 			int check = Model.generateTournament();
 			if(check == 0) {
@@ -332,16 +371,16 @@ public class Main extends Application{
 				return;
 			}
 		});
-
+		
 		mainMenu.getChildren().addAll(layout);
 		viewList.prefWidth(100);
 		viewList.getChildren().addAll(listView,wrestlerView);
 		root.setLeft(mainMenu);
 		root.setCenter(viewList);
-
+		
 		stage.setScene(new Scene(root, 700, 700));
-
+		
 		stage.show();
-
+		
 	}
 }
