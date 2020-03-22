@@ -273,6 +273,7 @@ public class Main extends Application{
 		            	}
 		            	return;
             	}
+                }
             case 6:
               log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1)+ " "+ args.get(2)+ " "+ args.get(3)+ " "+ args.get(4)+ " "+ args.get(5));
             	Model.updateMatch(args.get(1),Integer.parseInt(args.get(2)), Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), args.get(5));
@@ -303,6 +304,7 @@ public class Main extends Application{
                 + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
                 + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
                 + "RACE //View Race commands\n");
+                + "UPDATE-MATCH winningColor greenPoints redPoints fallType(int) fallTime\n");
                 }
 
 	@Override
