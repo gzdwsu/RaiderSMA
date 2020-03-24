@@ -38,7 +38,7 @@ public class Main extends Application{
     log.createLogFiles();
     launch(args);
 
-    System.out.println("Please enter the sport you would like to manage(wrestling/soccer):");
+    System.out.println("Please enter the sport you would like to manage(wrestling/soccer):\nNote: Enter 'QUIT' at anytime to end the program.");
 	while(true) {
 	String sportSelection = s.nextLine();
 	switch(sportSelection.toLowerCase()) {
@@ -49,6 +49,9 @@ public class Main extends Application{
     case "soccer":
     	Model soccerModel = new Model("soccer");
     	soccerMenu();
+    	break;
+    case "quit":
+    	exitProgram();
     	break;
     default:	
     	System.out.println("Incorrect input. Please enter wrestling/soccer");   
@@ -113,6 +116,9 @@ public class Main extends Application{
     	                   case "HELP":
     	                       printHelpSoccer();
     	                       return;
+    	                   case "QUIT":
+    	                   	exitProgram();
+    	                   	break;
     	                   default:
     	                       throw new BadCommandException();
     	               }
@@ -154,6 +160,7 @@ public class Main extends Application{
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-SOCCER-PLAYERS FileName //Parses the provided file for Soccer objects\n"
                 + "VIEW-SOCCER-PLAYER SoccerPlayerName //Looks for the soccer player and prints his/her information\n"
+                + "QUIT // Exits the program\n"
                 );
                 }
     
@@ -190,6 +197,9 @@ public class Main extends Application{
                         return;
                     case "RACE":
                     	Race.printMenu();
+                    	return;
+                    case "QUIT":
+                    	exitProgram();
                     	return;
                     default:
                         throw new BadCommandException();
@@ -297,8 +307,14 @@ public class Main extends Application{
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
                 + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
                 + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
-                + "RACE //View Race commands\n");
-                }
+                + "RACE //View Race commands\n"
+                + "quit // Exit the program.\n");
+    }
+    
+    public static void exitProgram() {
+    	System.out.println("Exiting program...");
+    	System.exit(0);
+    }
 
 	@Override
 	public void start(Stage stage) throws Exception {
