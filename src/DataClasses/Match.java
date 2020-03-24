@@ -8,6 +8,8 @@ import wrestlingtournamentcli.*;
  *
  * ==Match implements Comparable==
  *
+ * Edited By: James Walter Wright, Lines 185 to 221 as of 3/10/2020
+ *
  * =Member Variables= -matchID:int -greenWrestler:String //Will be regarded as
  * Wrestler One -redWrestler:String //Will be regarded as Wrestler Two
  * -matNumber:int -fallType:int //Before being placed into the match details, it
@@ -83,6 +85,10 @@ public class Match implements Comparable, Serializable{
         this.matchID = matchID;
     }
 
+    public void setRound(int round) {
+    	this.round = round;
+    }
+    
     public void setMatID(int matID) {
         this.matNumber = matID;
     }
@@ -178,26 +184,43 @@ public class Match implements Comparable, Serializable{
        return new MatchRecord(pos,roundNumber,matchInRound,weightClass,greenWrestler,greenTeam,redWrestler,redTeam);
     }
 
+    //I have Removed the if and else statements and created the apporpriate code to work with switch cases instead
+    //Lines 185 to 221 as of 3/12/2020
     private int StringToFallType(String s) {
         s = s.toUpperCase();
-        if (s.contains("PIN")) {
-            return 1;
-        } else if (s.contains("TECH")) {
-            return 2;
-        } else if (s.contains("MAJ")) {
-            return 3;
-        } else if (s.contains("DEC")) {
-            return 4;
-        } else if (s.contains("DIS") || s.contains("DQ")) {
-            return 5;
-        } else if (s.contains("DEF") || s.contains("INJ")) {
-            return 6;
-        } else if (s.contains("FOR") || s.contains("BYE")) {
-            return 7;
-        } else {
-            Exception e = new IncorrectFormatException(s);
-            System.out.println(e.getMessage());
-            return 8;
+        String[] values = {"TECH", "MAJ", "DEC", "DIS", "DQ", "DEF", "INJ", "FOR", "BYE"};
+        String match = "default";
+        //the faster the match is found the better
+        for (int i=0; i<values.length; i++){
+            if(s.contains(values[i])){
+            match = values[i];
+            break;
+            }
+        }
+        switch (match){
+            case "TECH":
+                return 2;
+            case "MAJ":
+                return 3;
+            case "DEC":
+                return 4;
+            case "DIS":
+                return 5;
+            case "DQ":
+                return 5;
+            case "DEF":
+                return 6;
+            case "INJ":
+                return 6;
+            case "FOR":
+                return 7;
+            case "BYE":
+                return 7;
+            default: {
+                Exception e = new IncorrectFormatException(s);
+                System.out.println(e.getMessage());
+                return 8;
+            }
         }
     }
 
