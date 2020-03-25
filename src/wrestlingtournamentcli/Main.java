@@ -23,7 +23,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 /**
  * @author Jared Murphy
  * @author Cody Francis
@@ -32,12 +31,13 @@ public class Main extends Application{
     static Error_Reporting log = new Error_Reporting();
     
     public static void main(String[] args) {
-    
+
     Model m = new Model("wrestling");
     Scanner s = new Scanner(System.in);
+    Race race = new Race();
     log.createLogFiles();
     launch(args);
-    
+
     System.out.println("Please enter the sport you would like to manage(wrestling/soccer):");
 	while(true) {
 	String sportSelection = s.nextLine();
@@ -53,7 +53,6 @@ public class Main extends Application{
     default:	
     	System.out.println("Incorrect input. Please enter wrestling/soccer");   
 				}
-
     }
     }
     public static void wrestlingMenu() {
@@ -96,7 +95,6 @@ public class Main extends Application{
           System.out.println(e.getMessage());
       }
       }
-
   }
     
     public static void processInputSoccer(ArrayList<String> args) throws Exception{
@@ -143,9 +141,7 @@ public class Main extends Application{
     	           default:
     	               printHelpSoccer();
     	               return;
-
     	   }
-
     	}
     
     
@@ -192,6 +188,9 @@ public class Main extends Application{
                     	log.writeActionlog("Command Entered: " +args.get(0));
                         printHelp();
                         return;
+                    case "RACE":
+                    	Race.printMenu();
+                    	return;
                     default:
                         throw new BadCommandException();
                 }
@@ -234,10 +233,44 @@ public class Main extends Application{
                     	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.setTournamentName(args.get(1));
                         return;
+                    case "RACE":
+                    	switch(args.get(1).toUpperCase()) {
+	                    	case "LISTRACERS":
+	                    		Race.listRacers();
+	                    		return;
+	                    	case "START":
+	                    		Race.start();
+	                    		return;
+	                    	case "STATUS":
+	                    		Race.getStatus();
+	                    		return;
+                    	}
                 }
-            case 7:
-            	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1)+ " "+ args.get(2)+ " "+ args.get(3)+ " "+ args.get(4)+ " "+ args.get(5)+ " "+ args.get(6));
-                Model.updateMatch(Integer.parseInt(args.get(1)), args.get(2),Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), Integer.parseInt(args.get(5)), args.get(6));
+            case 3:
+            	switch(args.get(0)){
+	            	case "RACE":
+	            		switch(args.get(1).toUpperCase()) {
+	            			case "LAPCOMPLETED":
+	            				Race.lapCompleted(Integer.parseInt(args.get(2)));
+	            				return;
+	            			case "LAPS":
+	            				Race.setLapsTotal(Integer.parseInt(args.get(2)));
+	            				return;
+	            		}
+	            }
+            case 5:
+            	switch(args.get(0)) {
+	            	case "RACE":
+		            	switch(args.get(1).toUpperCase()) {
+		            		case "ADDRACER":
+			            		Race.addRacer(args.get(2), args.get(3), Integer.parseInt(args.get(4)));
+			            		return;
+		            	}
+		            	return;
+            	}
+            case 6:
+              log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1)+ " "+ args.get(2)+ " "+ args.get(3)+ " "+ args.get(4)+ " "+ args.get(5));
+            	Model.updateMatch(args.get(1),Integer.parseInt(args.get(2)), Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), args.get(5));
                 System.out.println("Match Updated!");
                 return;
             default:
@@ -258,12 +291,13 @@ public class Main extends Application{
                 + "HELP //Display list of available commands\n"
                 + "LOAD TournamentName //Loads all files associated with this tournament name\n"
                 + "SAVE TournamentName //Saves all information associated with this tournament to files with tournamentName\n"
-                + "NAME TournamentName //Changes the tournament's name"
+                + "NAME TournamentName //Changes the tournament's name\n"
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-WRESTLERS FileName //Parses the provided file for Wrestler objects\n"
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
                 + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
-                + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n");
+                + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
+                + "RACE //View Race commands\n");
                 }
 
 	@Override

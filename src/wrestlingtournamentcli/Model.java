@@ -67,6 +67,7 @@ public class Model {
     private static ArrayList<MatchRecord> matchBank;
     private static ArrayList<SoccerPlayer> soccerPlayerList;
     private static int matches;
+    private static int currentMatchID = 0;
 
     
     /*******************   Constructor   *****************************/
@@ -345,23 +346,24 @@ public class Model {
         bw.close();
     }
 
-    
-    
-    
-    
-    //Update Match Method
-    public static void updateMatch(int matchID, String winningColor, int greenPoints, int redPoints, int fallType, String fallTime){
-        int[] location = matchBank.get(matchID-1).getLocation();
-         
-        bracketList.get(location[0]).updateMatch(location[1],location[2],winningColor, 
-        		greenPoints, redPoints, fallType, fallTime);
+    public static int getCurrentMatchID() {
+    	return currentMatchID;
+    }
+
+    public static void setCurrentMatchID() {
+    	currentMatchID += 1;
     }
     
-    
-    
-    
-    
+    public static void updateMatch(String winningColor, int greenPoints, int redPoints, int fallType, String fallTime){ 
+    	
+        int[] location = matchBank.get(currentMatchID).getLocation();
 
+        matchBank.get(currentMatchID).matchInRound++;//increment both match in round and round number
+        //matchBank.get(currentMatchID).roundNumber++;
+        bracketList.get(location[0]).updateMatch(location[1],location[2],winningColor, greenPoints, redPoints, fallType, fallTime);
+        advanceTournament();//added a call to advance tournament. this should be done automatically for every match updated 
+
+    }
     //Takes in a wrestler's name and returns a nine character username
     //Ideally, it will use 6 from the lastname and 3 from the firstname.
     //If lastName.length < 6, it will switch over to the firstName early
