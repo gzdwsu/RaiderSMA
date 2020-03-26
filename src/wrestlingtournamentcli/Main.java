@@ -18,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -312,6 +313,7 @@ public class Main extends Application{
 		Button importWrestlers = new Button();
 		Button save = new Button();
 		Button start = new Button();
+		ToggleButton theme = new ToggleButton();
 		TextField saveTournament = new TextField();
 		
 		ListView<Team> listView = new ListView<Team>();
@@ -329,8 +331,10 @@ public class Main extends Application{
 		saveTournament.setMinWidth(110);
 		save.setMinWidth(110);
 		start.setMinWidth(110);
+		theme.setMinWidth(110);
 		save.setText("Save");
 		start.setText("Start");
+		theme.setText("Change Theme");
 		
 		importTeams.setText("Import Teams");
 		importWrestlers.setText("Import Wrestlers");
@@ -352,6 +356,7 @@ public class Main extends Application{
 		layout.add(save, 0, 5);
 		layout.add(saveTournament, 1, 5);
 		layout.add(start, 0, 6);
+		layout.add(theme, 0, 7);
 		viewTeams.setOnAction(e -> {
 			
 			ArrayList<Team> show = Model.printTeams();
@@ -470,6 +475,14 @@ public class Main extends Application{
 			}
 			else {
 				return;
+			}
+		});
+		
+		theme.setOnAction(e -> {
+			if(!(theme.isSelected())) {
+				root.getStylesheets().remove(getClass().getResource("DarkThemeChanges.css").toExternalForm());
+			} else {
+				root.getStylesheets().add(getClass().getResource("DarkThemeChanges.css").toExternalForm());
 			}
 		});
 		
