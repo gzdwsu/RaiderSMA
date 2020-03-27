@@ -7,6 +7,8 @@ import loggingFunctions.*;
 import DataClasses.*;
 import javafx.scene.control.ListView;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.application.Application;
@@ -312,6 +314,8 @@ public class Main extends Application{
 		Button importWrestlers = new Button();
 		Button save = new Button();
 		Button start = new Button();
+		Button addNewTeams = new Button();
+		
 		TextField saveTournament = new TextField();
 		
 		ListView<Team> listView = new ListView<Team>();
@@ -329,6 +333,8 @@ public class Main extends Application{
 		saveTournament.setMinWidth(110);
 		save.setMinWidth(110);
 		start.setMinWidth(110);
+		addNewTeams.setMinWidth(110);
+		addNewTeams.setText("Add your own Team");
 		save.setText("Save");
 		start.setText("Start");
 		
@@ -347,10 +353,11 @@ public class Main extends Application{
 		layout.add(menu, 1, 0);
 		layout.add(importWrestlers, 0, 1);
 		layout.add(importTeams, 0, 3);
+		layout.add(addNewTeams, 1, 1);
 		layout.add(viewTeams, 0, 4);
 		layout.add(viewWrestlers, 0, 2);
 		layout.add(save, 0, 5);
-		layout.add(saveTournament, 1, 5);
+		layout.add(saveTournament, 1, 8);
 		layout.add(start, 0, 6);
 		viewTeams.setOnAction(e -> {
 			
@@ -405,6 +412,130 @@ public class Main extends Application{
 				System.out.println("Err");
 			}
 		});
+		
+		//Set the button on action, it will display labels and text field 
+		// to allow the user to input his/her own team information. 
+		addNewTeams.setOnAction(e -> {
+			
+			
+			//Label and text field for the team name. 
+			Label teamName = new Label("Team 1 Name:");
+			TextField userOwnTeam1Name = new TextField();
+			
+			//Label and textField for the team Initials
+			Label teamInitials = new Label("Team 1 Initials:");
+			TextField userOwnTeamInitials = new TextField();
+			
+			//Label and text field for team Mascot
+			Label teamMascot = new Label("Team 1 Mascot:");
+			TextField userOwnTeamMascot = new TextField();
+			
+			//Second Team Info: 
+
+			//Label and text field for the team name. 
+			Label team2Name = new Label("Team 2 Name:");
+			TextField userOwnTeam2Name = new TextField();
+			
+			//Label and textField for the team Initials
+			Label team2Initials = new Label("Team 2 Initials:");
+			TextField userOwnTeam2Initials = new TextField();
+			
+			//Label and text field for team Mascot
+			Label team2Mascot = new Label("Team 2 Mascot:");
+			TextField userOwnTeam2Mascot = new TextField();
+			
+			Button addTeams = new Button("Add");
+
+			addTeams.setMinWidth(110);
+			
+			//Placing the labels and textField in the stage window for the first team. 
+			layout.add(teamName, 1, 2);  
+			layout.add(userOwnTeam1Name, 1, 3); 
+			layout.add(teamInitials, 1, 4); 
+			layout.add(userOwnTeamInitials, 1, 5);
+			layout.add(teamMascot, 1, 6);
+			layout.add(userOwnTeamMascot, 1, 7);
+
+			//Placing the labels and textField in the stage window for the first team for Second Team 
+			layout.add(team2Name, 2, 2);  
+			layout.add(userOwnTeam2Name, 2, 3); 
+			layout.add(team2Initials, 2, 4); 
+			layout.add(userOwnTeam2Initials, 2, 5);
+			layout.add(team2Mascot, 2, 6);
+			layout.add(userOwnTeam2Mascot, 2, 7);
+
+			layout.add(addTeams, 2, 8);
+			
+
+			addTeams.setOnAction(e2 -> {
+				//Get user input and assign it to a String variable. 
+				String teamNameText = userOwnTeam1Name.getText();
+				String teamInitiText = userOwnTeamInitials.getText();
+				String teamMascotText = userOwnTeamMascot.getText();
+				
+				String teamNameText2 = userOwnTeam2Name.getText();
+				String teamInitiText2 = userOwnTeam2Initials.getText();
+				String teamMascotText2 = userOwnTeam2Mascot.getText();
+				
+				//Check if any of the textFields is empty, if empty alert the user if not proceed to next code block
+					if (teamNameText.isEmpty() || teamInitiText.isEmpty() || teamMascotText.isEmpty() ||
+					teamNameText2.isEmpty() || teamInitiText2.isEmpty() || teamMascotText2.isEmpty()){
+						
+						Alert emptyTextField = new Alert(AlertType.ERROR);
+						 emptyTextField.setTitle("ERROR");
+						 String errorMessage = "Please insert information in all text Fields";
+						 emptyTextField.setContentText(errorMessage);
+						 emptyTextField.show();
+						 return;
+						
+					}
+					else {
+						
+						try {
+							//Create a file that will store the user input. 
+							File newFile = new File("myTeams.txt");
+							
+								FileWriter writeTo = new FileWriter("myTeams.txt");
+								PrintWriter printToFile = new PrintWriter(writeTo);
+								
+								printToFile.print(teamNameText + ", ");
+								printToFile.print(teamInitiText + ", ");
+								printToFile.print(teamMascotText + ", ");
+								printToFile.print("\n");
+								
+								printToFile.print(teamNameText2 + ", ");
+								printToFile.print(teamInitiText2 + ", ");
+								printToFile.print(teamMascotText2 + ", ");
+								printToFile.close();
+								
+								
+						Alert addAlert = new Alert(AlertType.CONFIRMATION);
+						addAlert.setTitle("Alert");
+						String addMsg = "Your teams added successfully, please Import the file 'myTeams.txt' by using 'Import Teams' Button ";
+						addAlert.setContentText(addMsg);
+						addAlert.show();
+						
+							
+						}
+						
+						catch (Exception ex) {
+							
+							Alert createFileError = new Alert(AlertType.ERROR);
+							createFileError.setTitle("DONE!");
+							 String errorMessage = "The file is not exists";
+							 createFileError.setContentText(errorMessage);
+							 createFileError.show();
+							 return;
+						}
+						
+					}
+					
+			});
+			
+		});
+		
+		
+		
 		
 		
 		importWrestlers.setOnAction(e -> {
