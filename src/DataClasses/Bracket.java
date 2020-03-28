@@ -23,12 +23,13 @@ import wrestlingtournamentcli.Model;
  */
 public class Bracket implements Serializable {
 
-    ArrayList<ArrayList<Match>> bracket = new ArrayList();
-    private ArrayList<Wrestler> wrestlerList;
+    public ArrayList<ArrayList<Match>> bracket = new ArrayList();
+     static ArrayList<Wrestler> wrestlerList;
     String winner;
     int roundsNeeded;
     int currentRound;
-    int weightClass;
+    static int weightClass;
+    int size;
     boolean primary;
 
     public Bracket(ArrayList<Wrestler> wrestlerList) {
@@ -37,7 +38,9 @@ public class Bracket implements Serializable {
         this.roundsNeeded = determineRounds();
         initializeBracket();
         this.currentRound = 0;
+        this.size = wrestlerList.size();
         printBracket(false);
+										
     }
 
     public int determineRounds() {
@@ -85,7 +88,7 @@ public class Bracket implements Serializable {
         bracket.add(orgTemp);
     }
     
-    public void nextRound(){//this function progresses the tournament by ensuring the matches are over and allowing the program to go on to the next bracket when needed
+public void nextRound(){//this function progresses the tournament by ensuring the matches are over and allowing the program to go on to the next bracket when needed
     	
 		for(int j = 0; j < bracket.get(0).size(); j++) { //enter a for loop to iterate over the match objects in bracket
 			if(bracket.get(0).get(j).isComplete()) {//if the current object returns true for isComplete() then it has been updated and should be checked to see if it meets the rounds required
@@ -106,6 +109,19 @@ public class Bracket implements Serializable {
 			}
 		}
     }
+																															
+														  
+			 
+	  
+		   
+																																											
+														  
+			 
+	  
+	 
+	
+   
+    
     
     public void updateMatch(int roundID, int pos, String winningColor, int greenPoints, int redPoints, int fallType, String fallTime){
         bracket.get(roundID).get(pos).updateMatch(fallType, winningColor, greenPoints, redPoints, fallTime);
@@ -170,7 +186,8 @@ public class Bracket implements Serializable {
             for (int i = bracket.size() - 1; i != -1; i--) {
                 writeRound(bracket.get(i), i, bw);
             }
-            System.out.println(weightClass + ": " + bracket.get(0).size() + "\tWrestlers: " + wrestlerList.size());
+            
+           // System.out.println(weightClass + ": " + bracket.get(0).size() + "\tWrestlers: " + wrestlerList.size());
             //System.out.println("Bracket printed successfully!");
             try {
                 bw.close();
@@ -381,4 +398,21 @@ public class Bracket implements Serializable {
     }
     
     
+    
+    public static int getWeightClass() {//Returns weight class to be displayed in GUI
+		return weightClass;
+    	
+    }
+    
+    //public static ArrayList<ArrayList<Match>> getBracketSize() {
+	//	return bracket;
+    	
+   // }
+    
+    public int getWrestlerListSize() {
+		return size;
+    	
+    }
+	
+   
 }
