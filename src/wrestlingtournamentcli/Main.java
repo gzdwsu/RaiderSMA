@@ -312,6 +312,12 @@ public class Main extends Application{
 		Button importWrestlers = new Button();
 		Button save = new Button();
 		Button start = new Button();
+		
+		//button declarations i've added
+		Button advance = new Button();
+		Button help = new Button();
+		Button update = new Button();
+		
 		TextField saveTournament = new TextField();
 		
 		ListView<Team> listView = new ListView<Team>();
@@ -321,7 +327,6 @@ public class Main extends Application{
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
 		// create buttons/textfields for view of team and wrestlers
 		
-		
 		importTeams.setMinWidth(110);
 		importWrestlers.setMinWidth(110);
 		viewTeams.setMinWidth(110);
@@ -329,6 +334,15 @@ public class Main extends Application{
 		saveTournament.setMinWidth(110);
 		save.setMinWidth(110);
 		start.setMinWidth(110);
+		
+		//button layouts i've defined
+		update.setMinWidth(110);
+		help.setMinWidth(110);
+		advance.setMinWidth(110);
+		advance.setText("Advance");
+		help.setText("Help");
+		update.setText("Update-Match");
+		
 		save.setText("Save");
 		start.setText("Start");
 		
@@ -352,6 +366,11 @@ public class Main extends Application{
 		layout.add(save, 0, 5);
 		layout.add(saveTournament, 1, 5);
 		layout.add(start, 0, 6);
+		
+		layout.add(advance, 0, 7);
+		layout.add(help, 0, 8);
+		layout.add(update, 0, 9);
+		
 		viewTeams.setOnAction(e -> {
 			
 			ArrayList<Team> show = Model.printTeams();
@@ -405,7 +424,6 @@ public class Main extends Application{
 				System.out.println("Err");
 			}
 		});
-		
 		
 		importWrestlers.setOnAction(e -> {
 			FileChooser fc = new FileChooser();
