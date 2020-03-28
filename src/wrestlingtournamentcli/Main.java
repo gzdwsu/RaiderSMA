@@ -306,6 +306,7 @@ public class Main extends Application{
 		BorderPane root = new BorderPane();
 		VBox mainMenu = new VBox();
 		VBox viewList = new VBox();
+		Button add = new Button();
 		Button viewTeams = new Button();
 		Button viewWrestlers = new Button();
 		Button importTeams = new Button();
@@ -313,6 +314,13 @@ public class Main extends Application{
 		Button save = new Button();
 		Button start = new Button();
 		TextField saveTournament = new TextField();
+		TextField FirstName = new TextField();
+		TextField LastName = new TextField();
+		TextField TeamAlias = new TextField();
+		TextField Grade = new TextField();
+		TextField Weight = new TextField();
+		TextField TotalWins = new TextField();
+		TextField TotalMatch =  new TextField();
 		
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
@@ -321,7 +329,8 @@ public class Main extends Application{
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
 		// create buttons/textfields for view of team and wrestlers
 		
-		
+		add.setMinWidth(110); 
+		add.setText("Add Wrestler");
 		importTeams.setMinWidth(110);
 		importWrestlers.setMinWidth(110);
 		viewTeams.setMinWidth(110);
@@ -329,14 +338,23 @@ public class Main extends Application{
 		saveTournament.setMinWidth(110);
 		save.setMinWidth(110);
 		start.setMinWidth(110);
+		FirstName.setMinWidth(110);
+		LastName.setMinWidth(110);
 		save.setText("Save");
 		start.setText("Start");
+		FirstName.setPromptText("First Name");
+		LastName.setPromptText("Last Name");
+		TeamAlias.setPromptText("Team Alias");
+		Grade.setPromptText("Grade");
+		Weight.setPromptText("Player's Weight");
+		TotalWins.setPromptText("Total Wins");
+		TotalMatch.setPromptText("Total Match");
 		
 		importTeams.setText("Import Teams");
 		importWrestlers.setText("Import Wrestlers");
 		viewTeams.setText("View Teams");
 		viewWrestlers.setText("View Wrestlers");
-		saveTournament.setText("Name of Tournament");
+		saveTournament.setPromptText("Name of Tournament");
 		//create the layout of the menu
 		GridPane layout = new GridPane();
 		layout.setPadding(new Insets(10,10,10,10));
@@ -351,7 +369,15 @@ public class Main extends Application{
 		layout.add(viewWrestlers, 0, 2);
 		layout.add(save, 0, 5);
 		layout.add(saveTournament, 1, 5);
-		layout.add(start, 0, 6);
+		layout.add(start, 0, 13);
+		layout.add(add, 0, 6);
+		layout.add(FirstName, 1, 6);
+		layout.add(LastName, 1, 7);
+		layout.add(TeamAlias, 1, 8);
+		layout.add(Grade, 1, 9);
+		layout.add(Weight, 1, 10);
+		layout.add(TotalWins, 1,11);
+		layout.add(TotalMatch, 1, 12);
 		viewTeams.setOnAction(e -> {
 			
 			ArrayList<Team> show = Model.printTeams();
@@ -472,7 +498,32 @@ public class Main extends Application{
 				return;
 			}
 		});
-		
+		add.setOnAction(e-> {
+			if(FirstName.getText().isEmpty() && LastName.getText().isEmpty() 
+					&& TeamAlias.getText().isEmpty() && Grade.getText().isEmpty() && Weight.getText().isEmpty() &&
+					TotalWins.getText().isEmpty() && TotalMatch.getText().isEmpty()) {
+				Alert FirstNameEmpty = new Alert(AlertType.ERROR);
+				FirstNameEmpty.setTitle("New Player Alert");
+				String FirstNameEmptyInfo = "Please enter Information \n";
+				FirstNameEmpty.setContentText(FirstNameEmptyInfo);
+				FirstNameEmpty.show();
+			}
+			else {
+				try {
+				String FN = FirstName.getText();
+				String LN = LastName.getText();
+				String TA = TeamAlias.getText();
+				int grade = Integer.parseInt(Grade.getText());
+				int weight = Integer.parseInt(Weight.getText());
+				int totalWins = Integer.parseInt(TotalWins.getText());
+				int totalMatch = Integer.parseInt(TotalMatch.getText());
+				new Wrestler(FN, LN,TA, grade, weight, totalWins, totalMatch);
+				}
+				catch(Exception a) {
+					System.out.println("Something went wrong");
+				}
+			}
+		});
 		mainMenu.getChildren().addAll(layout);
 		viewList.prefWidth(100);
 		viewList.getChildren().addAll(listView,wrestlerView);
@@ -482,6 +533,5 @@ public class Main extends Application{
 		stage.setScene(new Scene(root, 700, 700));
 		
 		stage.show();
-		
 	}
 }

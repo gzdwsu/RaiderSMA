@@ -44,7 +44,7 @@ public class Wrestler implements Comparable, Serializable{
         this.seed = 100;
     }
     
-    public Wrestler(int weightClass){
+    public Wrestler(){
     this.firstName = "";
     this.lastName = "";
     this.weightClass = weightClass;
