@@ -94,6 +94,8 @@ public class Main extends Application{
       }catch(Exception e){
           System.out.println("Sorry! The command '" + input + "' either wasn't recognized or experienced an error.");
           System.out.println(e.getMessage());
+	      log.writeErrorLog(e.getMessage());
+	      log.writeErrorStack(e);
       }
       }
 
@@ -107,12 +109,15 @@ public class Main extends Application{
     	           case 1: //Single-Command expressions
     	               switch(args.get(0)){
     	                   case "VIEW-TEAMS":
+    	                	   log.writeActionlog("Command Entered: " +args.get(0));
     	                       Model.printTeams();
     	                       return;
     	                   case "VIEW-SOCCER-PLAYERS":
+    	                	   log.writeActionlog("Command Entered: " +args.get(0));
     	                       Model.printSoccerPlayers();
     	                       return;
     	                   case "HELP":
+    	                	   log.writeActionlog("Command Entered: " +args.get(0));
     	                       printHelpSoccer();
     	                       return;
     	                   default:
@@ -123,6 +128,7 @@ public class Main extends Application{
     	                   case "IMPORT-TEAMS":
     	                       if(args.get(1).substring(args.get(1).length()-4).equals(".txt")){
     	                       Model.importTeamsFromText(args.get(1));
+    	                       log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
     	                       }else{
     	                       System.out.println("Error: Not a supported file extension.");
     	                       }
@@ -130,12 +136,14 @@ public class Main extends Application{
     	                   case "IMPORT-SOCCER-PLAYERS":
     	                       if(args.get(1).substring(args.get(1).length()-4).equals(".txt")){
     	                       Model.importSoccerPlayersFromText(args.get(1));
+    	                       log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
     	                       }else{
     	                       System.out.println("Error: Not a supported file extension.");
     	                       }
     	                       return;
     	                   case "VIEW-SOCCER-PLAYER":
     	                       Model.printSoccerPlayerInformation(args.get(1));
+    	                       log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
     	                       return;
     					default:
     						break;
