@@ -33,12 +33,18 @@ public class Wrestler implements Comparable, Serializable{
         this.team = Model.teamLookup(teamAlias.toUpperCase());
         this.userName = Model.getUserName(lastName, firstName);
         this.grade = grade;
+        if(Model.verifyWeightClass(weightClass)){
         this.weightClass = weightClass;
+        }else{
+        throw new NotFoundException(weightClass);
+        }
         this.totalWinCount = totalWins;
         this.totalMatchCount = totalMatches;
+        this.rating = generateRating();
+        this.seed = 100;
     }
     
-    public Wrestler(){
+    public Wrestler(int weightClass){
     this.firstName = "";
     this.lastName = "";
     this.weightClass = weightClass;
