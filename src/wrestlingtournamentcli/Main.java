@@ -1,7 +1,9 @@
 
 package wrestlingtournamentcli;
 import DataClasses.*;
+import java.util.Optional;
 import java.util.ArrayList;
+import javafx.scene.control.ButtonType;
 import java.util.Scanner;
 import loggingFunctions.*;
 import DataClasses.*;
@@ -289,7 +291,6 @@ public class Main extends Application{
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
 		ListView<String> startView = new ListView<String>();
-		TextField importWrestlerField = new TextField ();
 		TextField importWrestlerField = new TextField();
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
@@ -528,7 +529,7 @@ public class Main extends Application{
         });
 		mainMenu.getChildren().addAll(layout);
 		viewList.prefWidth(100);
-		viewList.getChildren().addAll(listView,wrestlerView,compareWrestlerView);
+		viewList.getChildren().addAll(listView,wrestlerView,compareWrestlerView,startView);
 		root.setLeft(mainMenu);
 		root.setCenter(viewList);
 		
