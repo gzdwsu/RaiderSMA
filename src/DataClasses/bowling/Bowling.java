@@ -10,7 +10,6 @@ public class Bowling {
 		System.out.println("List of Commands and their parameters:\n"
 				+ "Command Parameter1 Parameter2 Parameter 3...\n"
 				+ "AddBowler FirstName LastName Number\n"
-				+ "ListBowlers\n"
 				+ "Help\n"
 				+ "Roll PlayerNumber PinsKnockedDown\n"
 				+ "Status\n"
