@@ -370,9 +370,9 @@ public class Main extends Application{
 		layout.add(saveTournament, 1, 5);
 		layout.add(start, 0, 6);
 		
-		layout.add(advance, 0, 7);
-		layout.add(help, 0, 8);
-		layout.add(update, 0, 9);
+		layout.add(advance, 0, 8);
+		layout.add(help, 0, 9);
+		layout.add(update, 0, 7);
 		
 		viewTeams.setOnAction(e -> {
 			
