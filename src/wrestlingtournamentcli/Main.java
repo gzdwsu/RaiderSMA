@@ -328,7 +328,6 @@ public class Main extends Application{
 		TextField importWrestlerField = new TextField ();
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
-		// create buttons/textfields for view of team and wrestlers
 		
 		importTeams.setMinWidth(110);
 		importWrestlers.setMinWidth(110);
@@ -338,7 +337,6 @@ public class Main extends Application{
 		save.setMinWidth(110);
 		start.setMinWidth(110);
 		
-		//button layouts i've defined
 		update.setMinWidth(110);
 		help.setMinWidth(110);
 		advance.setMinWidth(110);
@@ -387,9 +385,7 @@ public class Main extends Application{
 		viewWrestlers.setOnAction(e -> {
 			
 			ArrayList<Wrestler> wrestlerList = Model.printWrestlers();
-			/*for(int i = 0; i < wrestlerListshow.size(); i++) {
-				listView.getItems().add(wrestlerListshow.get(i));
-			}*/
+			
 			for(int i = 0; i < wrestlerList.size(); i++) {
 				wrestlerView.getItems().add(wrestlerList.get(i));
 			}
