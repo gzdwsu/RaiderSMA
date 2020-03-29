@@ -16,60 +16,8 @@ public class Bowler extends Athlete{
 	
 	@Override
 	public String toString() {
-		return getFirstName() + " " + getLastName() + " #" + getNumber() + " Current Score: " + calculateScore() + " \n\tRolls: " + scores + "\n";
+		return getFirstName() + " " + getLastName() + " #" + getNumber() + " \n\tRolls: " + scores + "\n";
 	}
-	
-	public int calculateScore() {
-		
-		int score = 0;
-		
-		if (getRollsRolled() != 0) {
-			for (int i = 1; i != getRollsRolled(); i++) {
-				if (getRollsRolled() < 5) {
-					
-				} else {
-					score += getScore(i); // Score current 
-					if (getScore(i-2) == 10) {
-						
-					}
-				}
-			}
-		}
-		
-		
-		
-		return score;
-	}
-	
-//	public int calculateScore() {
-//		int score = 0;
-//		if (getRollsRolled() != 0) {
-//			for (int i = 1; i != getRollsRolled(); i++) {
-//				if (getRollsRolled() < 18) { // Frames 1-9
-//					if (getRollsRolled() % 2 == 0) { // First roll of frame
-//						if (getScore(i) == 10) { // Strike
-//							score += 10 + getScore(i+2);
-//							if (getScore(i+2) == 10) { // Next roll strike
-//								if(getRollsRolled() == 17) { // If currently in the 9th frame
-//									score += getScore(i+3);
-//								} else {
-//									score += getScore(i+4);
-//								}
-//							} else score += getScore(i+3); // Next roll not strike
-//						} else score += getScore(i);
-//					} else { // Second roll of frame
-//						if (getScore(i) + (getScore(i-1)) == 10) { // Spare
-//							score += getScore(i) + getScore(i+1);
-//						}
-//					}
-//	
-//				} else { // Frame 10
-//					score += getScore(i);
-//				}
-//			}
-//		}
-//		return score;
-//	}
 	
 	public void addScore(int score) {
 		scores.add(score);
