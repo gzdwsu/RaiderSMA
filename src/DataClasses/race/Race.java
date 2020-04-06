@@ -25,7 +25,8 @@ public class Race {
 				+ "RACE LapCompleted CarNumber //Choose which racer completed a lap\n"
 				+ "RACE ListRacers //View the list of racers with their numbers\n"
 				+ "RACE Start //Start the race\n"
-				+ "RACE Status //View the race status\n");
+				+ "RACE Status //View the race status\n"
+				+ "QUIT //Quit the program\n");
 	}
 	
 	public static void addRacer(String firstName, String lastName, int carNumber) {

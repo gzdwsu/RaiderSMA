@@ -9,10 +9,11 @@ public class Bowling {
 	public static void printMenu() {
 		System.out.println("List of Commands and their parameters:\n"
 				+ "Command Parameter1 Parameter2 Parameter 3...\n"
-				+ "AddBowler FirstName LastName Number\n"
-				+ "Help\n"
-				+ "Roll PlayerNumber PinsKnockedDown\n"
-				+ "Status\n"
+				+ "AddBowler FirstName LastName Number //Add a bowler\n"
+				+ "Help //Print this help menu\n"
+				+ "Roll PlayerNumber PinsKnockedDown //Tell how many pins were knocked down on the roll\n"
+				+ "Status //List bowlers with their scores\n"
+				+ "Quit //Quit the program"
 				);
 	}
 	
