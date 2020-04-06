@@ -1,14 +1,13 @@
 
 package wrestlingtournamentcli;
 import DataClasses.*;
+import DataClasses.bowling.Bowling;
+import DataClasses.race.Race;
 import java.util.ArrayList;
 import java.util.Scanner;
 import loggingFunctions.*;
-import DataClasses.*;
 import javafx.scene.control.ListView;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,17 +32,25 @@ public class Main extends Application{
     public static void main(String[] args) {
 
     Scanner s = new Scanner(System.in);
-    Race race = new Race();
     log.createLogFiles();
     launch(args);
 
-    System.out.println("Please enter the sport you would like to manage(wrestling/soccer):\nNote: Enter 'QUIT' at anytime to end the program.");
+    System.out.println("Please enter the sport you would like to manage(wrestling/soccer/race/bowling):\n Note: Enter 'QUIT' at anytime to end the program.");
+    
 	while(true) {
 	String sportSelection = s.nextLine();
 	switch(sportSelection.toLowerCase()) {
 	case "wrestling":
 		Model wrestlerModel = new Model("wrestling");
 		wrestlingMenu();
+		break;
+	case "race":
+		Race race = new Race();
+		raceMenu();
+		break;
+	case "bowling":
+		Bowling bowling = new Bowling();
+		bowlingMenu();
 		break;
     case "soccer":
     	Model soccerModel = new Model("soccer");
@@ -53,10 +60,51 @@ public class Main extends Application{
     	exitProgram();
     	break;
     default:	
-    	System.out.println("Incorrect input. Please enter wrestling/soccer");   
+    	System.out.println("Incorrect input. Please enter wrestling/soccer/race/bowling");
 				}
     }
     }
+    
+    public static void raceMenu(){
+    	Scanner s = new Scanner(System.in);
+    	System.out.println("Welcome to the Murphy Racing Manager. For available commands, please type 'help'");
+    	while(true){
+    		System.out.println("\nInput your next command!");
+    		String input = s.nextLine();
+    		try {
+    			ArrayList<String> arguments = new ArrayList();
+    			Scanner argScanner = new Scanner(input);
+    			while(argScanner.hasNext()){
+    				arguments.add(argScanner.next());
+    			}
+    			processInputRace(arguments);
+    		} catch(Exception e){
+    			System.out.println("Sorry! The command '" + input + "' either wasn't recognized or experienced an error.");
+    			System.out.println(e.getMessage());
+    		}
+    	}
+    }
+
+    public static void bowlingMenu(){
+    	Scanner s = new Scanner(System.in);
+    	System.out.println("Welcome to the Murphy Bowling Manager. For available commands, please type 'help'");
+    	while(true){
+    		System.out.println("\nInput your next command!");
+    		String input = s.nextLine();
+    		try {
+    			ArrayList<String> arguments = new ArrayList();
+    			Scanner argScanner = new Scanner(input);
+    			while(argScanner.hasNext()){
+    				arguments.add(argScanner.next());
+    			}
+    			processInputBowling(arguments);
+    		} catch(Exception e){
+    			System.out.println("Sorry! The command '" + input + "' either wasn't recognized or experienced an error.");
+    			System.out.println(e.getMessage());
+    		}
+    	}
+    }
+    
     public static void wrestlingMenu() {
     	Scanner s = new Scanner(System.in);
     	System.out.println("Welcome to the Murphy Wrestling Tournament Manager. For available commands, please type 'help'");
@@ -157,6 +205,104 @@ public class Main extends Application{
     	   }
     	}
     
+    public static void processInputRace(ArrayList<String> args) throws Exception{
+    	args.set(0, args.get(0).toUpperCase());
+    	switch(args.size()){
+    		case 0:
+    			throw new BadCommandException();
+    		case 1: //1-Command expressions
+    			switch(args.get(0)){
+	    			case "HELP":
+	                	Race.printMenu();
+	                	return;
+	    			case "QUIT":
+	                   	exitProgram();
+	                default:
+	                    throw new BadCommandException();
+    			}
+    		case 2: //2-Command expressions
+    			switch(args.get(0)){
+	    			case "RACE":
+	                	switch(args.get(1).toUpperCase()) {
+	                    	case "LISTRACERS":
+	                    		Race.listRacers();
+	                    		return;
+	                    	case "START":
+	                    		Race.start();
+	                    		return;
+	                    	case "STATUS":
+	                    		Race.getStatus();
+	                    		return;
+	                    	default:
+	    	                    throw new BadCommandException();
+	                	}
+    			}
+    		case 3:
+            	switch(args.get(0)){
+	            	case "RACE":
+	            		switch(args.get(1).toUpperCase()) {
+	            			case "LAPCOMPLETED":
+	            				Race.lapCompleted(Integer.parseInt(args.get(2)));
+	            				return;
+	            			case "LAPS":
+	            				Race.setLapsTotal(Integer.parseInt(args.get(2)));
+	            				return;
+	            			default:
+	    	                    throw new BadCommandException();
+	            		}
+	            }
+    		case 5:
+            	switch(args.get(0)) {
+	            	case "RACE":
+		            	switch(args.get(1).toUpperCase()) {
+		            		case "ADDRACER":
+			            		Race.addRacer(args.get(2), args.get(3), Integer.parseInt(args.get(4)));
+			            		return;
+		            		default:
+	    	                    throw new BadCommandException();
+		            	}
+            	}
+    	}
+    }
+
+    public static void processInputBowling(ArrayList<String> args) throws Exception{
+    	args.set(0, args.get(0).toUpperCase());
+    	switch(args.size()){
+    		case 0:
+    			throw new BadCommandException();
+    		case 1: // 1 command expressions
+    			switch(args.get(0)){
+	    			case "HELP":
+	                	Bowling.printMenu();
+	                	return;
+	    			case "STATUS":
+	    				Bowling.status();
+	    				return;
+	    			case "QUIT":
+	                   	exitProgram();
+	                default:
+	                    throw new BadCommandException();
+    			}
+    		case 3: // 3 command expressions
+    			switch(args.get(0)) {
+				case "ROLL":
+					Bowling.roll(Integer.parseInt(args.get(1)), Integer.parseInt(args.get(2)));
+					return;
+				default:
+                    throw new BadCommandException();
+			}
+    		case 4: // 4 command expressions
+    			switch(args.get(0)) {
+    				case "ADDBOWLER":
+    					Bowling.addBowler(args.get(1), args.get(2), Integer.parseInt(args.get(3)));
+    					return;
+    				default:
+	                    throw new BadCommandException();
+    			}
+    		default:
+                throw new BadCommandException();
+    	}
+    }
     
     public static void printHelpSoccer(){
         System.out.println("List of Commands and their parameters:\n"
@@ -202,9 +348,6 @@ public class Main extends Application{
                     	log.writeActionlog("Command Entered: " +args.get(0));
                         printHelp();
                         return;
-                    case "RACE":
-                    	Race.printMenu();
-                    	return;
                     case "QUIT":
                     	exitProgram();
                     	return;
@@ -250,41 +393,7 @@ public class Main extends Application{
                     	log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1));
                         Model.setTournamentName(args.get(1));
                         return;
-                    case "RACE":
-                    	switch(args.get(1).toUpperCase()) {
-	                    	case "LISTRACERS":
-	                    		Race.listRacers();
-	                    		return;
-	                    	case "START":
-	                    		Race.start();
-	                    		return;
-	                    	case "STATUS":
-	                    		Race.getStatus();
-	                    		return;
-                    	}
                 }
-            case 3:
-            	switch(args.get(0)){
-	            	case "RACE":
-	            		switch(args.get(1).toUpperCase()) {
-	            			case "LAPCOMPLETED":
-	            				Race.lapCompleted(Integer.parseInt(args.get(2)));
-	            				return;
-	            			case "LAPS":
-	            				Race.setLapsTotal(Integer.parseInt(args.get(2)));
-	            				return;
-	            		}
-	            }
-            case 5:
-            	switch(args.get(0)) {
-	            	case "RACE":
-		            	switch(args.get(1).toUpperCase()) {
-		            		case "ADDRACER":
-			            		Race.addRacer(args.get(2), args.get(3), Integer.parseInt(args.get(4)));
-			            		return;
-		            	}
-		            	return;
-            	}
             case 6:
               log.writeActionlog("Command Entered: " +args.get(0)+ " "+ args.get(1)+ " "+ args.get(2)+ " "+ args.get(3)+ " "+ args.get(4)+ " "+ args.get(5));
             	Model.updateMatch(args.get(1),Integer.parseInt(args.get(2)), Integer.parseInt(args.get(3)), Integer.parseInt(args.get(4)), args.get(5));
@@ -314,8 +423,7 @@ public class Main extends Application{
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
                 + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
                 + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
-                + "RACE //View Race commands\n"
-                + "quit // Exit the program.\n");
+                + "QUIT // Exit the program.\n");
     }
     
     public static void exitProgram() {
