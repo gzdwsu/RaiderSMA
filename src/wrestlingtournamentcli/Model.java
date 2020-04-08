@@ -738,11 +738,12 @@ public class Model {
     }
 
     
-    public static void printSoccerPlayers() {
+    public static ArrayList<SoccerPlayer> printSoccerPlayers() {
         System.out.println("List of Soccer Players: ");
         for (int i = 0; i != soccerPlayerList.size(); i++) {
             System.out.println(soccerPlayerList.get(i));
         }
+        return soccerPlayerList;
     }
     
     
