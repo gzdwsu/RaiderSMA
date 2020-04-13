@@ -1,9 +1,11 @@
 
 package wrestlingtournamentcli;
 import DataClasses.*;
+import java.util.Optional;
 import DataClasses.bowling.Bowling;
 import DataClasses.race.Race;
 import java.util.ArrayList;
+import javafx.scene.control.ButtonType;
 import java.util.Scanner;
 import loggingFunctions.*;
 import javafx.scene.control.ListView;
@@ -445,15 +447,25 @@ public class Main extends Application{
 		Button save = new Button();
 		Button start = new Button();
 
-		
+
+		Button compareWrestlers = new Button();
+    TextField compareWrestlersTxt = new TextField();
+		TextField saveTournament = new TextField();
+		compareWrestlers.setMinWidth(110);
+		compareWrestlersTxt.setMinWidth(110);
+		compareWrestlers.setText("Compare Wrestlers");
+		compareWrestlersTxt.setText("Name,Name");
+		ListView<String> compareWrestlerView = new ListView<String>();
+    Button wrestlerBack = new Button();
+		ListView<String> startView = new ListView<String>();
 		//button declarations i've added
 		Button advance = new Button();
 		Button help = new Button();
 		Button update = new Button();
     
-		Button wrestlerBack = new Button();
+		
 
-		TextField saveTournament = new TextField();
+		
 
 		// adds tooltips to each menu button
 		Tooltip viewTeamsTooltip = new Tooltip("Displays the imported teams in the display box to the right");
@@ -475,6 +487,7 @@ public class Main extends Application{
 		ListView<String> helpView = new ListView<String>();
 		
 		TextField importWrestlerField = new TextField ();
+
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
 
@@ -574,12 +587,17 @@ public class Main extends Application{
 		layout.add(saveTournament, 1, 5);
 		layout.add(start, 0, 6);
 
-		
-		layout.add(advance, 0, 8);
-		layout.add(help, 0, 9);
-		layout.add(update, 0, 7);
 
-		layout.add(wrestlerBack, 0, 10);
+		layout.add(compareWrestlers, 0, 7);
+		layout.add( compareWrestlersTxt, 1, 7);
+
+
+		
+		layout.add(advance, 0, 9);
+		layout.add(help, 0, 10);
+		layout.add(update, 0, 11);
+
+
 		
 		
 		Scene introScene = new Scene (introRoot, 700, 700);
@@ -600,6 +618,7 @@ public class Main extends Application{
 		});
 
 		
+
 		viewTeams.setOnAction(e -> {
 			
 			ArrayList<Team> show = Model.printTeams();
@@ -791,7 +810,7 @@ public class Main extends Application{
 		});
 		
 		start.setOnAction(e -> {
-			int check = Model.generateTournament();
+			/*int check = Model.generateTournament();
 			if(check == 0) {
 				Alert genTourn0 = new Alert(AlertType.ERROR);
 				genTourn0.setTitle("Generate Tournament ALert");
@@ -804,17 +823,96 @@ public class Main extends Application{
 				return;
 			}
 			else if (check == 2) {
+				if(Model.getBracketList().size() != 0) {
+					
+				}
+				
+                 	//System.out.println(Model.getWeightClass().get(i) + ": " + Model.getBracketList().get(i).bracket.get(0).size()+ "\tWrestlers: " + bracketSize);
+                 }
+                
+			}
+			else {
+				return;
+			}*/
+			
+			
+			if(Model.getWrestlerList().size() == 0 || Model.getTeamList().size() == 0) {//checks to see if there are teams and wrestlers
+				Alert genTourn0 = new Alert(AlertType.ERROR);
+				genTourn0.setTitle("Generate Tournament Alert");
+				String genTourn0Info = "Error: No Wrestlers or Teams Found \n"
+						+ "Please add wrestlers/teams before generating a tournament.";
+				genTourn0.setContentText(genTourn0Info);
+				genTourn0.show();	
+			} else if(Model.getBracketList().size() != 0) {//checks to see if there is already a Tournament and then as user if they want to restart match
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("Restart Tournement Conformation");
+				alert.setContentText("Restart?");
+				alert.setHeaderText("Want to Restart Tournament?");
+				Optional<ButtonType> result = alert.showAndWait(); 
+					if(result.get() == ButtonType.OK) {
+						Model.getBracketList().clear();
+						Model.generateTournament();
+						Alert genTour2 = new Alert(AlertType.CONFIRMATION);
+						genTour2.setTitle("Generate Tournament Success!");
+						String genTourn2Info = "Generating the tourament was a success!";
+						genTour2.setContentText(genTourn2Info);
+						genTour2.show();
+						 for(int i =0 ; i < Model.getBracketList().size(); i++) {
+			             	int size =  Model.getBracketList().get(i).getWrestlerListSize();
+			             	String numOfWrestlers = String.valueOf(size);
+			             	String weightClass = String.valueOf(Model.getWeightClass().get(i));
+			             	String sizeofBracket = String.valueOf( Model.getBracketList().get(i).bracket.get(0).size());
+			             	
+			             	startView.getItems().add(weightClass + ": " + sizeofBracket + "\tWrestlers: " + numOfWrestlers);
+						 }
+					}
+				
+			}
+			else {//Generates tournament if there is non generated
+				Model.generateTournament();
 				Alert genTour2 = new Alert(AlertType.CONFIRMATION);
 				genTour2.setTitle("Generate Tournament Success!");
 				String genTourn2Info = "Generating the tourament was a success!";
 				genTour2.setContentText(genTourn2Info);
 				genTour2.show();
+				 for(int i =0 ; i < Model.getBracketList().size(); i++) {
+	             	int size =  Model.getBracketList().get(i).getWrestlerListSize();
+	             	String numOfWrestlers = String.valueOf(size);
+	             	String weightClass = String.valueOf(Model.getWeightClass().get(i));
+	             	String sizeofBracket = String.valueOf( Model.getBracketList().get(i).bracket.get(0).size());
+	             	
+	             	startView.getItems().add(weightClass + ": " + sizeofBracket + "\tWrestlers: " + numOfWrestlers);
+				 }
 			}
-			else {
-				return;
-			}
+			
 		});
 		
+			compareWrestlers.setOnAction(e -> {
+            String textbox = compareWrestlersTxt.getText();
+            ArrayList<Wrestler> compareWrestlerPrint = Model.compareWrestlersInformation(textbox);
+            
+            if(compareWrestlerPrint.size() == 0) {
+                Alert comWresPrintError = new Alert(AlertType.ERROR);
+                comWresPrintError.setTitle("Error Name Not Found");
+                String comWresPrintErrorInfo = "One of the names entered does not exist.";
+                comWresPrintError.setTitle(comWresPrintErrorInfo);
+                comWresPrintError.show();
+            } else {
+            Wrestler w1 = compareWrestlerPrint.get(0);
+            Wrestler w2 = compareWrestlerPrint.get(1);
+            compareWrestlerView.getItems().add("\n\t" + "Guide: " + w1.getFirstName() + "  " + w2.getFirstName() +
+            "\nName: " + w1.getLastName() + ", " + w1.getFirstName() + "  " +  w2.getLastName() + ", " + w2.getFirstName() +
+            "\nUsername: " + w1.getUserName() + "  " +  w2.getUserName() +
+            "\nWeight Class: " + Integer.toString(w1.getWeightClass()) + "  " +  Integer.toString(w2.getWeightClass()) +
+            "\nTeam Name: " + w1.getTeamID() + "  " +  w2.getTeamID() +
+            "\nSeed: " + Integer.toString(w1.getSeed()) + "  " +  Integer.toString(w2.getSeed()) +
+            "\nRating: " + Double.toString(w1.getRating()) + "  " +  Double.toString(w2.getRating()) + "\n");
+            }
+            return;
+
+        });
+
+
 		advance.setOnAction(e -> {
 			Model.advanceTournament();
 			Alert adv = new Alert(AlertType.CONFIRMATION);
@@ -901,7 +999,8 @@ public class Main extends Application{
 		
 		mainMenu.getChildren().addAll(layout);
 		viewList.prefWidth(100);
-		viewList.getChildren().addAll(listView, wrestlerView, helpView);
+		viewList.getChildren().addAll(listView, wrestlerView, compareWrestlerView,startView,helpView);
+
 		root.setLeft(mainMenu);
 		root.setCenter(viewList);
 		
