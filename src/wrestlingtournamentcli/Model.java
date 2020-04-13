@@ -15,7 +15,7 @@ import java.util.Scanner;
 /**
  * @author Jared Murphy https://github.com/murphman29
  * 
- * 
+ * @author Cody Francis
  * 
  * Edited 01/2020 
  * Editor: Nathan Berry https://github.com/nathan-berry
@@ -65,18 +65,28 @@ public class Model {
     private static ArrayList<Integer> weightClasses;
     private static ArrayList<Bracket> bracketList;
     private static ArrayList<MatchRecord> matchBank;
+    private static ArrayList<SoccerPlayer> soccerPlayerList;
     private static int matches;
+    private static int currentMatchID = 0;
 
     
     /*******************   Constructor   *****************************/
-    public Model() {
-        this.teamList = new ArrayList();
-        this.wrestlerList = new ArrayList();
-        this.bracketList = new ArrayList();
-        this.matchBank = new ArrayList();
-        this.teamList.add(new Team("BYE", "", ""));
-        initializeWeightClasses();
-        matches = 0;
+    public Model(String sport) {
+
+    	if(sport.contentEquals("wrestling")) {
+	    	this.teamList = new ArrayList();
+	        this.wrestlerList = new ArrayList();
+	        this.bracketList = new ArrayList();
+	        this.matchBank = new ArrayList();
+	        this.teamList.add(new Team("BYE", "", ""));
+	        initializeWeightClasses();
+	        matches = 0;
+    	}
+    	else if(sport.contentEquals("soccer")) {
+    		this.teamList = new ArrayList();
+            this.soccerPlayerList= new ArrayList();
+            this.teamList.add(new Team("BYE", "", ""));
+    	}
     }
 
     
@@ -99,15 +109,16 @@ public class Model {
     
     
     
-   /** Other Methods **/
+   /** Other Methods 
+ * @return **/
     //Tournament Generator
-    public static void generateTournament() {
+    public static int generateTournament() {
     	
     	//Returns to caller if no Wrestlers exist, or there exists only 1 team (not enough for a tournament)
         if (wrestlerList.size() == 0 || teamList.size() == 1) {
             System.out.println("Error: No Wrestlers or Teams Found");
             System.out.println("Please add wrestlers/teams before generating a tournament.");
-            return;  
+            return 0;  
         }
         
         //Bracket has elements in it, so a current Tournament is in program, asks if user wishes to clear or abort
@@ -123,7 +134,7 @@ public class Model {
             //Do not clear current bracket
             else{
                 System.out.println("Operation aborted.");
-                return;
+                return 1;
             }
                
             bracketList.clear();
@@ -154,6 +165,7 @@ public class Model {
         if (temp.size() != 0) {
             bracketList.add(new Bracket(temp));
         }
+		return 2;
     }
     
     
@@ -334,23 +346,24 @@ public class Model {
         bw.close();
     }
 
-    
-    
-    
-    
-    //Update Match Method
-    public static void updateMatch(int matchID, String winningColor, int greenPoints, int redPoints, int fallType, String fallTime){
-        int[] location = matchBank.get(matchID-1).getLocation();
-         
-        bracketList.get(location[0]).updateMatch(location[1],location[2],winningColor, 
-        		greenPoints, redPoints, fallType, fallTime);
+    public static int getCurrentMatchID() {
+    	return currentMatchID;
+    }
+
+    public static void setCurrentMatchID() {
+    	currentMatchID += 1;
     }
     
-    
-    
-    
-    
+    public static void updateMatch(String winningColor, int greenPoints, int redPoints, int fallType, String fallTime){ 
+    	
+        int[] location = matchBank.get(currentMatchID).getLocation();
 
+        matchBank.get(currentMatchID).matchInRound++;//increment both match in round and round number
+        //matchBank.get(currentMatchID).roundNumber++;
+        bracketList.get(location[0]).updateMatch(location[1],location[2],winningColor, greenPoints, redPoints, fallType, fallTime);
+        advanceTournament();//added a call to advance tournament. this should be done automatically for every match updated 
+
+    }
     //Takes in a wrestler's name and returns a nine character username
     //Ideally, it will use 6 from the lastname and 3 from the firstname.
     //If lastName.length < 6, it will switch over to the firstName early
@@ -503,12 +516,24 @@ public class Model {
     }
 
     
-    
+    public static SoccerPlayer soccerPlayerLookup(String alias) throws NotFoundException {
+        alias = alias.toUpperCase();
+        for (SoccerPlayer w : soccerPlayerList) {
+            if (w.getLastName().contains(alias)) {
+                return w;
+            } else if (w.getFirstName().contains(alias)) {
+                return w;
+            } else if (w.getUserName().contains(alias)) {
+                return w;
+            }
+        }
+        throw new NotFoundException(alias);
+    }
     
     
     
     //Import Wrestlers From Text Method
-    public static void importWrestlersFromText(String filePath) {
+    public static int importWrestlersFromText(String filePath) {
     	
         File file;				//File object which will use the filepath string
         Scanner s = null;		//Scanner for reading file
@@ -520,7 +545,7 @@ public class Model {
             s = new Scanner(file);
         } catch (Exception e) {
             System.out.println("The file could not be found/opened.");
-            return;
+            return 0;
         }
         
         //While the Scanner is reading each line...
@@ -543,10 +568,33 @@ public class Model {
             }
         }
         System.out.println("Successfully imported " + importCount + " wrestlers.");
+		return 1;
     }
 
     
-    
+    public static void importSoccerPlayersFromText(String filePath) {
+        File file;
+        Scanner s = null;
+        int importCount = 0;
+        try {
+            file = new File(filePath);
+            s = new Scanner(file);
+        } catch (Exception e) {
+            System.out.println("The file could not be found/opened.");
+            return;
+        }
+        while (s.hasNextLine()) {
+            try {
+                String line = s.nextLine();
+                SoccerPlayer w = soccerPlayerFactory(line);
+                soccerPlayerList.add(w);
+                importCount++;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        System.out.println("Successfully imported " + importCount + " soccer players.");
+    }
     
     
     
@@ -656,10 +704,27 @@ public class Model {
     }
 
     
-    
+    private static SoccerPlayer soccerPlayerFactory(String soccerPlayerInfo) throws Exception {
+        try {
+            Scanner s = new Scanner(soccerPlayerInfo);
+            String fn = s.next();
+            String ln = s.next();
+            String teamAlias = s.next();
+            String position = s.next();
+            double gpg = s.nextDouble();
+            double apg = s.nextDouble();
+            double save = s.nextDouble();
+            SoccerPlayer w = new SoccerPlayer(fn, ln, teamAlias, position, gpg, apg, save);
+            return w;
+        } catch (NotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new IncorrectFormatException(soccerPlayerInfo);
+        }
+    }
     
     //Print Wrestlers Function
-    public static void printWrestlers() {
+    public static ArrayList<Wrestler> printWrestlers() {
     	
     	//Sort the wrestlers
         Collections.sort(wrestlerList);
@@ -669,13 +734,20 @@ public class Model {
         for (int i = 0; i != wrestlerList.size(); i++) {
             System.out.println(wrestlerList.get(i));
         }
+		return wrestlerList;
     }
 
     
+    public static ArrayList<SoccerPlayer> printSoccerPlayers() {
+        System.out.println("List of Soccer Players: ");
+        for (int i = 0; i != soccerPlayerList.size(); i++) {
+            System.out.println(soccerPlayerList.get(i));
+        }
+        return soccerPlayerList;
+    }
     
     
-    
-    public static void printTeams() {
+    public static ArrayList<Team> printTeams() {
     	
     	//Sort the teams
         Collections.sort(teamList);
@@ -685,6 +757,7 @@ public class Model {
         for (int i = 0; i != teamList.size(); i++) {
             System.out.println(teamList.get(i));
         }
+		return teamList;
     }
 
     
@@ -708,6 +781,20 @@ public class Model {
             System.out.println(e.getMessage());
         }
     }
+    
+    
+    public static void printSoccerPlayerInformation(String alias) {
+        try {
+            SoccerPlayer w = soccerPlayerLookup(alias);
+            int pos = soccerPlayerList.indexOf(w);
+            String rs = soccerPlayerList.get(pos).getLongString();
+            System.out.println(rs);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    
     
     public static void compareWrestlersInformation(String alias) {
     	try {

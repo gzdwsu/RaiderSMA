@@ -85,6 +85,10 @@ public class Match implements Comparable, Serializable{
         this.matchID = matchID;
     }
 
+    public void setRound(int round) {
+    	this.round = round;
+    }
+    
     public void setMatID(int matID) {
         this.matNumber = matID;
     }

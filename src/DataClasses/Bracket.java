@@ -85,14 +85,26 @@ public class Bracket implements Serializable {
         bracket.add(orgTemp);
     }
     
-    public void nextRound(){
-        ArrayList<Match> nextRound = new ArrayList();
-        for(int i = 0; i != bracket.get(bracket.size()-1).size(); i+=2){
-            Match m = new Match(0,bracket.get(bracket.size()-1).get(i).getWinner(), bracket.get(bracket.size()-1).get(i).getWinnerTeam(),bracket.get(bracket.size()-1).get(i+1).getWinner(), bracket.get(bracket.size()-1).get(i+1).getWinnerTeam(),bracket.size()+1,weightClass);
-            m.setMatchID(Model.getMatchID(m.generateMatchRecord(bracket.size(),i/2)));
-            nextRound.add(m);
-        }
-        bracket.add(nextRound);
+    public void nextRound(){//this function progresses the tournament by ensuring the matches are over and allowing the program to go on to the next bracket when needed
+    	
+		for(int j = 0; j < bracket.get(0).size(); j++) { //enter a for loop to iterate over the match objects in bracket
+			if(bracket.get(0).get(j).isComplete()) {//if the current object returns true for isComplete() then it has been updated and should be checked to see if it meets the rounds required
+
+				bracket.get(0).get(j).setRound(bracket.get(0).get(j).getRound() + 1);//increment the current Round
+				if(j > 0) { //if j is greater than 0 then enter into the for loop for an alternative way to recieve round data
+					if(bracket.get(0).get(0).getRound() == roundsNeeded) {//check If the first match object has the correct amount of rounds
+						//Note: this quick solution only works because roundsNeeded is related to the amount of match objects in the arrayList
+						Model.setCurrentMatchID();//increment CurrentMatchID
+						return;
+					}
+				}else {
+					if(bracket.get(0).get(bracket.get(0).size() - 1).getRound() == roundsNeeded) {//Model.getCurrentMatchID() <--previous second parameter. all matches have been completed
+						Model.setCurrentMatchID();//increment CurrentMatchID
+						return;
+					}
+				}
+			}
+		}
     }
     
     public void updateMatch(int roundID, int pos, String winningColor, int greenPoints, int redPoints, int fallType, String fallTime){
