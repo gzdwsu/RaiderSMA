@@ -443,13 +443,25 @@ public class Main extends Application{
 		Button importWrestlers = new Button();
 		Button save = new Button();
 		Button start = new Button();
+
+		
+		//button declarations i've added
+		Button advance = new Button();
+		Button help = new Button();
+		Button update = new Button();
+    
 		Button wrestlerBack = new Button();
+
 		TextField saveTournament = new TextField();
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
+		
+		ListView<String> helpView = new ListView<String>();
+		
 		TextField importWrestlerField = new TextField ();
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
+
 		// create buttons/textfields for view of team and wrestlers
 		
 		BorderPane introRoot= new BorderPane();
@@ -513,6 +525,14 @@ public class Main extends Application{
 		saveTournament.setMinWidth(110);
 		save.setMinWidth(110);
 		start.setMinWidth(110);
+		
+		update.setMinWidth(110);
+		help.setMinWidth(110);
+		advance.setMinWidth(110);
+		advance.setText("Advance");
+		help.setText("Help");
+		update.setText("Update Match");
+		
 		save.setText("Save");
 		start.setText("Start");
 		
@@ -537,7 +557,13 @@ public class Main extends Application{
 		layout.add(save, 0, 5);
 		layout.add(saveTournament, 1, 5);
 		layout.add(start, 0, 6);
-		layout.add(wrestlerBack, 0, 7);
+
+		
+		layout.add(advance, 0, 8);
+		layout.add(help, 0, 9);
+		layout.add(update, 0, 7);
+
+		layout.add(wrestlerBack, 0, 10);
 		
 		
 		Scene introScene = new Scene (introRoot, 700, 700);
@@ -556,6 +582,7 @@ public class Main extends Application{
 			stage.setScene(soccerScene);
 			
 		});
+
 		
 		viewTeams.setOnAction(e -> {
 			
@@ -667,9 +694,7 @@ public class Main extends Application{
 		viewWrestlers.setOnAction(e -> {
 			
 			ArrayList<Wrestler> wrestlerList = Model.printWrestlers();
-			/*for(int i = 0; i < wrestlerListshow.size(); i++) {
-				listView.getItems().add(wrestlerListshow.get(i));
-			}*/
+			
 			for(int i = 0; i < wrestlerList.size(); i++) {
 				wrestlerView.getItems().add(wrestlerList.get(i));
 			}
@@ -707,7 +732,6 @@ public class Main extends Application{
 				System.out.println("Err");
 			}
 		});
-		
 		
 		importWrestlers.setOnAction(e -> {
 			FileChooser fc = new FileChooser();
@@ -775,9 +799,93 @@ public class Main extends Application{
 			}
 		});
 		
+		advance.setOnAction(e -> {
+			Model.advanceTournament();
+			Alert adv = new Alert(AlertType.CONFIRMATION);
+			adv.setTitle("Advance success");
+			String advInfo = "The tournament has been successfully advanced!";
+			adv.setContentText(advInfo);
+			adv.show();
+		});
+		
+		help.setOnAction(e ->{
+			helpView.getItems().add("Import Wrestlers - Choose a text file with wrestler data to import (You must have teams imported first)");
+			helpView.getItems().add("View Wrestlers - Displays information on all imported wrestlers");
+			helpView.getItems().add("Import teams - Choose a text file with team data to import");
+			helpView.getItems().add("View Teams - Displays information on all imported teams");
+			helpView.getItems().add("Save - Save the current tournament");
+			helpView.getItems().add("Start - Starts the tournament once wrestlers and teams have been imported");
+			helpView.getItems().add("Advance - Advances the tournament to the next match (you will need to have started the tournament and updated the current match)");
+			helpView.getItems().add("Update Match - updates the current match");
+		});
+		
+		update.setOnAction(e ->{
+			BorderPane root2 = new BorderPane();
+			VBox fields = new VBox();
+			GridPane pane = new GridPane();
+			
+			TextField colorField = new TextField();
+			TextField greenPts = new TextField();
+			TextField redPts = new TextField();
+			TextField fallType = new TextField();
+			TextField fallTime = new TextField();
+			Button confirm = new Button();
+			
+			Label cfLabel = new Label("Winning Color");
+			Label gpLabel = new Label("Green Points");
+			Label rpLabel = new Label("Red Points");
+			Label ftyLabel = new Label("Fall Type");
+			Label ftiLabel = new Label("Fall Time");
+			
+			colorField.setMinWidth(110);
+			greenPts.setMinWidth(110);
+			redPts.setMinWidth(110);
+			fallType.setMinWidth(110);
+			fallTime.setMinWidth(110);
+			confirm.setMinWidth(110);
+			confirm.setMinHeight(50);
+			confirm.setText("Update");
+			
+			pane.setPadding(new Insets(10, 10, 10, 10));
+			pane.setMinSize(300, 300);
+			pane.setVgap(5);
+			pane.setHgap(5);
+			pane.setAlignment(Pos.BASELINE_LEFT);
+			pane.add(colorField, 0, 1);
+			pane.add(greenPts, 0, 2);
+			pane.add(redPts, 0, 3);
+			pane.add(fallType, 0, 4);
+			pane.add(fallTime, 0, 5);
+			pane.add(confirm, 0, 6);
+			
+			pane.add(cfLabel, 1, 1);
+			pane.add(gpLabel, 1, 2);
+			pane.add(rpLabel, 1, 3);
+			pane.add(ftyLabel, 1, 4);
+			pane.add(ftiLabel, 1, 5);
+			
+			confirm.setOnAction(e2 ->{
+				String wc = colorField.getText();
+				int gp = Integer.parseInt(greenPts.getText());
+				int rp = Integer.parseInt(redPts.getText());
+				int ftype = Integer.parseInt(fallType.getText());
+				String ftime = fallTime.getText();
+				Model.updateMatch(wc, gp, rp, ftype, ftime);
+			});
+			
+			Stage stage2 = new Stage();
+			fields.getChildren().addAll(pane);
+			root2.setCenter(fields);//put content here(pane)
+			
+			stage2.setScene(new Scene(root2, 300, 300));
+			stage2.setTitle("Update Match");
+			stage2.show();
+			
+		});
+		
 		mainMenu.getChildren().addAll(layout);
 		viewList.prefWidth(100);
-		viewList.getChildren().addAll(listView,wrestlerView);
+		viewList.getChildren().addAll(listView, wrestlerView, helpView);
 		root.setLeft(mainMenu);
 		root.setCenter(viewList);
 		
