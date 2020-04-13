@@ -22,6 +22,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.Tooltip;
 /**
  * @author Jared Murphy
  * @author Cody Francis
@@ -453,6 +454,21 @@ public class Main extends Application{
 		Button wrestlerBack = new Button();
 
 		TextField saveTournament = new TextField();
+
+		// adds tooltips to each menu button
+		Tooltip viewTeamsTooltip = new Tooltip("Displays the imported teams in the display box to the right");
+		Tooltip.install(viewTeams, viewTeamsTooltip);
+		Tooltip viewWrestlersTooltip = new Tooltip("Displays the imported wrestlers in the display box to the right");
+		Tooltip.install(viewWrestlers, viewWrestlersTooltip);
+		Tooltip importTeamsTooltip = new Tooltip("Imports teams from a txt file");
+		Tooltip.install(importTeams, importTeamsTooltip);
+		Tooltip importWrestlersToolTip = new Tooltip("Imports wrestlers from a txt file");
+		Tooltip.install(importWrestlers, importWrestlersToolTip);
+		Tooltip startToolTip = new Tooltip("Initiates the simulation");
+		Tooltip.install(start, startToolTip);
+		Tooltip saveTooltip = new Tooltip("Saves the results of the matches to a file(Use text box to save the name of the tournament)");
+		Tooltip.install(save, saveTooltip);
+		
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
 		
