@@ -25,6 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.ToggleButton;
 /**
  * @author Jared Murphy
  * @author Cody Francis
@@ -497,6 +498,7 @@ public class Main extends Application{
 		GridPane introLayout = new GridPane();
 		Button wrestling = new Button();
 		Button soccer = new Button();
+		ToggleButton theme = new ToggleButton();
 		Label introMenu = new Label("Please select the sport you would like to manage:");
 		//UI elements for selection Screen
 		
@@ -540,10 +542,13 @@ public class Main extends Application{
 		wrestling.setPadding(new Insets(10,10,10,10));
 		soccer.setText("Soccer");
 		soccer.setPadding(new Insets(10,10,10,10));
+		theme.setText("Theme");
+		theme.setPadding(new Insets(10,10,10,10));
 		introLayout.setPadding(new Insets(300,100,100,100));
 		introLayout.add(introMenu, 0, 0);
 		introLayout.add(wrestling, 2,3 );
 		introLayout.add(soccer, 3, 3);
+		introLayout.add(theme, 4, 3);
 		introRoot.setCenter(introLayout);		
 		//Initializing introduction UI elements
 		
@@ -616,7 +621,15 @@ public class Main extends Application{
 			stage.setScene(soccerScene);
 			
 		});
-
+		theme.setOnAction(e -> {
+			
+			if(!(theme.isSelected())) {
+				root.getStylesheets().remove(getClass().getResource("DarkThemeChanges.css").toExternalForm());
+			} else {
+				root.getStylesheets().add(getClass().getResource("DarkThemeChanges.css").toExternalForm());
+			}
+			
+		});
 		
 
 		viewTeams.setOnAction(e -> {
