@@ -548,7 +548,7 @@ public class Main extends Application{
 		introLayout.add(introMenu, 0, 0);
 		introLayout.add(wrestling, 2,3 );
 		introLayout.add(soccer, 3, 3);
-		introLayout.add(theme, 4, 3);
+		introLayout.add(theme, 2, 4);
 		introRoot.setCenter(introLayout);		
 		//Initializing introduction UI elements
 		
@@ -623,10 +623,11 @@ public class Main extends Application{
 		});
 		theme.setOnAction(e -> {
 			
-			if(!(theme.isSelected())) {
-				root.getStylesheets().remove(getClass().getResource("DarkThemeChanges.css").toExternalForm());
-			} else {
+			if(theme.isSelected()) {
 				root.getStylesheets().add(getClass().getResource("DarkThemeChanges.css").toExternalForm());
+				
+			} else {
+				root.getStylesheets().remove(getClass().getResource("DarkThemeChanges.css").toExternalForm());
 			}
 			
 		});
