@@ -465,7 +465,7 @@ public class Main extends Application{
 		compareWrestlers.setText("Compare Wrestlers");
 		compareWrestlersTxt.setText("Name,Name");
 		ListView<String> compareWrestlerView = new ListView<String>();
-    Button wrestlerBack = new Button();
+    
 		ListView<String> startView = new ListView<String>();
 		//button declarations i've added
 		Button advance = new Button();
