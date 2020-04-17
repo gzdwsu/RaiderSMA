@@ -1,4 +1,4 @@
-package DataClasses;
+package DataClasses.race;
 
 public class Racer {
 	private String firstName;

@@ -74,17 +74,16 @@ public class SoccerPlayer implements Serializable{
     
 
     public String getLongString(){
-    StringBuffer rs = new StringBuffer();
-    rs.append("Name: " + lastName + ", " + firstName + "\n");
-    rs.append("Username: " + userName + "\n");
-    rs.append("Team: " + team.getTeamName() + "\n");
-    rs.append("Position: " + position + "\n");
-    rs.append("Goals Per Game: " + gpg + "\n");
-    rs.append("Assists Per Game: " + apg+ "\n");
-    rs.append("Save Percentage: " + savePercentage+ "\n");
-    return rs.toString();
+    String rs = "";
+    rs += "Name: " + lastName + ", " + firstName + "\n";
+    rs += "Username: " + userName + "\n";
+    rs += "Team: " + team.getTeamName() + "\n";
+    rs += "Position: " + position + "\n";
+    rs += "Goals Per Game: " + gpg + "\n";
+    rs += "Assists Per Game: " + apg+ "\n";
+    rs += "Save Percentage: " + savePercentage+ "\n";
+    return rs;
     }
-    
     @Override
     public String toString() {
         return lastName + ", " + firstName + "\t(" + userName + ")\tTeam: " + team.getTeamName() +"\tPosition: " + position +"\tGPG: " + gpg +"\tAPG: " + apg +"\tSave %: " + savePercentage;
