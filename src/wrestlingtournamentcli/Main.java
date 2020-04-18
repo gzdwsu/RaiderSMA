@@ -470,11 +470,6 @@ public class Main extends Application{
 		Button advance = new Button();
 		Button help = new Button();
 		Button update = new Button();
-    
-		
-
-		
-
 		// adds tooltips to each menu button
 		Tooltip viewTeamsTooltip = new Tooltip("Displays the imported teams in the display box to the right");
 		Tooltip.install(viewTeams, viewTeamsTooltip);
@@ -490,16 +485,11 @@ public class Main extends Application{
 		Tooltip.install(save, saveTooltip);
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
-		
 		ListView<String> helpView = new ListView<String>();
-		
 		TextField importWrestlerField = new TextField ();
-
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
-
 		// create buttons/textfields for view of team and wrestlers
-		
 		add.setMinWidth(110); 
 		add.setText("Add Wrestler");
 		BorderPane introRoot= new BorderPane();
@@ -508,7 +498,6 @@ public class Main extends Application{
 		Button soccer = new Button();
 		Label introMenu = new Label("Please select the sport you would like to manage:");
 		//UI elements for selection Screen
-		
 		BorderPane soccerRoot = new BorderPane();
 		Label soccerLabel = new Label("Soccer Menu");
 		VBox soccerMenu = new VBox();
@@ -555,7 +544,6 @@ public class Main extends Application{
 		introLayout.add(soccer, 3, 3);
 		introRoot.setCenter(introLayout);		
 		//Initializing introduction UI elements
-
 		importTeams.setMinWidth(110);
 		importWrestlers.setMinWidth(110);
 		viewTeams.setMinWidth(110);
@@ -571,7 +559,6 @@ public class Main extends Application{
 		advance.setText("Advance");
 		help.setText("Help");
 		update.setText("Update Match");
-		
 		save.setText("Save");
 		start.setText("Start");
 		FirstName.setPromptText("First Name");
@@ -580,8 +567,7 @@ public class Main extends Application{
 		Grade.setPromptText("Grade");
 		Weight.setPromptText("Player's Weight");
 		TotalWins.setPromptText("Total Wins");
-		TotalMatch.setPromptText("Total Match");
-		
+		TotalMatch.setPromptText("Total Match");	
 		importTeams.setText("Import Teams");
 		importWrestlers.setText("Import Wrestlers");
 		viewTeams.setText("View Teams");
@@ -614,53 +600,34 @@ public class Main extends Application{
 		layout.add(TotalMatch, 1, 12);
 		layout.add(start, 0, 6);
 
-
 		layout.add(compareWrestlers, 0, 7);
 		layout.add( compareWrestlersTxt, 1, 7);
-
-
-		
 		layout.add(advance, 0, 9);
 		layout.add(help, 0, 10);
 		layout.add(update, 0, 11);
-
-
-		
 		
 		Scene introScene = new Scene (introRoot, 700, 700);
 		Scene wrestlerScene = new Scene(root,700,700);
 		Scene soccerScene = new Scene(soccerRoot,700,700);
 		
 		wrestling.setOnAction(e ->{
-			
 			Model m = new Model("wrestling");
-			stage.setScene(wrestlerScene);
-				
+			stage.setScene(wrestlerScene);	
 		});
-		soccer.setOnAction(e ->{
-						
+		soccer.setOnAction(e ->{		
 			Model soccerModel = new Model("soccer");
 			stage.setScene(soccerScene);
-			
 		});
-				viewTeams.setOnAction(e -> {
-
-		
-
 		viewTeams.setOnAction(e -> {
-			
 			ArrayList<Team> show = Model.printTeams();
-			for(int i = 0; i < show.size(); i++) {
+				for(int i = 0; i < show.size(); i++) {
 				listView.getItems().add(show.get(i));
-			}
-			
-		    return;
+				}
+		   	 return;
 		});
 		
 		soccerBack.setOnAction(e -> {
-			
 			stage.setScene(introScene);
-			
 		});
 		wrestlerBack.setOnAction(e->{
 			
