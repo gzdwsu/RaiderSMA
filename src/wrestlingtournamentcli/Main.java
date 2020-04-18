@@ -25,6 +25,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Tooltip;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.layout.StackPane;
 /**
  * @author Jared Murphy
  * @author Cody Francis
@@ -38,8 +43,6 @@ public class Main extends Application{
     log.createLogFiles();
     launch(args);
 
-    System.out.println("Please enter the sport you would like to manage(wrestling/soccer/race/bowling):\n Note: Enter 'QUIT' at anytime to end the program.");
-    
 	while(true) {
 		String sportSelection = s.nextLine();
 		switch(sportSelection.toLowerCase()) {
@@ -436,7 +439,7 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		stage.setTitle("RaiderSMA");
+	
 		BorderPane root = new BorderPane();
 		VBox mainMenu = new VBox();
 		VBox viewList = new VBox();
@@ -504,7 +507,7 @@ public class Main extends Application{
 		GridPane introLayout = new GridPane();
 		Button wrestling = new Button();
 		Button soccer = new Button();
-		Label introMenu = new Label("Please select the sport you would like to manage:");
+	
 		//UI elements for selection Screen
 		
 		BorderPane soccerRoot = new BorderPane();
@@ -543,15 +546,23 @@ public class Main extends Application{
 		soccerRoot.setLeft(soccerMenu);
 		soccerRoot.setCenter(soccerViewList);
 		//Creating soccer scene
+		introLayout.setHgap(10);
+		introLayout.setVgap(12);
 		wrestling.setText("Wrestling");
 		wrestling.setPadding(new Insets(10,10,10,10));
 		soccer.setText("Soccer");
 		soccer.setPadding(new Insets(10,10,10,10));
-		introLayout.setPadding(new Insets(300,100,100,100));
-		introLayout.add(introMenu, 0, 0);
-		introLayout.add(wrestling, 2,3 );
-		introLayout.add(soccer, 3, 3);
-		introRoot.setCenter(introLayout);		
+		//Intro Layout
+		Text intro = new Text ("Please select the sport you would like to manage");
+		intro.setFont(new Font(20));
+		intro.setFill(Color.DARKGREEN);
+		intro.setTextAlignment(TextAlignment.CENTER);
+		stage.setTitle("RaiderSMA");
+		introLayout.setPadding(new Insets(250,100,100,100));
+		introLayout.add(intro, 0, 0);
+		introLayout.add(wrestling, 0, 4);
+		introLayout.add(soccer,1,4);
+		introRoot.setCenter(introLayout);	
 		//Initializing introduction UI elements
 
 		importTeams.setMinWidth(110);
@@ -610,12 +621,8 @@ public class Main extends Application{
 		layout.add(Weight, 1, 10);
 		layout.add(TotalWins, 1,11);
 		layout.add(TotalMatch, 1, 12);
-		
 		layout.add(compareWrestlers, 0, 7);
 		layout.add( compareWrestlersTxt, 1, 7);
-
-
-		
 		layout.add(advance, 0, 9);
 		layout.add(help, 0, 10);
 		layout.add(update, 0, 11);
@@ -970,7 +977,6 @@ public class Main extends Application{
 			Label rpLabel = new Label("Red Points");
 			Label ftyLabel = new Label("Fall Type");
 			Label ftiLabel = new Label("Fall Time");
-			
 			colorField.setMinWidth(110);
 			greenPts.setMinWidth(110);
 			redPts.setMinWidth(110);
