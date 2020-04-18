@@ -41,31 +41,31 @@ public class Main extends Application{
     System.out.println("Please enter the sport you would like to manage(wrestling/soccer/race/bowling):\n Note: Enter 'QUIT' at anytime to end the program.");
     
 	while(true) {
-	String sportSelection = s.nextLine();
-	switch(sportSelection.toLowerCase()) {
-	case "wrestling":
-		Model wrestlerModel = new Model("wrestling");
-		wrestlingMenu();
-		break;
-	case "race":
-		Race race = new Race();
-		raceMenu();
-		break;
-	case "bowling":
-		Bowling bowling = new Bowling();
-		bowlingMenu();
-		break;
-    case "soccer":
-    	Model soccerModel = new Model("soccer");
-    	soccerMenu();
-    	break;
-    case "quit":
-    	exitProgram();
-    	break;
-    default:	
-    	System.out.println("Incorrect input. Please enter wrestling/soccer/race/bowling");
+		String sportSelection = s.nextLine();
+		switch(sportSelection.toLowerCase()) {
+			case "wrestling":
+				Model wrestlerModel = new Model("wrestling");
+				wrestlingMenu();
+				break;
+			case "race":
+				Race race = new Race();
+				raceMenu();
+				break;
+			case "bowling":
+				Bowling bowling = new Bowling();
+				bowlingMenu();
+				break;
+			case "soccer":
+				Model soccerModel = new Model("soccer");
+				soccerMenu();
+				break;
+			case "quit":
+				exitProgram();
+				break;
+			default:	
+				System.out.println("Incorrect input. Please enter wrestling/soccer/race/bowling");
 				}
-    }
+    	}
     }
     
     public static void raceMenu(){
@@ -450,7 +450,7 @@ public class Main extends Application{
 
 
 		Button compareWrestlers = new Button();
-    TextField compareWrestlersTxt = new TextField();
+		TextField compareWrestlersTxt = new TextField();
 		TextField saveTournament = new TextField();
 		TextField FirstName = new TextField();
 		TextField LastName = new TextField();
@@ -464,15 +464,13 @@ public class Main extends Application{
 		compareWrestlers.setText("Compare Wrestlers");
 		compareWrestlersTxt.setText("Name,Name");
 		ListView<String> compareWrestlerView = new ListView<String>();
-    Button wrestlerBack = new Button();
+		Button wrestlerBack = new Button();
 		ListView<String> startView = new ListView<String>();
 		//button declarations i've added
 		Button advance = new Button();
 		Button help = new Button();
 		Button update = new Button();
     
-		
-
 		
 
 		// adds tooltips to each menu button
@@ -612,9 +610,7 @@ public class Main extends Application{
 		layout.add(Weight, 1, 10);
 		layout.add(TotalWins, 1,11);
 		layout.add(TotalMatch, 1, 12);
-		layout.add(start, 0, 6);
-
-
+		
 		layout.add(compareWrestlers, 0, 7);
 		layout.add( compareWrestlersTxt, 1, 7);
 
@@ -644,11 +640,7 @@ public class Main extends Application{
 			
 		});
 				viewTeams.setOnAction(e -> {
-
-		
-
-		viewTeams.setOnAction(e -> {
-			
+	
 			ArrayList<Team> show = Model.printTeams();
 			for(int i = 0; i < show.size(); i++) {
 				listView.getItems().add(show.get(i));
@@ -1061,5 +1053,6 @@ public class Main extends Application{
 		stage.setScene(introScene);
 		
 		stage.show();
+				
 	}
-}
+};
