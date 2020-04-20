@@ -61,7 +61,7 @@ public class Model {
     
     //ArrayLists for Teams, Wrestlers, Weight Classes, Brackets, and Matches for Tournament
     private static ArrayList<Team> teamList;
-    private static ArrayList<Wrestler> wrestlerList;
+    static ArrayList<Wrestler> wrestlerList;
     private static ArrayList<Integer> weightClasses;
     private static ArrayList<Bracket> bracketList;
     private static ArrayList<MatchRecord> matchBank;
@@ -115,7 +115,7 @@ public class Model {
     public static int generateTournament() {
     	
     	//Returns to caller if no Wrestlers exist, or there exists only 1 team (not enough for a tournament)
-        if (wrestlerList.size() == 0 || teamList.size() == 1) {
+        /*if (wrestlerList.size() == 0 || teamList.size() == 1) {
             System.out.println("Error: No Wrestlers or Teams Found");
             System.out.println("Please add wrestlers/teams before generating a tournament.");
             return 0;  
@@ -139,7 +139,7 @@ public class Model {
                
             bracketList.clear();
         }
-        
+        */
         //Creates a Bracket based off of each wrestlers weightclass
         Collections.sort(wrestlerList);
         ArrayList<Wrestler> temp = new ArrayList();
@@ -738,11 +738,12 @@ public class Model {
     }
 
     
-    public static void printSoccerPlayers() {
+    public static ArrayList<SoccerPlayer> printSoccerPlayers() {
         System.out.println("List of Soccer Players: ");
         for (int i = 0; i != soccerPlayerList.size(); i++) {
             System.out.println(soccerPlayerList.get(i));
         }
+        return soccerPlayerList;
     }
     
     
@@ -795,24 +796,28 @@ public class Model {
     
     
     
-    public static void compareWrestlersInformation(String alias) {
-    	try {
-    		String[] tempArray;
-    		tempArray = alias.split(",");
-    		Wrestler w1 = wrestlerLookup(tempArray[0]);
-    		Wrestler w2 = wrestlerLookup(tempArray[1]);
-    		
-    		System.out.println("\n\t" + "Guide: " + w1.getFirstName() + " || " + w2.getFirstName());
-    		System.out.println("Name: " + w1.getLastName() + ", " + w1.getFirstName() + " || " +  w2.getLastName() + ", " + w2.getFirstName());
-    		System.out.println("Username: " + w1.getUserName() + " || " +  w2.getUserName());
-    		System.out.println("Weight Class: " + w1.getWeightClass() + " || " +  w2.getWeightClass());
-    		System.out.println("Team Name: " + w1.getTeamID() + " || " +  w2.getTeamID());
-    		System.out.println("Seed: " + w1.getSeed() + " || " +  w2.getSeed());
-    		System.out.println("Rating: " + w1.getRating() + " || " +  w2.getRating() + "\n");
-    		
-    	} catch (Exception e) {
-    		System.out.println(e.getMessage());
-    	}
+        public static ArrayList<Wrestler> compareWrestlersInformation(String alias) {
+    	ArrayList<Wrestler> compareWrestlerArray = new ArrayList<Wrestler>();
+        try {
+            String[] tempArray;
+            tempArray = alias.split(",");
+            Wrestler w1 = wrestlerLookup(tempArray[0]);
+            Wrestler w2 = wrestlerLookup(tempArray[1]);
+            compareWrestlerArray.add(w1);
+            compareWrestlerArray.add(w2);
+
+            System.out.println("\n\t" + "Guide: " + w1.getFirstName() + "  " + w2.getFirstName());
+            System.out.println("Name: " + w1.getLastName() + ", " + w1.getFirstName() + "  " +  w2.getLastName() + ", " + w2.getFirstName());
+            System.out.println("Username: " + w1.getUserName() + "  " +  w2.getUserName());
+            System.out.println("Weight Class: " + w1.getWeightClass() + "  " +  w2.getWeightClass());
+            System.out.println("Team Name: " + w1.getTeamID() + "  " +  w2.getTeamID());
+            System.out.println("Seed: " + w1.getSeed() + "  " +  w2.getSeed());
+            System.out.println("Rating: " + w1.getRating() + " || " +  w2.getRating() + "\n");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return compareWrestlerArray;
     }
 
     
@@ -870,7 +875,27 @@ public class Model {
         return weightClasses.contains(weightClass);
     }
     
+    public static ArrayList<Bracket> getBracketList() {
+		return bracketList;
+    	
+    }
     
+    public static ArrayList<Wrestler> getWrestlerList() {
+		return wrestlerList;
+    	
+    }
+    
+    public static ArrayList<Integer> getWeightClass() {
+		return weightClasses;
+    	
+    }
+    
+    
+    
+    public static ArrayList<Team> getTeamList() {
+		return teamList;
+    	
+    }
     
     
 }
