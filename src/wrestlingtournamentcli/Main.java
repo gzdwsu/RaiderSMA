@@ -506,9 +506,10 @@ public class Main extends Application{
 		
 		BorderPane introRoot= new BorderPane();
 		GridPane introLayout = new GridPane();
+		introLayout.setAlignment(Pos.CENTER);
 		Button wrestling = new Button();
 		Button soccer = new Button();
-		Label introMenu = new Label("Please select the sport you would like to manage:");
+		Label introMenu = new Label("Please select the sport you would like to manage:\t\t");
 		//UI elements for selection Screen
 		
 		BorderPane soccerRoot = new BorderPane();
@@ -551,10 +552,12 @@ public class Main extends Application{
 		wrestling.setPadding(new Insets(10,10,10,10));
 		soccer.setText("Soccer");
 		soccer.setPadding(new Insets(10,10,10,10));
-		introLayout.setPadding(new Insets(300,100,100,100));
+		
+		//introLayout.setPadding(new Insets(300,100,100,100));
 		introLayout.add(introMenu, 0, 0);
-		introLayout.add(wrestling, 2,3 );
-		introLayout.add(soccer, 3, 3);
+		introLayout.add(wrestling, 1,0 );
+		introLayout.add(new Label("\t"), 2, 0);
+		introLayout.add(soccer, 3, 0);
 		introRoot.setCenter(introLayout);		
 		//Initializing introduction UI elements
 		
@@ -613,13 +616,13 @@ public class Main extends Application{
 		layout.add(advance, 0, 9);
 		layout.add(help, 0, 10);
 		layout.add(update, 0, 11);
-
+		layout.add(wrestlerBack, 0, 12);
 
 		
 		
-		Scene introScene = new Scene (introRoot, 700, 700);
-		Scene wrestlerScene = new Scene(root,700,700);
-		Scene soccerScene = new Scene(soccerRoot,700,700);
+		Scene introScene = new Scene (introRoot, 640, 480);
+		Scene wrestlerScene = new Scene(root,640,480);
+		Scene soccerScene = new Scene(soccerRoot,640,480);
 		
 		wrestling.setOnAction(e ->{
 			
