@@ -457,6 +457,8 @@ public class Main extends Application{
 		
 
 
+    Button addNewTeams = new Button();
+    Button wrestlerBack = new Button();
 
 		Button compareWrestlers = new Button();
     TextField compareWrestlersTxt = new TextField();
@@ -467,7 +469,7 @@ public class Main extends Application{
 		compareWrestlers.setText("Compare Wrestlers");
 		compareWrestlersTxt.setText("Name,Name");
 		ListView<String> compareWrestlerView = new ListView<String>();
-    Button wrestlerBack = new Button();
+    
 		ListView<String> startView = new ListView<String>();
 		//button declarations i've added
 		Button advance = new Button();
@@ -580,7 +582,6 @@ public class Main extends Application{
 		help.setText("Help");
 		update.setText("Update Match");
 		
-
 		save.setText("Save");
 		start.setText("Start");
 		
@@ -788,9 +789,8 @@ public class Main extends Application{
 			}
 		});
 		
-
 		//Set the button on action, it will display labels and text field 
-		// to allow the user to input his/her own team information. 
+		// to allow theauser to input his/her own team information. 
 		addNewTeams.setOnAction(e -> {
 			
 			
@@ -909,7 +909,6 @@ public class Main extends Application{
 			});
 			
 		});
-		
 		
 		
 		
