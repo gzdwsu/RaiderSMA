@@ -32,32 +32,36 @@ public class Main extends Application{
     
     public static void main(String[] args) {
 
-    Model m = new Model("wrestling");
-    Scanner s = new Scanner(System.in);
-    Race race = new Race();
+    
     log.createLogFiles();
     launch(args);
-
-    System.out.println("Please enter the sport you would like to manage(wrestling/soccer):\nNote: Enter 'QUIT' at anytime to end the program.");
-	while(true) {
-	String sportSelection = s.nextLine();
-	switch(sportSelection.toLowerCase()) {
-	case "wrestling":
-		Model wrestlerModel = new Model("wrestling");
-		wrestlingMenu();
-		break;
-    case "soccer":
-    	Model soccerModel = new Model("soccer");
-    	soccerMenu();
-    	break;
-    case "quit":
-    	exitProgram();
-    	break;
-    default:	
-    	System.out.println("Incorrect input. Please enter wrestling/soccer");   
-				}
+    startMenu();
+    
     }
+    
+    public static void startMenu() {
+    	Scanner s = new Scanner(System.in);
+        System.out.println("Please enter the sport you would like to manage(wrestling/soccer):\nNote: Enter 'QUIT' at anytime to end the program.");
+    	while(true) {
+    	String sportSelection = s.nextLine();
+    	switch(sportSelection.toLowerCase()) {
+    	case "wrestling":
+    		Model wrestlerModel = new Model("wrestling");
+    		wrestlingMenu();
+    		break;
+        case "soccer":
+        	Model soccerModel = new Model("soccer");
+        	soccerMenu();
+        	break;
+        case "quit":
+        	exitProgram();
+        	break;
+        default:	
+        	System.out.println("Incorrect input. Please enter wrestling/soccer");   
+    				}
+        }
     }
+    
     public static void wrestlingMenu() {
     	Scanner s = new Scanner(System.in);
     	System.out.println("Welcome to the Murphy Wrestling Tournament Manager. For available commands, please type 'help'");
@@ -116,6 +120,9 @@ public class Main extends Application{
     	                   case "HELP":
     	                       printHelpSoccer();
     	                       return;
+    	                   case "RESTART":
+       	                   	startMenu();
+       	                   	return;
     	                   case "QUIT":
     	                   	exitProgram();
     	                   	break;
@@ -160,6 +167,7 @@ public class Main extends Application{
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-SOCCER-PLAYERS FileName //Parses the provided file for Soccer objects\n"
                 + "VIEW-SOCCER-PLAYER SoccerPlayerName //Looks for the soccer player and prints his/her information\n"
+                + "RESTART // Return to starting menu\n"
                 + "QUIT // Exits the program\n"
                 );
                 }
@@ -197,6 +205,9 @@ public class Main extends Application{
                         return;
                     case "RACE":
                     	Race.printMenu();
+                    	return;
+                    case "RESTART":
+                    	startMenu();
                     	return;
                     case "QUIT":
                     	exitProgram();
@@ -308,7 +319,8 @@ public class Main extends Application{
                 + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
                 + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
                 + "RACE //View Race commands\n"
-                + "quit // Exit the program.\n");
+                + "RESTART // Return to starting menu\n"
+                + "QUIT // Exit the program.\n");
     }
     
     public static void exitProgram() {
