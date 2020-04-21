@@ -13,6 +13,7 @@ public class Bowling {
 				+ "Help //Print this help menu\n"
 				+ "Roll PlayerNumber PinsKnockedDown //Tell how many pins were knocked down on the roll\n"
 				+ "Status //List bowlers with their scores\n"
+                + "RESTART // Return to start menu\n"
 				+ "Quit //Quit the program"
 				);
 	}

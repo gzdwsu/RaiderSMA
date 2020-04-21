@@ -26,6 +26,7 @@ public class Race {
 				+ "RACE ListRacers //View the list of racers with their numbers\n"
 				+ "RACE Start //Start the race\n"
 				+ "RACE Status //View the race status\n"
+                + "RESTART // Return to start menu\n"
 				+ "QUIT //Quit the program\n");
 	}
 	
