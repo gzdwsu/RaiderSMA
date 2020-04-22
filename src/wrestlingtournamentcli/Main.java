@@ -457,7 +457,7 @@ public class Main extends Application{
 		
 
 
-    Button addNewTeams = new Button();
+
     Button wrestlerBack = new Button();
 
 		Button compareWrestlers = new Button();
