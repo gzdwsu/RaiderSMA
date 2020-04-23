@@ -446,6 +446,7 @@ public class Main extends Application{
 		BorderPane root = new BorderPane();
 		VBox mainMenu = new VBox();
 		VBox viewList = new VBox();
+		Button add = new Button();
 		Button viewTeams = new Button();
 		Button viewWrestlers = new Button();
 		Button importTeams = new Button();
@@ -462,6 +463,13 @@ public class Main extends Application{
     TextField compareWrestlersTxt = new TextField();
 
 		TextField saveTournament = new TextField();
+		TextField FirstName = new TextField();
+		TextField LastName = new TextField();
+		TextField TeamAlias = new TextField();
+		TextField Grade = new TextField();
+		TextField Weight = new TextField();
+		TextField TotalWins = new TextField();
+		TextField TotalMatch =  new TextField();
 		compareWrestlers.setMinWidth(110);
 		compareWrestlersTxt.setMinWidth(110);
 		compareWrestlers.setText("Compare Wrestlers");
@@ -473,11 +481,6 @@ public class Main extends Application{
 		Button advance = new Button();
 		Button help = new Button();
 		Button update = new Button();
-    
-		
-
-		
-
 		// adds tooltips to each menu button
 		Tooltip viewTeamsTooltip = new Tooltip("Displays the imported teams in the display box to the right");
 		Tooltip.install(viewTeams, viewTeamsTooltip);
@@ -491,19 +494,15 @@ public class Main extends Application{
 		Tooltip.install(start, startToolTip);
 		Tooltip saveTooltip = new Tooltip("Saves the results of the matches to a file(Use text box to save the name of the tournament)");
 		Tooltip.install(save, saveTooltip);
-		
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
-		
 		ListView<String> helpView = new ListView<String>();
-		
 		TextField importWrestlerField = new TextField ();
-
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
-
 		// create buttons/textfields for view of team and wrestlers
-		
+		add.setMinWidth(110); 
+		add.setText("Add Wrestler");
 		BorderPane introRoot= new BorderPane();
 		GridPane introLayout = new GridPane();
 		introLayout.setAlignment(Pos.CENTER);
@@ -511,7 +510,6 @@ public class Main extends Application{
 		Button soccer = new Button();
 		Label introMenu = new Label("Please select the sport you would like to manage:\t\t");
 		//UI elements for selection Screen
-		
 		BorderPane soccerRoot = new BorderPane();
 		Label soccerLabel = new Label("Soccer Menu");
 		VBox soccerMenu = new VBox();
@@ -560,7 +558,6 @@ public class Main extends Application{
 		introLayout.add(soccer, 3, 0);
 		introRoot.setCenter(introLayout);		
 		//Initializing introduction UI elements
-		
 		importTeams.setMinWidth(110);
 		importWrestlers.setMinWidth(110);
 		viewTeams.setMinWidth(110);
@@ -572,22 +569,30 @@ public class Main extends Application{
 		addNewTeams.setMinWidth(110);
 		addNewTeams.setText("Add your own Team");
 
-		
+		FirstName.setMinWidth(110);
+		LastName.setMinWidth(110);
+
 		update.setMinWidth(110);
 		help.setMinWidth(110);
 		advance.setMinWidth(110);
 		advance.setText("Advance");
 		help.setText("Help");
 		update.setText("Update Match");
-		
 
 		save.setText("Save");
 		start.setText("Start");
-		
+		FirstName.setPromptText("First Name");
+		LastName.setPromptText("Last Name");
+		TeamAlias.setPromptText("Team Alias");
+		Grade.setPromptText("Grade");
+		Weight.setPromptText("Player's Weight");
+		TotalWins.setPromptText("Total Wins");
+		TotalMatch.setPromptText("Total Match");	
 		importTeams.setText("Import Teams");
 		importWrestlers.setText("Import Wrestlers");
 		viewTeams.setText("View Teams");
 		viewWrestlers.setText("View Wrestlers");
+		saveTournament.setPromptText("Name of Tournament");
 		saveTournament.setText("Name of Tournament");
 		wrestlerBack.setText("Back");
 		//create the layout of the menu
@@ -604,55 +609,51 @@ public class Main extends Application{
 		layout.add(viewTeams, 0, 4);
 		layout.add(viewWrestlers, 0, 2);
 		layout.add(save, 0, 5);
-		layout.add(saveTournament, 1, 8);
-		layout.add(start, 0, 6);
 
+		layout.add(saveTournament, 1, 5);
+		layout.add(start, 0, 13);
+		layout.add(add, 0, 6);
+		layout.add(FirstName, 1, 6);
+		layout.add(LastName, 1, 7);
+		layout.add(TeamAlias, 1, 8);
+		layout.add(Grade, 1, 9);
+		layout.add(Weight, 1, 10);
+		layout.add(TotalWins, 1,11);
+		layout.add(TotalMatch, 1, 12);
+
+		layout.add(start, 0, 6);
 
 		layout.add(compareWrestlers, 0, 7);
 		layout.add( compareWrestlersTxt, 1, 7);
-
-
-		
 		layout.add(advance, 0, 9);
 		layout.add(help, 0, 10);
 		layout.add(update, 0, 11);
+
 		layout.add(wrestlerBack, 0, 12);
 
-		
 		
 		Scene introScene = new Scene (introRoot, 640, 480);
 		Scene wrestlerScene = new Scene(root,640,480);
 		Scene soccerScene = new Scene(soccerRoot,640,480);
 		
 		wrestling.setOnAction(e ->{
-			
 			Model m = new Model("wrestling");
-			stage.setScene(wrestlerScene);
-				
+			stage.setScene(wrestlerScene);	
 		});
-		soccer.setOnAction(e ->{
-						
+		soccer.setOnAction(e ->{		
 			Model soccerModel = new Model("soccer");
 			stage.setScene(soccerScene);
-			
 		});
-
-		
-
 		viewTeams.setOnAction(e -> {
-			
 			ArrayList<Team> show = Model.printTeams();
-			for(int i = 0; i < show.size(); i++) {
+				for(int i = 0; i < show.size(); i++) {
 				listView.getItems().add(show.get(i));
-			}
-			
-		    return;
+				}
+		   	 return;
 		});
 		
 		soccerBack.setOnAction(e -> {
-			
 			stage.setScene(introScene);
-			
 		});
 		wrestlerBack.setOnAction(e->{
 			
@@ -1143,7 +1144,32 @@ public class Main extends Application{
 			stage2.show();
 			
 		});
-		
+		add.setOnAction(e-> {
+			if(FirstName.getText().isEmpty() && LastName.getText().isEmpty() 
+					&& TeamAlias.getText().isEmpty() && Grade.getText().isEmpty() && Weight.getText().isEmpty() &&
+					TotalWins.getText().isEmpty() && TotalMatch.getText().isEmpty()) {
+				Alert FirstNameEmpty = new Alert(AlertType.ERROR);
+				FirstNameEmpty.setTitle("New Player Alert");
+				String FirstNameEmptyInfo = "Please enter Information \n";
+				FirstNameEmpty.setContentText(FirstNameEmptyInfo);
+				FirstNameEmpty.show();
+			}
+			else {
+				try {
+				String FN = FirstName.getText();
+				String LN = LastName.getText();
+				String TA = TeamAlias.getText();
+				int grade = Integer.parseInt(Grade.getText());
+				int weight = Integer.parseInt(Weight.getText());
+				int totalWins = Integer.parseInt(TotalWins.getText());
+				int totalMatch = Integer.parseInt(TotalMatch.getText());
+				new Wrestler(FN, LN,TA, grade, weight, totalWins, totalMatch);
+				}
+				catch(Exception a) {
+					System.out.println("Something went wrong");
+				}
+			}
+		});
 		mainMenu.getChildren().addAll(layout);
 		viewList.prefWidth(100);
 		viewList.getChildren().addAll(listView, wrestlerView, compareWrestlerView,startView,helpView);
@@ -1155,6 +1181,5 @@ public class Main extends Application{
 		stage.setScene(introScene);
 		
 		stage.show();
-		
 	}
 }
