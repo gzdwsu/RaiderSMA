@@ -464,8 +464,6 @@ public class Main extends Application{
 		TextField TotalMatch =  new TextField();
 		compareWrestlers.setMinWidth(110);
 		compareWrestlersTxt.setMinWidth(110);
-		compareWrestlers.setText("Compare Wrestlers");
-		compareWrestlersTxt.setText("Name,Name");
 		ListView<String> compareWrestlerView = new ListView<String>();
 		Button wrestlerBack = new Button();
 		ListView<String> startView = new ListView<String>();
@@ -596,8 +594,9 @@ public class Main extends Application{
 		viewTeams.setText("View Teams");
 		viewWrestlers.setText("View Wrestlers");
 		saveTournament.setPromptText("Name of Tournament");
-		saveTournament.setText("Name of Tournament");
 		wrestlerBack.setText("Back");
+		compareWrestlers.setText("Compare Wrestlers");
+		compareWrestlersTxt.setPromptText("Alias,Alias");
 		//create the layout of the menu
 		GridPane layout = new GridPane();
 		layout.setPadding(new Insets(10,10,10,10));
@@ -612,24 +611,22 @@ public class Main extends Application{
 		layout.add(viewWrestlers, 0, 2);
 		layout.add(save, 0, 5);
 		layout.add(saveTournament, 1, 5);
-		layout.add(start, 0, 13);
-		layout.add(add, 0, 6);
-		layout.add(FirstName, 1, 6);
-		layout.add(LastName, 1, 7);
-		layout.add(TeamAlias, 1, 8);
-		layout.add(Grade, 1, 9);
-		layout.add(Weight, 1, 10);
-		layout.add(TotalWins, 1,11);
-		layout.add(TotalMatch, 1, 12);
-		layout.add(compareWrestlers, 0, 7);
-		layout.add( compareWrestlersTxt, 1, 7);
-		layout.add(advance, 0, 9);
-		layout.add(help, 0, 10);
-		layout.add(update, 0, 11);
+		layout.add(add, 0, 9);
+		layout.add(FirstName, 1, 9);
+		layout.add(LastName, 1, 10);
+		layout.add(TeamAlias, 1, 11);
+		layout.add(Grade, 1, 12);
+		layout.add(Weight, 1, 13);
+		layout.add(TotalWins, 1,14);
+		layout.add(TotalMatch, 1, 15);
+		layout.add(compareWrestlers, 0, 17);
+		layout.add(compareWrestlersTxt, 1, 17);
+		layout.add(advance, 0, 18);
+		layout.add(update, 0, 19);
+		layout.add(start, 0, 21);
+		layout.add(help, 0, 28);
 
 
-		
-		
 		Scene introScene = new Scene (introRoot, 700, 700);
 		Scene wrestlerScene = new Scene(root,700,700);
 		Scene soccerScene = new Scene(soccerRoot,700,700);
