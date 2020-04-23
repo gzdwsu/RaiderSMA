@@ -25,6 +25,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Tooltip;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.layout.StackPane;
 /**
  * @author Jared Murphy
  * @author Cody Francis
@@ -38,34 +43,32 @@ public class Main extends Application{
     log.createLogFiles();
     launch(args);
 
-    System.out.println("Please enter the sport you would like to manage(wrestling/soccer/race/bowling):\n Note: Enter 'QUIT' at anytime to end the program.");
-    
 	while(true) {
-	String sportSelection = s.nextLine();
-	switch(sportSelection.toLowerCase()) {
-	case "wrestling":
-		Model wrestlerModel = new Model("wrestling");
-		wrestlingMenu();
-		break;
-	case "race":
-		Race race = new Race();
-		raceMenu();
-		break;
-	case "bowling":
-		Bowling bowling = new Bowling();
-		bowlingMenu();
-		break;
-    case "soccer":
-    	Model soccerModel = new Model("soccer");
-    	soccerMenu();
-    	break;
-    case "quit":
-    	exitProgram();
-    	break;
-    default:	
-    	System.out.println("Incorrect input. Please enter wrestling/soccer/race/bowling");
+		String sportSelection = s.nextLine();
+		switch(sportSelection.toLowerCase()) {
+			case "wrestling":
+				Model wrestlerModel = new Model("wrestling");
+				wrestlingMenu();
+				break;
+			case "race":
+				Race race = new Race();
+				raceMenu();
+				break;
+			case "bowling":
+				Bowling bowling = new Bowling();
+				bowlingMenu();
+				break;
+			case "soccer":
+				Model soccerModel = new Model("soccer");
+				soccerMenu();
+				break;
+			case "quit":
+				exitProgram();
+				break;
+			default:	
+				System.out.println("Incorrect input. Please enter wrestling/soccer/race/bowling");
 				}
-    }
+    	}
     }
     
     public static void raceMenu(){
@@ -436,7 +439,7 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		stage.setTitle("RaiderSMA");
+	
 		BorderPane root = new BorderPane();
 		VBox mainMenu = new VBox();
 		VBox viewList = new VBox();
@@ -450,7 +453,7 @@ public class Main extends Application{
 
 
 		Button compareWrestlers = new Button();
-    TextField compareWrestlersTxt = new TextField();
+		TextField compareWrestlersTxt = new TextField();
 		TextField saveTournament = new TextField();
 		TextField FirstName = new TextField();
 		TextField LastName = new TextField();
@@ -461,15 +464,16 @@ public class Main extends Application{
 		TextField TotalMatch =  new TextField();
 		compareWrestlers.setMinWidth(110);
 		compareWrestlersTxt.setMinWidth(110);
-		compareWrestlers.setText("Compare Wrestlers");
-		compareWrestlersTxt.setText("Name,Name");
 		ListView<String> compareWrestlerView = new ListView<String>();
-    Button wrestlerBack = new Button();
+		Button wrestlerBack = new Button();
 		ListView<String> startView = new ListView<String>();
 		//button declarations i've added
 		Button advance = new Button();
 		Button help = new Button();
 		Button update = new Button();
+    
+		
+
 		// adds tooltips to each menu button
 		Tooltip viewTeamsTooltip = new Tooltip("Displays the imported teams in the display box to the right");
 		Tooltip.install(viewTeams, viewTeamsTooltip);
@@ -485,19 +489,25 @@ public class Main extends Application{
 		Tooltip.install(save, saveTooltip);
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
+		
 		ListView<String> helpView = new ListView<String>();
+		
 		TextField importWrestlerField = new TextField ();
+
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
+
 		// create buttons/textfields for view of team and wrestlers
+		
 		add.setMinWidth(110); 
 		add.setText("Add Wrestler");
 		BorderPane introRoot= new BorderPane();
 		GridPane introLayout = new GridPane();
 		Button wrestling = new Button();
 		Button soccer = new Button();
-		Label introMenu = new Label("Please select the sport you would like to manage:");
+	
 		//UI elements for selection Screen
+		
 		BorderPane soccerRoot = new BorderPane();
 		Label soccerLabel = new Label("Soccer Menu");
 		VBox soccerMenu = new VBox();
@@ -534,16 +544,25 @@ public class Main extends Application{
 		soccerRoot.setLeft(soccerMenu);
 		soccerRoot.setCenter(soccerViewList);
 		//Creating soccer scene
+		introLayout.setHgap(10);
+		introLayout.setVgap(12);
 		wrestling.setText("Wrestling");
 		wrestling.setPadding(new Insets(10,10,10,10));
 		soccer.setText("Soccer");
 		soccer.setPadding(new Insets(10,10,10,10));
-		introLayout.setPadding(new Insets(300,100,100,100));
-		introLayout.add(introMenu, 0, 0);
-		introLayout.add(wrestling, 2,3 );
-		introLayout.add(soccer, 3, 3);
-		introRoot.setCenter(introLayout);		
+		//Intro Layout
+		Text intro = new Text ("Please select the sport you would like to manage");
+		intro.setFont(new Font(20));
+		intro.setFill(Color.DARKGREEN);
+		intro.setTextAlignment(TextAlignment.CENTER);
+		stage.setTitle("RaiderSMA");
+		introLayout.setPadding(new Insets(250,100,100,100));
+		introLayout.add(intro, 0, 0);
+		introLayout.add(wrestling, 0, 4);
+		introLayout.add(soccer,1,4);
+		introRoot.setCenter(introLayout);	
 		//Initializing introduction UI elements
+
 		importTeams.setMinWidth(110);
 		importWrestlers.setMinWidth(110);
 		viewTeams.setMinWidth(110);
@@ -559,6 +578,7 @@ public class Main extends Application{
 		advance.setText("Advance");
 		help.setText("Help");
 		update.setText("Update Match");
+		
 		save.setText("Save");
 		start.setText("Start");
 		FirstName.setPromptText("First Name");
@@ -567,14 +587,16 @@ public class Main extends Application{
 		Grade.setPromptText("Grade");
 		Weight.setPromptText("Player's Weight");
 		TotalWins.setPromptText("Total Wins");
-		TotalMatch.setPromptText("Total Match");	
+		TotalMatch.setPromptText("Total Match");
+		
 		importTeams.setText("Import Teams");
 		importWrestlers.setText("Import Wrestlers");
 		viewTeams.setText("View Teams");
 		viewWrestlers.setText("View Wrestlers");
 		saveTournament.setPromptText("Name of Tournament");
-		saveTournament.setText("Name of Tournament");
 		wrestlerBack.setText("Back");
+		compareWrestlers.setText("Compare Wrestlers");
+		compareWrestlersTxt.setPromptText("Alias,Alias");
 		//create the layout of the menu
 		GridPane layout = new GridPane();
 		layout.setPadding(new Insets(10,10,10,10));
@@ -589,45 +611,52 @@ public class Main extends Application{
 		layout.add(viewWrestlers, 0, 2);
 		layout.add(save, 0, 5);
 		layout.add(saveTournament, 1, 5);
-		layout.add(start, 0, 13);
-		layout.add(add, 0, 6);
-		layout.add(FirstName, 1, 6);
-		layout.add(LastName, 1, 7);
-		layout.add(TeamAlias, 1, 8);
-		layout.add(Grade, 1, 9);
-		layout.add(Weight, 1, 10);
-		layout.add(TotalWins, 1,11);
-		layout.add(TotalMatch, 1, 12);
-		layout.add(start, 0, 6);
+		layout.add(add, 0, 9);
+		layout.add(FirstName, 1, 9);
+		layout.add(LastName, 1, 10);
+		layout.add(TeamAlias, 1, 11);
+		layout.add(Grade, 1, 12);
+		layout.add(Weight, 1, 13);
+		layout.add(TotalWins, 1,14);
+		layout.add(TotalMatch, 1, 15);
+		layout.add(compareWrestlers, 0, 17);
+		layout.add(compareWrestlersTxt, 1, 17);
+		layout.add(advance, 0, 18);
+		layout.add(update, 0, 19);
+		layout.add(start, 0, 21);
+		layout.add(help, 0, 28);
 
-		layout.add(compareWrestlers, 0, 7);
-		layout.add( compareWrestlersTxt, 1, 7);
-		layout.add(advance, 0, 9);
-		layout.add(help, 0, 10);
-		layout.add(update, 0, 11);
-		
+
 		Scene introScene = new Scene (introRoot, 700, 700);
 		Scene wrestlerScene = new Scene(root,700,700);
 		Scene soccerScene = new Scene(soccerRoot,700,700);
 		
 		wrestling.setOnAction(e ->{
+			
 			Model m = new Model("wrestling");
-			stage.setScene(wrestlerScene);	
+			stage.setScene(wrestlerScene);
+				
 		});
-		soccer.setOnAction(e ->{		
+		soccer.setOnAction(e ->{
+						
 			Model soccerModel = new Model("soccer");
 			stage.setScene(soccerScene);
+			
 		});
-		viewTeams.setOnAction(e -> {
+				viewTeams.setOnAction(e -> {
+	
 			ArrayList<Team> show = Model.printTeams();
-				for(int i = 0; i < show.size(); i++) {
+			for(int i = 0; i < show.size(); i++) {
 				listView.getItems().add(show.get(i));
-				}
-		   	 return;
+			}
+			
+		    return;
 		});
 		
 		soccerBack.setOnAction(e -> {
+			
 			stage.setScene(introScene);
+			
 		});
 		wrestlerBack.setOnAction(e->{
 			
@@ -945,7 +974,6 @@ public class Main extends Application{
 			Label rpLabel = new Label("Red Points");
 			Label ftyLabel = new Label("Fall Type");
 			Label ftiLabel = new Label("Fall Time");
-			
 			colorField.setMinWidth(110);
 			greenPts.setMinWidth(110);
 			redPts.setMinWidth(110);
@@ -1028,5 +1056,6 @@ public class Main extends Application{
 		stage.setScene(introScene);
 		
 		stage.show();
+				
 	}
-}
+};
