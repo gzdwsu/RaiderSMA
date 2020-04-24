@@ -3,6 +3,7 @@ package wrestlingtournamentcli;
 import DataClasses.*;
 import java.util.Optional;
 import DataClasses.bowling.Bowling;
+import DataClasses.golf.Golf;
 import DataClasses.race.Race;
 import java.util.ArrayList;
 import javafx.scene.control.ButtonType;
@@ -38,7 +39,7 @@ public class Main extends Application{
     log.createLogFiles();
     launch(args);
 
-    System.out.println("Please enter the sport you would like to manage(wrestling/soccer/race/bowling):\n Note: Enter 'QUIT' at anytime to end the program.");
+    System.out.println("Please enter the sport you would like to manage(wrestling/soccer/race/bowling/golf):\n Note: Enter 'QUIT' at anytime to end the program.");
     
 	while(true) {
 	String sportSelection = s.nextLine();
@@ -59,11 +60,15 @@ public class Main extends Application{
     	Model soccerModel = new Model("soccer");
     	soccerMenu();
     	break;
+    case "golf":
+    	Model golf = new Model("golf");
+    	golfMenu();
+    	break;
     case "quit":
     	exitProgram();
     	break;
     default:	
-    	System.out.println("Incorrect input. Please enter wrestling/soccer/race/bowling");
+    	System.out.println("Incorrect input. Please enter wrestling/soccer/race/bowling/golf");
 				}
     }
     }
@@ -151,6 +156,26 @@ public class Main extends Application{
       }
       }
   }
+    
+    public static void golfMenu(){
+    	Scanner s = new Scanner(System.in);
+    	System.out.println("Welcome to the Murphy Golfing Manager. For available commands, please type 'help'");
+    	while(true){
+    		System.out.println("\nInput your next command!");
+    		String input = s.nextLine();
+    		try {
+    			ArrayList<String> arguments = new ArrayList();
+    			Scanner argScanner = new Scanner(input);
+    			while(argScanner.hasNext()){
+    				arguments.add(argScanner.next());
+    			}
+    			processInputGolf(arguments);
+    		} catch(Exception e){
+    			System.out.println("Sorry! The command '" + input + "' either wasn't recognized or experienced an error.");
+    			System.out.println(e.getMessage());
+    		}
+    	}
+    }
     
     public static void processInputSoccer(ArrayList<String> args) throws Exception{
     	   args.set(0, args.get(0).toUpperCase());
@@ -319,6 +344,57 @@ public class Main extends Application{
                 + "QUIT // Exits the program\n"
                 );
                 }
+    
+    public static void processInputGolf(ArrayList<String> args) throws Exception{
+    	args.set(0, args.get(0).toUpperCase());
+    	switch(args.size()){
+	    	case 0:
+	    		throw new BadCommandException();
+	    	case 1:
+	    		switch(args.get(0)){
+			    	case "HELP":
+		            	Golf.printMenu();
+		            	return;
+			    	case "STATUS":
+			    		Golf.status();
+			    		return;
+			    	case "QUIT":
+	                   	exitProgram();
+	                   	return;
+	                default:
+	                    throw new BadCommandException();
+	    		}
+	    	case 2:
+	    		switch(args.get(0)){
+		    		case "MATCHTYPE":
+		    			Golf.setMatchType(args.get(1).toUpperCase());
+		    			return;
+		    		default:
+	                    throw new BadCommandException();
+	    		}
+	    	case 3:
+	    		switch(args.get(0)){
+	    			case "ADDHOLE":
+	    				Golf.addHole(Integer.parseInt(args.get(1)), Integer.parseInt(args.get(2)));
+	    				return;
+	    			case "SCORE":
+	    				Golf.score(Integer.parseInt(args.get(1)), Integer.parseInt(args.get(2)));
+	    				return;
+	    			default:
+	                    throw new BadCommandException();
+	    		}
+	    	case 4:
+	    		switch(args.get(0)){
+	    			case "ADDGOLFER":
+	    				Golf.addGolfer(args.get(1), args.get(2), Integer.parseInt(args.get(3)));
+	    				return;
+	    			default:
+	                    throw new BadCommandException();
+	    		}
+	    	default:
+                throw new BadCommandException();
+    	}
+    }
     
     public static void processInput(ArrayList<String> args) throws Exception{
     args.set(0, args.get(0).toUpperCase());
