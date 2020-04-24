@@ -6,6 +6,8 @@ import DataClasses.bowling.Bowling;
 import DataClasses.race.Race;
 import java.util.ArrayList;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContentDisplay;
+
 import java.util.Scanner;
 import loggingFunctions.*;
 import javafx.scene.control.ListView;
@@ -25,7 +27,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 /**
  * @author Jared Murphy
  * @author Cody Francis
@@ -497,7 +500,6 @@ public class Main extends Application{
 		GridPane introLayout = new GridPane();
 		Button wrestling = new Button();
 		Button soccer = new Button();
-		ToggleButton theme = new ToggleButton();
 		Label introMenu = new Label("Please select the sport you would like to manage:");
 		//UI elements for selection Screen
 		BorderPane soccerRoot = new BorderPane();
@@ -538,15 +540,18 @@ public class Main extends Application{
 		//Creating soccer scene
 		wrestling.setText("Wrestling");
 		wrestling.setPadding(new Insets(10,10,10,10));
+		Image wrestlingButtonImage = new Image(getClass().getResourceAsStream("wrestlingicon.png"));
+		wrestling.setGraphic(new ImageView(wrestlingButtonImage));
+		wrestling.setContentDisplay(ContentDisplay.TOP);
 		soccer.setText("Soccer");
 		soccer.setPadding(new Insets(10,10,10,10));
-		theme.setText("Theme");
-		theme.setPadding(new Insets(10,10,10,10));
+		Image soccerButtonImage = new Image(getClass().getResourceAsStream("soccerballicon.png"));
+		soccer.setGraphic(new ImageView(soccerButtonImage));
+		soccer.setContentDisplay(ContentDisplay.TOP);
 		introLayout.setPadding(new Insets(300,100,100,100));
 		introLayout.add(introMenu, 0, 0);
 		introLayout.add(wrestling, 2,3 );
 		introLayout.add(soccer, 3, 3);
-		introLayout.add(theme, 2, 4);
 		introRoot.setCenter(introLayout);		
 		//Initializing introduction UI elements
 		importTeams.setMinWidth(110);
@@ -622,13 +627,6 @@ public class Main extends Application{
 		soccer.setOnAction(e ->{		
 			Model soccerModel = new Model("soccer");
 			stage.setScene(soccerScene);
-		});
-		theme.setOnAction(e ->{		
-			if(theme.isSelected()) {
-				root.getStylesheets().add(getClass().getResource("DarkThemeChanges.css").toExternalForm());
-			} else {
-				root.getStylesheets().remove(getClass().getResource("DarkThemeChanges.css").toExternalForm());
-			}
 		});
 		viewTeams.setOnAction(e -> {
 			ArrayList<Team> show = Model.printTeams();
