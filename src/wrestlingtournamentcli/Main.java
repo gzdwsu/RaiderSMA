@@ -332,6 +332,19 @@ public class Main extends Application{
     	}
     }
     
+    public static void printHelpSoccer(){
+        System.out.println("List of Commands and their parameters:\n"
+                + "Command Parameter1 Parameter2 Parameter 3...\n"
+                + "VIEW-TEAMS //Displays each team's information\n"
+                + "VIEW-SOCCER-PLAYERS //Displays soccer players\n"
+                + "HELP //Display list of available commands\n"
+                + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
+                + "IMPORT-SOCCER-PLAYERS FileName //Parses the provided file for Soccer objects\n"
+                + "VIEW-SOCCER-PLAYER SoccerPlayerName //Looks for the soccer player and prints his/her information\n"
+                + "QUIT // Exits the program\n"
+                );
+                }
+    
     public static void processInputGolf(ArrayList<String> args) throws Exception{
     	args.set(0, args.get(0).toUpperCase());
     	switch(args.size()){
@@ -382,19 +395,6 @@ public class Main extends Application{
                 throw new BadCommandException();
     	}
     }
-    
-    public static void printHelpSoccer(){
-        System.out.println("List of Commands and their parameters:\n"
-                + "Command Parameter1 Parameter2 Parameter 3...\n"
-                + "VIEW-TEAMS //Displays each team's information\n"
-                + "VIEW-SOCCER-PLAYERS //Displays soccer players\n"
-                + "HELP //Display list of available commands\n"
-                + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
-                + "IMPORT-SOCCER-PLAYERS FileName //Parses the provided file for Soccer objects\n"
-                + "VIEW-SOCCER-PLAYER SoccerPlayerName //Looks for the soccer player and prints his/her information\n"
-                + "QUIT // Exits the program\n"
-                );
-                }
     
     public static void processInput(ArrayList<String> args) throws Exception{
     args.set(0, args.get(0).toUpperCase());
@@ -674,7 +674,7 @@ public class Main extends Application{
 		layout.add(Weight, 1, 10);
 		layout.add(TotalWins, 1,11);
 		layout.add(TotalMatch, 1, 12);
-//		layout.add(start, 0, 6);
+		layout.add(start, 0, 6);
 
 		layout.add(compareWrestlers, 0, 7);
 		layout.add( compareWrestlersTxt, 1, 7);
