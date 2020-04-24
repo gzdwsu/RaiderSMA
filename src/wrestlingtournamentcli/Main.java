@@ -25,6 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 /**
  * @author Jared Murphy
  * @author Cody Francis
@@ -449,14 +450,14 @@ public class Main extends Application{
 
 
 		Button compareWrestlers = new Button();
-    TextField compareWrestlersTxt = new TextField();
+		TextField compareWrestlersTxt = new TextField();
 		TextField saveTournament = new TextField();
 		compareWrestlers.setMinWidth(110);
 		compareWrestlersTxt.setMinWidth(110);
 		compareWrestlers.setText("Compare Wrestlers");
 		compareWrestlersTxt.setText("Name,Name");
 		ListView<String> compareWrestlerView = new ListView<String>();
-    Button wrestlerBack = new Button();
+		Button wrestlerBack = new Button();
 		ListView<String> startView = new ListView<String>();
 		//button declarations i've added
 		Button advance = new Button();
@@ -499,7 +500,6 @@ public class Main extends Application{
 		Button soccer = new Button();
 		Label introMenu = new Label("Please select the sport you would like to manage:");
 		//UI elements for selection Screen
-		
 		BorderPane soccerRoot = new BorderPane();
 		Label soccerLabel = new Label("Soccer Menu");
 		VBox soccerMenu = new VBox();
@@ -540,6 +540,7 @@ public class Main extends Application{
 		wrestling.setPadding(new Insets(10,10,10,10));
 		soccer.setText("Soccer");
 		soccer.setPadding(new Insets(10,10,10,10));
+		soccer.setId("introSoccer");
 		introLayout.setPadding(new Insets(300,100,100,100));
 		introLayout.add(introMenu, 0, 0);
 		introLayout.add(wrestling, 2,3 );
@@ -586,7 +587,7 @@ public class Main extends Application{
 		layout.add(save, 0, 5);
 		layout.add(saveTournament, 1, 5);
 		layout.add(start, 0, 6);
-
+   
 
 		layout.add(compareWrestlers, 0, 7);
 		layout.add( compareWrestlersTxt, 1, 7);
@@ -596,14 +597,16 @@ public class Main extends Application{
 		layout.add(advance, 0, 9);
 		layout.add(help, 0, 10);
 		layout.add(update, 0, 11);
-
+        layout.add(wrestlerBack, 0, 12);
 
 		
 		
 		Scene introScene = new Scene (introRoot, 700, 700);
 		Scene wrestlerScene = new Scene(root,700,700);
 		Scene soccerScene = new Scene(soccerRoot,700,700);
-		
+		wrestlerScene.getStylesheets().add("wrestlerStyles.css");
+		introScene.getStylesheets().add("introStyles.css");
+		soccerScene.getStylesheets().add("soccerStyles.css");
 		wrestling.setOnAction(e ->{
 			
 			Model m = new Model("wrestling");
@@ -992,6 +995,7 @@ public class Main extends Application{
 			root2.setCenter(fields);//put content here(pane)
 			
 			stage2.setScene(new Scene(root2, 300, 300));
+			
 			stage2.setTitle("Update Match");
 			stage2.show();
 			
@@ -1006,7 +1010,7 @@ public class Main extends Application{
 		
 		//stage.setScene(new Scene(root, 700, 700));
 		stage.setScene(introScene);
-		
+		stage.getIcons().add(new Image("file:logo.jpg"));
 		stage.show();
 		
 	}
