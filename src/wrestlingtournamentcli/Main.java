@@ -25,6 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.ToggleButton;
 /**
  * @author Jared Murphy
  * @author Cody Francis
@@ -496,6 +497,7 @@ public class Main extends Application{
 		GridPane introLayout = new GridPane();
 		Button wrestling = new Button();
 		Button soccer = new Button();
+		ToggleButton theme = new ToggleButton();
 		Label introMenu = new Label("Please select the sport you would like to manage:");
 		//UI elements for selection Screen
 		BorderPane soccerRoot = new BorderPane();
@@ -538,10 +540,13 @@ public class Main extends Application{
 		wrestling.setPadding(new Insets(10,10,10,10));
 		soccer.setText("Soccer");
 		soccer.setPadding(new Insets(10,10,10,10));
+		theme.setText("Theme");
+		theme.setPadding(new Insets(10,10,10,10));
 		introLayout.setPadding(new Insets(300,100,100,100));
 		introLayout.add(introMenu, 0, 0);
 		introLayout.add(wrestling, 2,3 );
 		introLayout.add(soccer, 3, 3);
+		introLayout.add(theme, 2, 4);
 		introRoot.setCenter(introLayout);		
 		//Initializing introduction UI elements
 		importTeams.setMinWidth(110);
@@ -598,7 +603,7 @@ public class Main extends Application{
 		layout.add(Weight, 1, 10);
 		layout.add(TotalWins, 1,11);
 		layout.add(TotalMatch, 1, 12);
-		layout.add(start, 0, 6);
+		//layout.add(start, 0, 6);
 
 		layout.add(compareWrestlers, 0, 7);
 		layout.add( compareWrestlersTxt, 1, 7);
@@ -617,6 +622,13 @@ public class Main extends Application{
 		soccer.setOnAction(e ->{		
 			Model soccerModel = new Model("soccer");
 			stage.setScene(soccerScene);
+		});
+		theme.setOnAction(e ->{		
+			if(theme.isSelected()) {
+				root.getStylesheets().add(getClass().getResource("DarkThemeChanges.css").toExternalForm());
+			} else {
+				root.getStylesheets().remove(getClass().getResource("DarkThemeChanges.css").toExternalForm());
+			}
 		});
 		viewTeams.setOnAction(e -> {
 			ArrayList<Team> show = Model.printTeams();
