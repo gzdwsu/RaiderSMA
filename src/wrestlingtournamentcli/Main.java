@@ -1,9 +1,12 @@
 
 package wrestlingtournamentcli;
 import DataClasses.*;
+import java.util.Optional;
 import DataClasses.bowling.Bowling;
+import DataClasses.golf.Golf;
 import DataClasses.race.Race;
 import java.util.ArrayList;
+import javafx.scene.control.ButtonType;
 import java.util.Scanner;
 import loggingFunctions.*;
 import javafx.scene.control.ListView;
@@ -22,6 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.Tooltip;
 /**
  * @author Jared Murphy
  * @author Cody Francis
@@ -35,7 +39,7 @@ public class Main extends Application{
     log.createLogFiles();
     launch(args);
 
-    System.out.println("Please enter the sport you would like to manage(wrestling/soccer/race/bowling):\n Note: Enter 'QUIT' at anytime to end the program.");
+    System.out.println("Please enter the sport you would like to manage(wrestling/soccer/race/bowling/golf):\n Note: Enter 'QUIT' at anytime to end the program.");
     
 	while(true) {
 	String sportSelection = s.nextLine();
@@ -56,11 +60,15 @@ public class Main extends Application{
     	Model soccerModel = new Model("soccer");
     	soccerMenu();
     	break;
+    case "golf":
+    	Model golf = new Model("golf");
+    	golfMenu();
+    	break;
     case "quit":
     	exitProgram();
     	break;
     default:	
-    	System.out.println("Incorrect input. Please enter wrestling/soccer/race/bowling");
+    	System.out.println("Incorrect input. Please enter wrestling/soccer/race/bowling/golf");
 				}
     }
     }
@@ -148,6 +156,26 @@ public class Main extends Application{
       }
       }
   }
+    
+    public static void golfMenu(){
+    	Scanner s = new Scanner(System.in);
+    	System.out.println("Welcome to the Murphy Golfing Manager. For available commands, please type 'help'");
+    	while(true){
+    		System.out.println("\nInput your next command!");
+    		String input = s.nextLine();
+    		try {
+    			ArrayList<String> arguments = new ArrayList();
+    			Scanner argScanner = new Scanner(input);
+    			while(argScanner.hasNext()){
+    				arguments.add(argScanner.next());
+    			}
+    			processInputGolf(arguments);
+    		} catch(Exception e){
+    			System.out.println("Sorry! The command '" + input + "' either wasn't recognized or experienced an error.");
+    			System.out.println(e.getMessage());
+    		}
+    	}
+    }
     
     public static void processInputSoccer(ArrayList<String> args) throws Exception{
     	   args.set(0, args.get(0).toUpperCase());
@@ -304,6 +332,57 @@ public class Main extends Application{
     	}
     }
     
+    public static void processInputGolf(ArrayList<String> args) throws Exception{
+    	args.set(0, args.get(0).toUpperCase());
+    	switch(args.size()){
+	    	case 0:
+	    		throw new BadCommandException();
+	    	case 1:
+	    		switch(args.get(0)){
+			    	case "HELP":
+		            	Golf.printMenu();
+		            	return;
+			    	case "STATUS":
+			    		Golf.status();
+			    		return;
+			    	case "QUIT":
+	                   	exitProgram();
+	                   	return;
+	                default:
+	                    throw new BadCommandException();
+	    		}
+	    	case 2:
+	    		switch(args.get(0)){
+		    		case "MATCHTYPE":
+		    			Golf.setMatchType(args.get(1).toUpperCase());
+		    			return;
+		    		default:
+	                    throw new BadCommandException();
+	    		}
+	    	case 3:
+	    		switch(args.get(0)){
+	    			case "ADDHOLE":
+	    				Golf.addHole(Integer.parseInt(args.get(1)), Integer.parseInt(args.get(2)));
+	    				return;
+	    			case "SCORE":
+	    				Golf.score(Integer.parseInt(args.get(1)), Integer.parseInt(args.get(2)));
+	    				return;
+	    			default:
+	                    throw new BadCommandException();
+	    		}
+	    	case 4:
+	    		switch(args.get(0)){
+	    			case "ADDGOLFER":
+	    				Golf.addGolfer(args.get(1), args.get(2), Integer.parseInt(args.get(3)));
+	    				return;
+	    			default:
+	                    throw new BadCommandException();
+	    		}
+	    	default:
+                throw new BadCommandException();
+    	}
+    }
+    
     public static void printHelpSoccer(){
         System.out.println("List of Commands and their parameters:\n"
                 + "Command Parameter1 Parameter2 Parameter 3...\n"
@@ -437,28 +516,64 @@ public class Main extends Application{
 		BorderPane root = new BorderPane();
 		VBox mainMenu = new VBox();
 		VBox viewList = new VBox();
+		Button add = new Button();
 		Button viewTeams = new Button();
 		Button viewWrestlers = new Button();
 		Button importTeams = new Button();
 		Button importWrestlers = new Button();
 		Button save = new Button();
 		Button start = new Button();
-		Button wrestlerBack = new Button();
+
+
+		Button compareWrestlers = new Button();
+    TextField compareWrestlersTxt = new TextField();
 		TextField saveTournament = new TextField();
+		TextField FirstName = new TextField();
+		TextField LastName = new TextField();
+		TextField TeamAlias = new TextField();
+		TextField Grade = new TextField();
+		TextField Weight = new TextField();
+		TextField TotalWins = new TextField();
+		TextField TotalMatch =  new TextField();
+		compareWrestlers.setMinWidth(110);
+		compareWrestlersTxt.setMinWidth(110);
+		compareWrestlers.setText("Compare Wrestlers");
+		compareWrestlersTxt.setText("Name,Name");
+		ListView<String> compareWrestlerView = new ListView<String>();
+    Button wrestlerBack = new Button();
+		ListView<String> startView = new ListView<String>();
+		//button declarations i've added
+		Button advance = new Button();
+		Button help = new Button();
+		Button update = new Button();
+		// adds tooltips to each menu button
+		Tooltip viewTeamsTooltip = new Tooltip("Displays the imported teams in the display box to the right");
+		Tooltip.install(viewTeams, viewTeamsTooltip);
+		Tooltip viewWrestlersTooltip = new Tooltip("Displays the imported wrestlers in the display box to the right");
+		Tooltip.install(viewWrestlers, viewWrestlersTooltip);
+		Tooltip importTeamsTooltip = new Tooltip("Imports teams from a txt file");
+		Tooltip.install(importTeams, importTeamsTooltip);
+		Tooltip importWrestlersToolTip = new Tooltip("Imports wrestlers from a txt file");
+		Tooltip.install(importWrestlers, importWrestlersToolTip);
+		Tooltip startToolTip = new Tooltip("Initiates the simulation");
+		Tooltip.install(start, startToolTip);
+		Tooltip saveTooltip = new Tooltip("Saves the results of the matches to a file(Use text box to save the name of the tournament)");
+		Tooltip.install(save, saveTooltip);
 		ListView<Team> listView = new ListView<Team>();
 		ListView<Wrestler> wrestlerView = new ListView<Wrestler>();
+		ListView<String> helpView = new ListView<String>();
 		TextField importWrestlerField = new TextField ();
 		Label menu = new Label("Main Menu");
 		menu.setStyle("-fx-font-weight: bold; -fx-font: 24 arial");
 		// create buttons/textfields for view of team and wrestlers
-		
+		add.setMinWidth(110); 
+		add.setText("Add Wrestler");
 		BorderPane introRoot= new BorderPane();
 		GridPane introLayout = new GridPane();
 		Button wrestling = new Button();
 		Button soccer = new Button();
 		Label introMenu = new Label("Please select the sport you would like to manage:");
 		//UI elements for selection Screen
-		
 		BorderPane soccerRoot = new BorderPane();
 		Label soccerLabel = new Label("Soccer Menu");
 		VBox soccerMenu = new VBox();
@@ -505,7 +620,6 @@ public class Main extends Application{
 		introLayout.add(soccer, 3, 3);
 		introRoot.setCenter(introLayout);		
 		//Initializing introduction UI elements
-		
 		importTeams.setMinWidth(110);
 		importWrestlers.setMinWidth(110);
 		viewTeams.setMinWidth(110);
@@ -513,13 +627,28 @@ public class Main extends Application{
 		saveTournament.setMinWidth(110);
 		save.setMinWidth(110);
 		start.setMinWidth(110);
+		FirstName.setMinWidth(110);
+		LastName.setMinWidth(110);
+		update.setMinWidth(110);
+		help.setMinWidth(110);
+		advance.setMinWidth(110);
+		advance.setText("Advance");
+		help.setText("Help");
+		update.setText("Update Match");
 		save.setText("Save");
 		start.setText("Start");
-		
+		FirstName.setPromptText("First Name");
+		LastName.setPromptText("Last Name");
+		TeamAlias.setPromptText("Team Alias");
+		Grade.setPromptText("Grade");
+		Weight.setPromptText("Player's Weight");
+		TotalWins.setPromptText("Total Wins");
+		TotalMatch.setPromptText("Total Match");	
 		importTeams.setText("Import Teams");
 		importWrestlers.setText("Import Wrestlers");
 		viewTeams.setText("View Teams");
 		viewWrestlers.setText("View Wrestlers");
+		saveTournament.setPromptText("Name of Tournament");
 		saveTournament.setText("Name of Tournament");
 		wrestlerBack.setText("Back");
 		//create the layout of the menu
@@ -536,41 +665,45 @@ public class Main extends Application{
 		layout.add(viewWrestlers, 0, 2);
 		layout.add(save, 0, 5);
 		layout.add(saveTournament, 1, 5);
-		layout.add(start, 0, 6);
-		layout.add(wrestlerBack, 0, 7);
-		
+		layout.add(start, 0, 13);
+		layout.add(add, 0, 6);
+		layout.add(FirstName, 1, 6);
+		layout.add(LastName, 1, 7);
+		layout.add(TeamAlias, 1, 8);
+		layout.add(Grade, 1, 9);
+		layout.add(Weight, 1, 10);
+		layout.add(TotalWins, 1,11);
+		layout.add(TotalMatch, 1, 12);
+//		layout.add(start, 0, 6);
+
+		layout.add(compareWrestlers, 0, 7);
+		layout.add( compareWrestlersTxt, 1, 7);
+		layout.add(advance, 0, 9);
+		layout.add(help, 0, 10);
+		layout.add(update, 0, 11);
 		
 		Scene introScene = new Scene (introRoot, 700, 700);
 		Scene wrestlerScene = new Scene(root,700,700);
 		Scene soccerScene = new Scene(soccerRoot,700,700);
 		
 		wrestling.setOnAction(e ->{
-			
 			Model m = new Model("wrestling");
-			stage.setScene(wrestlerScene);
-				
+			stage.setScene(wrestlerScene);	
 		});
-		soccer.setOnAction(e ->{
-						
+		soccer.setOnAction(e ->{		
 			Model soccerModel = new Model("soccer");
 			stage.setScene(soccerScene);
-			
 		});
-		
 		viewTeams.setOnAction(e -> {
-			
 			ArrayList<Team> show = Model.printTeams();
-			for(int i = 0; i < show.size(); i++) {
+				for(int i = 0; i < show.size(); i++) {
 				listView.getItems().add(show.get(i));
-			}
-			
-		    return;
+				}
+		   	 return;
 		});
 		
 		soccerBack.setOnAction(e -> {
-			
 			stage.setScene(introScene);
-			
 		});
 		wrestlerBack.setOnAction(e->{
 			
@@ -667,9 +800,7 @@ public class Main extends Application{
 		viewWrestlers.setOnAction(e -> {
 			
 			ArrayList<Wrestler> wrestlerList = Model.printWrestlers();
-			/*for(int i = 0; i < wrestlerListshow.size(); i++) {
-				listView.getItems().add(wrestlerListshow.get(i));
-			}*/
+			
 			for(int i = 0; i < wrestlerList.size(); i++) {
 				wrestlerView.getItems().add(wrestlerList.get(i));
 			}
@@ -707,7 +838,6 @@ public class Main extends Application{
 				System.out.println("Err");
 			}
 		});
-		
 		
 		importWrestlers.setOnAction(e -> {
 			FileChooser fc = new FileChooser();
@@ -751,7 +881,7 @@ public class Main extends Application{
 		});
 		
 		start.setOnAction(e -> {
-			int check = Model.generateTournament();
+			/*int check = Model.generateTournament();
 			if(check == 0) {
 				Alert genTourn0 = new Alert(AlertType.ERROR);
 				genTourn0.setTitle("Generate Tournament ALert");
@@ -764,20 +894,209 @@ public class Main extends Application{
 				return;
 			}
 			else if (check == 2) {
+				if(Model.getBracketList().size() != 0) {
+					
+				}
+				
+                 	//System.out.println(Model.getWeightClass().get(i) + ": " + Model.getBracketList().get(i).bracket.get(0).size()+ "\tWrestlers: " + bracketSize);
+                 }
+                
+			}
+			else {
+				return;
+			}*/
+			
+			
+			if(Model.getWrestlerList().size() == 0 || Model.getTeamList().size() == 0) {//checks to see if there are teams and wrestlers
+				Alert genTourn0 = new Alert(AlertType.ERROR);
+				genTourn0.setTitle("Generate Tournament Alert");
+				String genTourn0Info = "Error: No Wrestlers or Teams Found \n"
+						+ "Please add wrestlers/teams before generating a tournament.";
+				genTourn0.setContentText(genTourn0Info);
+				genTourn0.show();	
+			} else if(Model.getBracketList().size() != 0) {//checks to see if there is already a Tournament and then as user if they want to restart match
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("Restart Tournement Conformation");
+				alert.setContentText("Restart?");
+				alert.setHeaderText("Want to Restart Tournament?");
+				Optional<ButtonType> result = alert.showAndWait(); 
+					if(result.get() == ButtonType.OK) {
+						Model.getBracketList().clear();
+						Model.generateTournament();
+						Alert genTour2 = new Alert(AlertType.CONFIRMATION);
+						genTour2.setTitle("Generate Tournament Success!");
+						String genTourn2Info = "Generating the tourament was a success!";
+						genTour2.setContentText(genTourn2Info);
+						genTour2.show();
+						 for(int i =0 ; i < Model.getBracketList().size(); i++) {
+			             	int size =  Model.getBracketList().get(i).getWrestlerListSize();
+			             	String numOfWrestlers = String.valueOf(size);
+			             	String weightClass = String.valueOf(Model.getWeightClass().get(i));
+			             	String sizeofBracket = String.valueOf( Model.getBracketList().get(i).bracket.get(0).size());
+			             	
+			             	startView.getItems().add(weightClass + ": " + sizeofBracket + "\tWrestlers: " + numOfWrestlers);
+						 }
+					}
+				
+			}
+			else {//Generates tournament if there is non generated
+				Model.generateTournament();
 				Alert genTour2 = new Alert(AlertType.CONFIRMATION);
 				genTour2.setTitle("Generate Tournament Success!");
 				String genTourn2Info = "Generating the tourament was a success!";
 				genTour2.setContentText(genTourn2Info);
 				genTour2.show();
+				 for(int i =0 ; i < Model.getBracketList().size(); i++) {
+	             	int size =  Model.getBracketList().get(i).getWrestlerListSize();
+	             	String numOfWrestlers = String.valueOf(size);
+	             	String weightClass = String.valueOf(Model.getWeightClass().get(i));
+	             	String sizeofBracket = String.valueOf( Model.getBracketList().get(i).bracket.get(0).size());
+	             	
+	             	startView.getItems().add(weightClass + ": " + sizeofBracket + "\tWrestlers: " + numOfWrestlers);
+				 }
 			}
-			else {
-				return;
-			}
+			
 		});
 		
+			compareWrestlers.setOnAction(e -> {
+            String textbox = compareWrestlersTxt.getText();
+            ArrayList<Wrestler> compareWrestlerPrint = Model.compareWrestlersInformation(textbox);
+            
+            if(compareWrestlerPrint.size() == 0) {
+                Alert comWresPrintError = new Alert(AlertType.ERROR);
+                comWresPrintError.setTitle("Error Name Not Found");
+                String comWresPrintErrorInfo = "One of the names entered does not exist.";
+                comWresPrintError.setTitle(comWresPrintErrorInfo);
+                comWresPrintError.show();
+            } else {
+            Wrestler w1 = compareWrestlerPrint.get(0);
+            Wrestler w2 = compareWrestlerPrint.get(1);
+            compareWrestlerView.getItems().add("\n\t" + "Guide: " + w1.getFirstName() + "  " + w2.getFirstName() +
+            "\nName: " + w1.getLastName() + ", " + w1.getFirstName() + "  " +  w2.getLastName() + ", " + w2.getFirstName() +
+            "\nUsername: " + w1.getUserName() + "  " +  w2.getUserName() +
+            "\nWeight Class: " + Integer.toString(w1.getWeightClass()) + "  " +  Integer.toString(w2.getWeightClass()) +
+            "\nTeam Name: " + w1.getTeamID() + "  " +  w2.getTeamID() +
+            "\nSeed: " + Integer.toString(w1.getSeed()) + "  " +  Integer.toString(w2.getSeed()) +
+            "\nRating: " + Double.toString(w1.getRating()) + "  " +  Double.toString(w2.getRating()) + "\n");
+            }
+            return;
+
+        });
+
+
+		advance.setOnAction(e -> {
+			Model.advanceTournament();
+			Alert adv = new Alert(AlertType.CONFIRMATION);
+			adv.setTitle("Advance success");
+			String advInfo = "The tournament has been successfully advanced!";
+			adv.setContentText(advInfo);
+			adv.show();
+		});
+		
+		help.setOnAction(e ->{
+			helpView.getItems().add("Import Wrestlers - Choose a text file with wrestler data to import (You must have teams imported first)");
+			helpView.getItems().add("View Wrestlers - Displays information on all imported wrestlers");
+			helpView.getItems().add("Import teams - Choose a text file with team data to import");
+			helpView.getItems().add("View Teams - Displays information on all imported teams");
+			helpView.getItems().add("Save - Save the current tournament");
+			helpView.getItems().add("Start - Starts the tournament once wrestlers and teams have been imported");
+			helpView.getItems().add("Advance - Advances the tournament to the next match (you will need to have started the tournament and updated the current match)");
+			helpView.getItems().add("Update Match - updates the current match");
+		});
+		
+		update.setOnAction(e ->{
+			BorderPane root2 = new BorderPane();
+			VBox fields = new VBox();
+			GridPane pane = new GridPane();
+			
+			TextField colorField = new TextField();
+			TextField greenPts = new TextField();
+			TextField redPts = new TextField();
+			TextField fallType = new TextField();
+			TextField fallTime = new TextField();
+			Button confirm = new Button();
+			
+			Label cfLabel = new Label("Winning Color");
+			Label gpLabel = new Label("Green Points");
+			Label rpLabel = new Label("Red Points");
+			Label ftyLabel = new Label("Fall Type");
+			Label ftiLabel = new Label("Fall Time");
+			
+			colorField.setMinWidth(110);
+			greenPts.setMinWidth(110);
+			redPts.setMinWidth(110);
+			fallType.setMinWidth(110);
+			fallTime.setMinWidth(110);
+			confirm.setMinWidth(110);
+			confirm.setMinHeight(50);
+			confirm.setText("Update");
+			
+			pane.setPadding(new Insets(10, 10, 10, 10));
+			pane.setMinSize(300, 300);
+			pane.setVgap(5);
+			pane.setHgap(5);
+			pane.setAlignment(Pos.BASELINE_LEFT);
+			pane.add(colorField, 0, 1);
+			pane.add(greenPts, 0, 2);
+			pane.add(redPts, 0, 3);
+			pane.add(fallType, 0, 4);
+			pane.add(fallTime, 0, 5);
+			pane.add(confirm, 0, 6);
+			
+			pane.add(cfLabel, 1, 1);
+			pane.add(gpLabel, 1, 2);
+			pane.add(rpLabel, 1, 3);
+			pane.add(ftyLabel, 1, 4);
+			pane.add(ftiLabel, 1, 5);
+			
+			confirm.setOnAction(e2 ->{
+				String wc = colorField.getText();
+				int gp = Integer.parseInt(greenPts.getText());
+				int rp = Integer.parseInt(redPts.getText());
+				int ftype = Integer.parseInt(fallType.getText());
+				String ftime = fallTime.getText();
+				Model.updateMatch(wc, gp, rp, ftype, ftime);
+			});
+			
+			Stage stage2 = new Stage();
+			fields.getChildren().addAll(pane);
+			root2.setCenter(fields);//put content here(pane)
+			
+			stage2.setScene(new Scene(root2, 300, 300));
+			stage2.setTitle("Update Match");
+			stage2.show();
+			
+		});
+		add.setOnAction(e-> {
+			if(FirstName.getText().isEmpty() && LastName.getText().isEmpty() 
+					&& TeamAlias.getText().isEmpty() && Grade.getText().isEmpty() && Weight.getText().isEmpty() &&
+					TotalWins.getText().isEmpty() && TotalMatch.getText().isEmpty()) {
+				Alert FirstNameEmpty = new Alert(AlertType.ERROR);
+				FirstNameEmpty.setTitle("New Player Alert");
+				String FirstNameEmptyInfo = "Please enter Information \n";
+				FirstNameEmpty.setContentText(FirstNameEmptyInfo);
+				FirstNameEmpty.show();
+			}
+			else {
+				try {
+				String FN = FirstName.getText();
+				String LN = LastName.getText();
+				String TA = TeamAlias.getText();
+				int grade = Integer.parseInt(Grade.getText());
+				int weight = Integer.parseInt(Weight.getText());
+				int totalWins = Integer.parseInt(TotalWins.getText());
+				int totalMatch = Integer.parseInt(TotalMatch.getText());
+				new Wrestler(FN, LN,TA, grade, weight, totalWins, totalMatch);
+				}
+				catch(Exception a) {
+					System.out.println("Something went wrong");
+				}
+			}
+		});
 		mainMenu.getChildren().addAll(layout);
 		viewList.prefWidth(100);
-		viewList.getChildren().addAll(listView,wrestlerView);
+		viewList.getChildren().addAll(listView, wrestlerView, compareWrestlerView,startView,helpView);
+
 		root.setLeft(mainMenu);
 		root.setCenter(viewList);
 		
@@ -785,6 +1104,5 @@ public class Main extends Application{
 		stage.setScene(introScene);
 		
 		stage.show();
-		
 	}
 }
