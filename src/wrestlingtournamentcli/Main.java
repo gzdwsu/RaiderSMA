@@ -590,7 +590,7 @@ public class Main extends Application{
 		layout.add(viewWrestlers, 0, 2);
 		layout.add(save, 0, 5);
 		layout.add(saveTournament, 1, 5);
-		layout.add(start, 0, 6);
+		//layout.add(start, 0, 6);
 
 
 		layout.add(compareWrestlers, 0, 7);
