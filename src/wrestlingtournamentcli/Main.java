@@ -674,7 +674,6 @@ public class Main extends Application{
 		layout.add(Weight, 1, 10);
 		layout.add(TotalWins, 1,11);
 		layout.add(TotalMatch, 1, 12);
-		layout.add(start, 0, 6);
 
 		layout.add(compareWrestlers, 0, 7);
 		layout.add( compareWrestlersTxt, 1, 7);
