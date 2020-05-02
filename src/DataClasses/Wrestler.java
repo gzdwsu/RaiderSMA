@@ -137,8 +137,15 @@ public class Wrestler implements Comparable, Serializable{
     
     @Override
     public String toString() {
-    	//This must return a string so can't use string buffer here, recommended fix for later developers
-        return lastName + ", " + firstName + "\t(" + userName + ")\tClass: " + weightClass + "\tTeam: " + team.getTeamName();
+	//Using StringBuffer for Project 3
+       StringBuffer rs = new StringBuffer();
+       rs.append( lastName + ", " + firstName + "\t");
+       rs.append("(" + userName + ")");
+       rs.append("\tClass: " + weightClass);
+       rs.append("\tTeam: " + team.getTeamName());
+       
+       String finishedToString = rs.toString();
+       return finishedToString;
     }
     
     @Override
