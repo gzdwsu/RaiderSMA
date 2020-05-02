@@ -1,0 +1,28 @@
+
+ .root{
+     -fx-background-color: linear-gradient(#009933, #ccffdd);
+     -fx-font-size: 11pt;
+     -fx-font-family: "Arial";
+     -fx-border-color: black;
+
+     -fx-border-width: 5px;
+ }
+
+ .label{
+     -fx-text-fill: #e8e8e8;
+  }
+
+ .button{
+	-fx-background-color: #C0C0C0;
+	-fx-background-radius: 100;
+	-fx-border-radius: 100;
+	-fx-border-color: black;
+ }
+.button:hover {
+	-fx-background-color: #ffff00;
+}
+
+ .text-area{
+     -fx-background-color: #e5e5e5;
+     -fx-background-radius: 0;
+  }

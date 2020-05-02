@@ -25,6 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 /**
  * @author Jared Murphy
  * @author Cody Francis
@@ -590,6 +591,7 @@ public class Main extends Application{
 		wrestling.setPadding(new Insets(10,10,10,10));
 		soccer.setText("Soccer");
 		soccer.setPadding(new Insets(10,10,10,10));
+		soccer.setId("introSoccer");
 		introLayout.setPadding(new Insets(300,100,100,100));
 		introLayout.add(introMenu, 0, 0);
 		introLayout.add(wrestling, 2,3 );
@@ -651,16 +653,22 @@ public class Main extends Application{
 		layout.add(TotalWins, 1,11);
 		layout.add(TotalMatch, 1, 12);
 
+
 		layout.add(compareWrestlers, 0, 7);
 		layout.add( compareWrestlersTxt, 1, 7);
 		layout.add(advance, 0, 9);
 		layout.add(help, 0, 10);
 		layout.add(update, 0, 11);
+
+    layout.add(wrestlerBack, 0, 12);
+
 		
 		Scene introScene = new Scene (introRoot, 700, 700);
 		Scene wrestlerScene = new Scene(root,700,700);
 		Scene soccerScene = new Scene(soccerRoot,700,700);
-		
+		wrestlerScene.getStylesheets().add("wrestlerStyles.css");
+		introScene.getStylesheets().add("introStyles.css");
+		soccerScene.getStylesheets().add("soccerStyles.css");
 		wrestling.setOnAction(e ->{
 			Model m = new Model("wrestling");
 			stage.setScene(wrestlerScene);	
@@ -1121,6 +1129,7 @@ public class Main extends Application{
 			root2.setCenter(fields);//put content here(pane)
 			
 			stage2.setScene(new Scene(root2, 300, 300));
+			
 			stage2.setTitle("Update Match");
 			stage2.show();
 			
@@ -1160,7 +1169,7 @@ public class Main extends Application{
 		
 		//stage.setScene(new Scene(root, 700, 700));
 		stage.setScene(introScene);
-		
+		stage.getIcons().add(new Image("file:logo.jpg"));
 		stage.show();
 	}
 }
