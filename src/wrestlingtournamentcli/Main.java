@@ -37,37 +37,39 @@ public class Main extends Application{
     Scanner s = new Scanner(System.in);
     log.createLogFiles();
     launch(args);
+    startMenu();
+    }
 
-    System.out.println("Please enter the sport you would like to manage(wrestling/soccer/race/bowling):\n Note: Enter 'QUIT' at anytime to end the program.");
-    
-	while(true) {
-	String sportSelection = s.nextLine();
-	switch(sportSelection.toLowerCase()) {
-	case "wrestling":
-		Model wrestlerModel = new Model("wrestling");
-		wrestlingMenu();
-		break;
-	case "race":
-		Race race = new Race();
-		raceMenu();
-		break;
-	case "bowling":
-		Bowling bowling = new Bowling();
-		bowlingMenu();
-		break;
-    case "soccer":
-    	Model soccerModel = new Model("soccer");
-    	soccerMenu();
-    	break;
-    case "quit":
-    	exitProgram();
-    	break;
-    default:	
-    	System.out.println("Incorrect input. Please enter wrestling/soccer/race/bowling");
-				}
+    public static void startMenu() {
+    	Scanner s = new Scanner(System.in);
+        System.out.println("Please enter the sport you would like to manage(wrestling/soccer/bowling/race):\nNote: Enter 'QUIT' at anytime to end the program.");
+    	while(true) {
+    	String sportSelection = s.nextLine();
+    	switch(sportSelection.toLowerCase()) {
+    	case "wrestling":
+    		Model wrestlerModel = new Model("wrestling");
+    		wrestlingMenu();
+    		break;
+        case "race":
+        	Race race = new Race();
+        	raceMenu();
+        	break;
+        case "bowling":
+        	Bowling bowling = new Bowling();
+        	bowlingMenu();
+        	break;
+        case "soccer":
+        	Model soccerModel = new Model("soccer");
+        	soccerMenu();
+        	break;
+        case "quit":
+        	exitProgram();
+        	break;
+        default:	
+        	System.out.println("Incorrect input. Please enter wrestling/soccer");   
+    				}
+        }
     }
-    }
-    
     public static void raceMenu(){
     	Scanner s = new Scanner(System.in);
     	System.out.println("Welcome to the Murphy Racing Manager. For available commands, please type 'help'");
@@ -171,6 +173,8 @@ public class Main extends Application{
     	                	   log.writeActionlog("Command Entered: " +args.get(0));
     	                       printHelpSoccer();
     	                       return;
+    	                   case "RESTART":
+          	                   	startMenu();
     	                   case "QUIT":
     	                   	exitProgram();
     	                   	break;
@@ -218,6 +222,9 @@ public class Main extends Application{
 	    			case "HELP":
 	                	Race.printMenu();
 	                	return;
+                    case "RESTART":
+                    	startMenu();
+                    	return;
 	    			case "QUIT":
 	                   	exitProgram();
 	                default:
@@ -281,6 +288,8 @@ public class Main extends Application{
 	    			case "STATUS":
 	    				Bowling.status();
 	    				return;
+                   case "RESTART":
+  	                   	startMenu();
 	    			case "QUIT":
 	                   	exitProgram();
 	                default:
@@ -316,6 +325,7 @@ public class Main extends Application{
                 + "IMPORT-TEAMS FileName //Parses the provided file for Team objects\n"
                 + "IMPORT-SOCCER-PLAYERS FileName //Parses the provided file for Soccer objects\n"
                 + "VIEW-SOCCER-PLAYER SoccerPlayerName //Looks for the soccer player and prints his/her information\n"
+                + "RESTART // Return to start menu\n"
                 + "QUIT // Exits the program\n"
                 );
                 }
@@ -351,6 +361,9 @@ public class Main extends Application{
                     	log.writeActionlog("Command Entered: " +args.get(0));
                         printHelp();
                         return;
+                    case "RESTART":
+                    	startMenu();
+                    	return;
                     case "QUIT":
                     	exitProgram();
                     	return;
@@ -426,6 +439,7 @@ public class Main extends Application{
                 + "VIEW-WRESTLER WrestlerName //Looks for the wrestler and prints his/her information\n"
                 + "COMPARE-WRESTLERS WrestlerName,WrestlerName //Prints two wrestler's information side-by-side\n"
                 + "UPDATE-MATCH matchNumber winningColor greenPoints redPoints fallType(int) fallTime\n"
+                + "RESTART // Return to start menu\n"
                 + "QUIT // Exit the program.\n");
     }
     
@@ -656,7 +670,7 @@ public class Main extends Application{
 		layout.add(advance, 0, 9);
 		layout.add(help, 0, 10);
 		layout.add(update, 0, 11);
-		
+//		
 		Scene introScene = new Scene (introRoot, 700, 700);
 		Scene wrestlerScene = new Scene(root,700,700);
 		Scene soccerScene = new Scene(soccerRoot,700,700);
