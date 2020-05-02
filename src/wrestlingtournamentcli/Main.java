@@ -450,7 +450,7 @@ public class Main extends Application{
 
 
 		Button compareWrestlers = new Button();
-    TextField compareWrestlersTxt = new TextField();
+		TextField compareWrestlersTxt = new TextField();
 		TextField saveTournament = new TextField();
 		TextField FirstName = new TextField();
 		TextField LastName = new TextField();
@@ -464,7 +464,7 @@ public class Main extends Application{
 		compareWrestlers.setText("Compare Wrestlers");
 		compareWrestlersTxt.setText("Name,Name");
 		ListView<String> compareWrestlerView = new ListView<String>();
-    Button wrestlerBack = new Button();
+		Button wrestlerBack = new Button();
 		ListView<String> startView = new ListView<String>();
 		//button declarations i've added
 		Button advance = new Button();
@@ -508,6 +508,30 @@ public class Main extends Application{
 		Button viewSoccerTeams = new Button();
 		Button viewSoccerPlayers = new Button();
 		Button soccerBack = new Button();
+		Button addSoccerTeam = new Button();
+		Button addSoccerPlayer = new Button();
+		Button clearSoccerTeams = new Button();
+		Button clearSoccerPlayers = new Button();
+		Label teamNameLabel = new Label("Team Name: ");
+		Label teamAbbrevLabel = new Label("Team Abbreviation: ");
+		Label teamMascotLabel = new Label("Team Mascot: ");
+		Label soccerPlayerFirstNameLabel = new Label("First Name: ");
+		Label soccerPlayerLastNameLabel = new Label("Last Name: ");
+		Label soccerPlayerTeamAliasLabel = new Label("Team Alias: ");
+		Label soccerPlayerPositionLabel = new Label("Position: ");
+		Label soccerPlayerGPGLabel = new Label("Goals Per Game: ");
+		Label soccerPlayerAPGLabel = new Label("Assists Per Game: ");
+		Label soccerPlayerSavesLabel = new Label("Saves Percentage: ");
+		TextField teamName = new TextField();
+		TextField teamAbbrev = new TextField();
+		TextField teamMascot = new TextField();
+		TextField soccerPlayerFirstName = new TextField();
+		TextField soccerPlayerLastName = new TextField();
+		TextField soccerTeamAlias = new TextField();
+		TextField position = new TextField();
+		TextField gpg = new TextField();
+		TextField apg = new TextField();
+		TextField saves = new TextField();
 		ListView<Team> soccerTeamListView = new ListView<Team>();
 		ListView<SoccerPlayer> soccerPlayerView = new ListView<SoccerPlayer>();
 		//UI elements for soccer management
@@ -516,6 +540,10 @@ public class Main extends Application{
 		viewSoccerTeams.setText("View Soccer Teams");
 		viewSoccerPlayers.setText("View Soccer Players");
 		soccerBack.setText("Back");
+		addSoccerTeam.setText("Add Soccer Team");
+		addSoccerPlayer.setText("Add Soccer Player");
+		clearSoccerTeams.setText("Clear Soccer Teams");
+		clearSoccerPlayers.setText("Clear Soccer Players");
 		soccerLayout.setPadding(new Insets(10,10,10,10));
 		soccerLayout.setMinSize(300, 300);
 		soccerLayout.setVgap(5);
@@ -526,7 +554,31 @@ public class Main extends Application{
 		soccerLayout.add(importSoccerPlayers, 0, 3);
 		soccerLayout.add(viewSoccerTeams, 0, 4);
 		soccerLayout.add(viewSoccerPlayers, 0, 2);
-		soccerLayout.add(soccerBack, 0, 5);
+		soccerLayout.add(teamNameLabel, 0, 5);
+		soccerLayout.add(teamName, 1, 5);
+		soccerLayout.add(teamAbbrevLabel, 0, 6);
+		soccerLayout.add(teamAbbrev, 1, 6);
+		soccerLayout.add(teamMascotLabel, 0, 7);
+		soccerLayout.add(teamMascot, 1, 7);
+		soccerLayout.add(addSoccerTeam, 0, 8);
+		soccerLayout.add(soccerPlayerFirstNameLabel, 0, 9);
+		soccerLayout.add(soccerPlayerFirstName, 1, 9);
+		soccerLayout.add(soccerPlayerLastNameLabel, 0, 10);
+		soccerLayout.add(soccerPlayerLastName, 1, 10);
+		soccerLayout.add(soccerPlayerTeamAliasLabel, 0, 11);
+		soccerLayout.add(soccerTeamAlias, 1, 11);
+		soccerLayout.add(soccerPlayerPositionLabel, 0, 12);
+		soccerLayout.add(position, 1, 12);
+		soccerLayout.add(soccerPlayerGPGLabel, 0, 13);
+		soccerLayout.add(gpg, 1, 13);
+		soccerLayout.add(soccerPlayerAPGLabel, 0, 14);
+		soccerLayout.add(apg, 1, 14);
+		soccerLayout.add(soccerPlayerSavesLabel, 0, 15);
+		soccerLayout.add(saves, 1, 15);
+		soccerLayout.add(addSoccerPlayer, 0, 16);
+		soccerLayout.add(clearSoccerTeams, 0, 17);
+		soccerLayout.add(clearSoccerPlayers, 0, 18);
+		soccerLayout.add(soccerBack, 0, 19);
 		//Initializing soccer UI elements
 		soccerMenu.getChildren().addAll(soccerLayout);
 		soccerViewList.prefWidth(100);
@@ -598,7 +650,6 @@ public class Main extends Application{
 		layout.add(Weight, 1, 10);
 		layout.add(TotalWins, 1,11);
 		layout.add(TotalMatch, 1, 12);
-		layout.add(start, 0, 6);
 
 		layout.add(compareWrestlers, 0, 7);
 		layout.add( compareWrestlersTxt, 1, 7);
@@ -625,6 +676,89 @@ public class Main extends Application{
 				}
 		   	 return;
 		});
+		
+		clearSoccerTeams.setOnAction(e ->{
+
+			Model.clearSoccerTeams();
+
+			soccerTeamListView.getItems().clear();
+
+
+
+			return;
+
+		});
+
+		clearSoccerPlayers.setOnAction(e ->{
+
+			Model.clearSoccerPlayers();
+
+			soccerPlayerView.getItems().clear();
+
+			return;
+
+		});
+		addSoccerTeam.setOnAction(e ->{
+
+			if(teamName.getText().isEmpty() || teamAbbrev.getText().isEmpty() || teamMascot.getText().isEmpty()) {
+
+				 Alert importAlert = new Alert(AlertType.ERROR);
+				 importAlert.setTitle("Import Alert");
+				 String info = "Please fill out all fields!";
+				 importAlert.setContentText(info);
+				 importAlert.show();
+				 return;
+			}
+
+			String teamNameInput = teamName.getText();	
+			String teamAbbrevInput = teamAbbrev.getText();
+			String teamMascotInput = teamMascot.getText();		
+
+			Model.importTeamFromInput(teamNameInput, teamAbbrevInput, teamMascotInput);
+
+			teamName.clear();
+			teamAbbrev.clear();
+			teamMascot.clear();
+
+			return;
+		});
+
+		addSoccerPlayer.setOnAction(e ->{
+
+			if(soccerPlayerFirstName.getText().isEmpty() || soccerPlayerLastName.getText().isEmpty() || soccerTeamAlias.getText().isEmpty()
+					|| position.getText().isEmpty()|| gpg.getText().isEmpty()|| apg.getText().isEmpty()||saves.getText().isEmpty()) {
+
+				 Alert importAlert = new Alert(AlertType.ERROR);
+				 importAlert.setTitle("Import Alert");
+				 String info = "Please fill out all fields!";
+				 importAlert.setContentText(info);
+				 importAlert.show();
+				 return;
+			}
+
+
+
+			String fName = soccerPlayerFirstName.getText();
+			String lName = soccerPlayerLastName.getText();
+			String sTeamAlias = soccerTeamAlias.getText();
+			String soccerPosition = position.getText();
+			double goalsPerGame = Double.parseDouble(gpg.getText());
+			double assistsPerGame = Double.parseDouble(apg.getText());
+			double savePercentage = Double.parseDouble(saves.getText());
+
+			Model.importSoccerPlayerFromInput(fName, lName, sTeamAlias, soccerPosition, goalsPerGame, assistsPerGame, savePercentage);
+
+			soccerPlayerFirstName.clear();
+			soccerPlayerLastName.clear();
+			soccerTeamAlias.clear();
+			position.clear();
+			gpg.clear();
+			apg.clear();
+			saves.clear();
+
+			return;
+		});
+		
 		
 		soccerBack.setOnAction(e -> {
 			stage.setScene(introScene);

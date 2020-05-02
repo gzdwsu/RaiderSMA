@@ -570,6 +570,19 @@ public class Model {
         System.out.println("Successfully imported " + importCount + " wrestlers.");
 		return 1;
     }
+    
+    public static void clearSoccerPlayers() {
+
+    	soccerPlayerList.clear();
+
+    }
+
+    public static void clearSoccerTeams() {
+
+    	teamList.clear();
+
+    }
+
 
     
     public static void importSoccerPlayersFromText(String filePath) {
@@ -596,7 +609,23 @@ public class Model {
         System.out.println("Successfully imported " + importCount + " soccer players.");
     }
     
-    
+    public static void importTeamFromInput(String teamName, String teamAbbrev, String teamMascot) {
+
+    	Team newTeam = new Team(teamName, teamAbbrev, teamMascot);
+		teamList.add(newTeam);
+
+    }
+
+    public static void importSoccerPlayerFromInput(String fName, String lName, String teamAlias, String position, double gpg, double apg, double save) {
+
+    	try {
+    	SoccerPlayer newSoccerPlayer = new SoccerPlayer(fName, lName, teamAlias, position,gpg, apg, save);
+    	soccerPlayerList.add(newSoccerPlayer);
+    	}
+    	catch(Exception e) {
+    		System.out.println("Error importing Player");
+    	}
+    }
     
     //Import Teams From Text Method
     public static void importTeamsFromText(String filePath) {
