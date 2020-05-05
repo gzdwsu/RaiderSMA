@@ -295,11 +295,11 @@ public class Match implements Comparable, Serializable{
  
  @Override
  public String toString(){
- String rs = "";
- rs += matchID + ": ";
- rs += greenWrestler + " vs. " + redWrestler;
- rs += " (" + winningColor + ", " + getFallType() + ", " + fallTime;
- return rs;
+    StringBuffer rs = new StringBuffer();
+    rs.append( matchID + ": ");
+    rs.append( greenWrestler + " vs. " + redWrestler);
+    rs.append( " (" + winningColor + ", " + getFallType() + ", " + fallTime);
+    return rs.toString();
  }
  
  @Override
